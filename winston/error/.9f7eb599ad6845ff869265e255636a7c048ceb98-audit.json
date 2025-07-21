@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 1
+    },
+    "auditLog": "C:\\Users\\mdrif\\Desktop\\project\\coustom-backend-template-mongoose\\winston\\error\\.9f7eb599ad6845ff869265e255636a7c048ceb98-audit.json",
+    "files": [
+        {
+            "date": 1753046100601,
+            "name": "C:\\Users\\mdrif\\Desktop\\project\\coustom-backend-template-mongoose\\winston\\error\\21-07-2025-03-error.log",
+            "hash": "dde0816f43c053a3d6e7a834da7e1ae6e277607c115103ac8466fcf9242ced35"
+        }
+    ],
+    "hashType": "sha256"
+}

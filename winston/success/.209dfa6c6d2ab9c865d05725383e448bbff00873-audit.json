@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 1
+    },
+    "auditLog": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\.209dfa6c6d2ab9c865d05725383e448bbff00873-audit.json",
+    "files": [
+        {
+            "date": 1753046766319,
+            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\21-07-2025-03-success.log",
+            "hash": "4af383e9e9839936cb786a9735645b2a2ebf84e16cbb2c64847e763b41057576"
+        }
+    ],
+    "hashType": "sha256"
+}

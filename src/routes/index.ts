@@ -1,0 +1,53 @@
+import { Router } from "express";
+import { UserRouter } from '../app/modules/user/user.route';
+import { AuthRouter } from '../app/modules/auth/auth.route';
+import { ExpenseRouter } from '../app/modules/expense/expense.route';
+import { DebtRouter } from '../app/modules/debt/debt.route';
+import { AppointmentRouter } from '../app/modules/appointment/appointment.route';
+import { BudgetRouter } from '../app/modules/budget/budget.route';
+import { SavingGoalRouter } from '../app/modules/savingGoal/savingGoal.route';
+import { SavingRouter } from '../app/modules/saving/saving.route';
+
+const router = Router();
+const routes: { path: string; route: Router }[] = [
+  {
+    path: '/auth',
+    route: AuthRouter,
+  },
+  {
+    path: '/users',
+    route: UserRouter,
+  },
+  {
+    path: '/expenses',
+    route: ExpenseRouter,
+  },
+  {
+    path: '/debts',
+    route: DebtRouter,
+  },
+  {
+    path: '/appointments',
+    route: AppointmentRouter,
+  },
+  {
+    path: '/budgets',
+    route: BudgetRouter,
+  },
+  {
+    path: '/saving-goals',
+    route: SavingGoalRouter,
+  },
+  {
+    path: '/savings',
+    route: SavingRouter,
+  },
+];
+
+routes.forEach((element) => {
+  if (element?.path && element?.route) {
+    router.use(element?.path, element?.route);
+  }
+});
+
+export default router;
