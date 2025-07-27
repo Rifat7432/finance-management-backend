@@ -24,7 +24,17 @@ router
           UserController.updateProfile,
      );
 
-router.route('/').post(validateRequest(UserValidation.createUserZodSchema), UserController.createUser);
+router.route('/').post(
+     fileUploadHandler(),
+     (req: Request, res: Response, next: NextFunction) => {
+          const image = getSingleFilePath(req.files, 'image');
+          const data = JSON.parse(req.body.data);
+          req.body = { image, ...data };
+          next();
+     },
+     validateRequest(UserValidation.createUserZodSchema),
+     UserController.createUser,
+);
 
 router.delete('/delete', auth(USER_ROLES.USER), UserController.deleteProfile);
 

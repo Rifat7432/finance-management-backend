@@ -18,6 +18,7 @@ const createUser = catchAsync(async (req, res) => {
 
 const getUserProfile = catchAsync(async (req, res) => {
      const user: any = req.user;
+   
      const result = await UserService.getUserProfileFromDB(user);
 
      sendResponse(res, {

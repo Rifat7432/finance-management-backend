@@ -28,7 +28,6 @@ const updateIncomeZodSchema = z.object({
     amount: z.number().optional(),
     receiveDate: z.string().optional(),
     frequency: z.string().optional(),
-    userId: z.string().optional(),
   }),
 });
 

@@ -1,0 +1,10 @@
+Sun Jul 27 2025 4:28:58 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/users/profile 404 - 2.845 ms
+Sun Jul 27 2025 4:29:24 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/users/profile 401 - 2.413 ms
+Sun Jul 27 2025 4:30:46 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/users/profile 401 - 0.706 ms
+Sun Jul 27 2025 4:30:49 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/users/profile 401 - 0.848 ms
+Sun Jul 27 2025 4:31:3 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/users/profile 401 - 2.611 ms
+Sun Jul 27 2025 4:31:5 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/users/profile 401 - 1.319 ms
+Sun Jul 27 2025 4:31:46 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/users/profile 404 - 0.551 ms
+Sun Jul 27 2025 4:33:6 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/users/profile 404 - 0.619 ms
+Sun Jul 27 2025 4:46:12 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/incomes/688557edeb481bceca140cdd 404 - 6.040 ms
+Sun Jul 27 2025 4:46:17 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/incomes/688557edeb481bceca140cdd 400 - 6.494 ms

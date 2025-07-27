@@ -7,6 +7,8 @@ import { AppointmentRouter } from '../app/modules/appointment/appointment.route'
 import { BudgetRouter } from '../app/modules/budget/budget.route';
 import { SavingGoalRouter } from '../app/modules/savingGoal/savingGoal.route';
 import { SavingRouter } from '../app/modules/saving/saving.route';
+import { IncomeRouter } from "../app/modules/income/income.route";
+import { AdminRoutes } from "../app/modules/admin/admin.route";
 
 const router = Router();
 const routes: { path: string; route: Router }[] = [
@@ -15,8 +17,16 @@ const routes: { path: string; route: Router }[] = [
     route: AuthRouter,
   },
   {
+    path: '/admin',
+    route: AdminRoutes,
+  },
+  {
     path: '/users',
     route: UserRouter,
+  },
+  {
+    path: '/incomes',
+    route: IncomeRouter,
   },
   {
     path: '/expenses',
