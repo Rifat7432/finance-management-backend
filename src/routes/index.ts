@@ -9,12 +9,17 @@ import { SavingGoalRouter } from '../app/modules/savingGoal/savingGoal.route';
 import { SavingRouter } from '../app/modules/saving/saving.route';
 import { IncomeRouter } from "../app/modules/income/income.route";
 import { AdminRoutes } from "../app/modules/admin/admin.route";
+import { AdRouter } from "../app/modules/ad/ad.route";
 
 const router = Router();
 const routes: { path: string; route: Router }[] = [
   {
     path: '/auth',
     route: AuthRouter,
+  },
+  {
+    path: '/ad',
+    route: AdRouter,
   },
   {
     path: '/admin',

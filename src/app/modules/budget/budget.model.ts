@@ -1,13 +1,7 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
+import { IBudget } from './budget.interface';
 
-export interface IBudget {
-  _id?: Types.ObjectId;
-  name: string;
-  amount: number;
-  type: string;
-  category: string;
-  userId: Types.ObjectId;
-}
+
 
 const budgetSchema = new Schema<IBudget>({
   name: { type: String, required: true },

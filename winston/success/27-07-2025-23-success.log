@@ -1,0 +1,4 @@
+Sun Jul 27 2025 23:51:36 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sun Jul 27 2025 23:51:36 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sun Jul 27 2025 23:51:36 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Sun Jul 27 2025 23:53:5 [SERVER-NAME] info: 127.0.0.1 - GET / 200 - 1.134 ms

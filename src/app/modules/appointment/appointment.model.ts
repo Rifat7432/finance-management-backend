@@ -1,20 +1,7 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
+import { IAppointment } from './appointment.interface';
 
-export interface IAppointment {
-  _id?: Types.ObjectId;
-  name: string;
-  email: string;
-  attendent: string;
-  isChild: boolean;
-  approxIncome: number;
-  investment: number;
-  dicuss?: string;
-  reachingFor: string;
-  ask: string;
-  date: string;
-  timeSlote: string;
-  userId: Types.ObjectId;
-}
+
 
 const appointmentSchema = new Schema<IAppointment>({
   name: { type: String, required: true },
