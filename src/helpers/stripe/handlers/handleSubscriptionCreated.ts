@@ -18,19 +18,18 @@ export const handleSubscriptionCreated = async (data: Stripe.Subscription) => {
           if (!getAdmin) {
                throw new AppError(StatusCodes.NOT_FOUND, 'Admin not found!');
           }
-          const subscription = await stripe.subscriptions.retrieve(data.id);
-          const customer = (await stripe.customers.retrieve(subscription.customer as string)) as Stripe.Customer;
-          const priceId = subscription.items.data[0]?.price?.id;
-          const invoice = await stripe.invoices.retrieve(subscription.latest_invoice as string);
-          const trxId = invoice?.payment_intent as string;
+          const customer = (await stripe.customers.retrieve(data.customer as string)) as Stripe.Customer;
+          const priceId = data.items.data[0]?.price?.id;
+          const invoice = await stripe.invoices.retrieve(data.latest_invoice as string);
+          const trxId = (invoice as any)['payment_intent']?.toString() || '';
           const amountPaid = invoice?.total / 100;
 
           // Extract other needed fields from the subscription object
-          const remaining = subscription.items.data[0]?.quantity || 0;
+          const remaining = data.items.data[0]?.quantity || 0;
           // Convert Unix timestamp to Date
-          const currentPeriodStart = formatUnixToIsoUtc(subscription.current_period_start);
-          const currentPeriodEnd = formatUnixToIsoUtc(subscription.current_period_end);
-          const subscriptionId = subscription.id;
+          const currentPeriodStart = formatUnixToIsoUtc((data as any).current_period_start);
+          const currentPeriodEnd = formatUnixToIsoUtc((data as any).current_period_end);
+          const subscriptionId = data.id;
           // Check if customer email is available
           if (!customer?.email) {
                throw new AppError(StatusCodes.BAD_REQUEST, 'No email found for the customer!');

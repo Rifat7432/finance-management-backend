@@ -19,15 +19,16 @@ export const handleSubscriptionUpdated = async (data: Stripe.Subscription) => {
           const priceId = subscription.items.data[0]?.price?.id;
 
           // Retrieve the invoice to get the transaction ID and amount paid
-          const invoice = await stripe.invoices.retrieve(subscription.latest_invoice as string);
+          const invoiceResponse = await stripe.invoices.retrieve(subscription.latest_invoice as string);
+          const invoice = invoiceResponse as Stripe.Invoice;
 
-          const trxId = invoice?.payment_intent;
+          const trxId = (invoiceResponse as any)?.payment_intent;
           const amountPaid = invoice?.total / 100;
           // Extract other needed fields from the subscription object
           const remaining = subscription.items.data[0]?.quantity || 0;
           // Convert Unix timestamp to Date
-          const currentPeriodStart = formatUnixToDate(subscription.current_period_start);
-          const currentPeriodEnd = formatUnixToDate(subscription.current_period_end);
+          const currentPeriodStart = formatUnixToDate((subscription as any).current_period_start);
+          const currentPeriodEnd = formatUnixToDate((subscription as any).current_period_end as any);
           const subscriptionId = subscription.id;
           if (customer?.email) {
                // Find the user by email
