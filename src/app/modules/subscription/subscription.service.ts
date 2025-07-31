@@ -155,42 +155,6 @@ const subscriptionsFromDB = async (query: Record<string, unknown>): Promise<ISub
           throw new Error('Failed to fetch subscriptions');
      }
 };
-const createSubscriptionCheckoutSession = async (userId: string, packageId: string) => {
-     const isExistPackage = await Package.findOne({
-          _id: packageId,
-          status: 'active',
-     });
-     if (!isExistPackage) {
-          throw new AppError(StatusCodes.NOT_FOUND, 'Package not found');
-     }
-     const user = await User.findById(userId).select('+stripeCustomerId');
-     if (!user || !user.stripeCustomerId) {
-          throw new AppError(StatusCodes.NOT_FOUND, 'User or Stripe Customer ID not found');
-     }
-
-     // Convert Mongoose String types to primitive strings
-     const session = await stripe.checkout.sessions.create({
-          mode: 'subscription',
-          customer: String(user.stripeCustomerId),
-          line_items: [
-               {
-                    price: String(isExistPackage.priceId),
-                    quantity: 1,
-               },
-          ],
-          metadata: {
-               userId: String(userId),
-               subscriptionId: String(isExistPackage._id),
-          },
-          // your backend url for success and cancel
-          success_url: `${config.backend_url}/api/v1/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
-          cancel_url: `${config.backend_url}/subscription/cancel`,
-     });
-     return {
-          url: session.url,
-          sessionId: session.id,
-     };
-};
 
 const upgradeSubscriptionToDB = async (userId: string, packageId: string) => {
      const activeSubscription = await Subscription.findOne({
@@ -203,21 +167,20 @@ const upgradeSubscriptionToDB = async (userId: string, packageId: string) => {
      }
 
      const packageDoc = await Package.findById(packageId);
-
      if (!packageDoc || !packageDoc.priceId) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Package not found or missing Stripe Price ID');
      }
 
      const user = await User.findById(userId).select('+stripeCustomerId');
-
      if (!user || !user.stripeCustomerId) {
           throw new AppError(StatusCodes.NOT_FOUND, 'User or Stripe Customer ID not found');
      }
 
+     // Retrieve existing Stripe subscription
      const stripeSubscription = await stripe.subscriptions.retrieve(activeSubscription.subscriptionId);
-     console.log(stripeSubscription, 'this is stripe subscription existing');
 
-     await stripe.subscriptions.update(activeSubscription.subscriptionId, {
+     // Update subscription with new price (upgrade)
+     const updatedSubscription = await stripe.subscriptions.update(activeSubscription.subscriptionId, {
           items: [
                {
                     id: stripeSubscription.items.data[0].id,
@@ -230,29 +193,31 @@ const upgradeSubscriptionToDB = async (userId: string, packageId: string) => {
                packageId: packageDoc._id.toString(),
           },
      });
-     console.log(' thsi is stripe subscription updated');
-     const portalSession = await stripe.billingPortal.sessions.create({
-          customer: user.stripeCustomerId,
-          return_url: config.frontend_url,
-          flow_data: {
-               type: 'subscription_update',
-               subscription_update: {
-                    subscription: activeSubscription.subscriptionId,
-               },
-          },
+
+     // Optionally update in DB as well
+     await Subscription.findByIdAndUpdate(activeSubscription._id, {
+          packageId: packageDoc._id,
+          updatedAt: new Date(),
      });
 
      return {
-          url: portalSession.url,
+          subscriptionId: updatedSubscription.id,
      };
 };
+
 const cancelSubscriptionToDB = async (userId: string) => {
      const activeSubscription = await Subscription.findOne({
           userId,
           status: 'active',
      });
+
      if (!activeSubscription || !activeSubscription.subscriptionId) {
           throw new AppError(StatusCodes.NOT_FOUND, 'No active subscription found to cancel');
+     }
+
+     const stripeSub = await stripe.subscriptions.retrieve(activeSubscription.subscriptionId);
+     if (stripeSub.status === 'canceled') {
+          return { success: true, message: 'Already canceled' };
      }
 
      await stripe.subscriptions.cancel(activeSubscription.subscriptionId);
@@ -261,16 +226,99 @@ const cancelSubscriptionToDB = async (userId: string) => {
 
      return { success: true, message: 'Subscription canceled successfully' };
 };
-const successMessage = async (id: string) => {
-     const session = await stripe.checkout.sessions.retrieve(id);
-     return session;
+
+const successMessage = async (sessionId: string) => {
+     const session = await stripe.checkout.sessions.retrieve(sessionId, {
+          expand: ['subscription'],
+     });
+
+     return {
+          status: session.payment_status,
+          subscriptionId: session.subscription,
+          customerEmail: session.customer_email,
+     };
 };
+
+const createSubscriptionSetupIntoDB = async (userId: string, packageId: string) => {
+     const user = await User.findById(userId).select('+stripeCustomerId');
+     if (!user || !user.stripeCustomerId) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'User or Stripe Customer ID not found');
+     }
+
+     // Create customer if not exists
+     let customerId = user.stripeCustomerId;
+     if (!customerId) {
+          const customer = await stripe.customers.create({ email: user.email });
+          customerId = customer.id;
+          user.stripeCustomerId = customerId;
+          await user.save();
+     }
+
+     // Create SetupIntent to collect card/payment method
+     const setupIntent = await stripe.setupIntents.create({
+          customer: customerId,
+          usage: 'off_session',
+     });
+
+     return {
+          clientSecret: setupIntent.client_secret,
+          customerId,
+     };
+};
+const createSubscriptionIntoDB = async ({ userId, paymentMethodId, packageId }: { userId: string; paymentMethodId: string; packageId: string }) => {
+     const user = await User.findById(userId).select('+stripeCustomerId');
+     const pkg = await Package.findById(packageId);
+
+     if (!user || !user.stripeCustomerId) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'User or Stripe Customer ID not found');
+     }
+     if (!pkg || !pkg.priceId) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'Package or Stripe Price ID not found');
+     }
+
+     // Attach payment method
+     await stripe.paymentMethods.attach(paymentMethodId, {
+          customer: user.stripeCustomerId,
+     });
+
+     await stripe.customers.update(user.stripeCustomerId, {
+          invoice_settings: {
+               default_payment_method: paymentMethodId,
+          },
+     });
+
+     // Create subscription
+     const subscription = await stripe.subscriptions.create({
+          customer: user.stripeCustomerId,
+          items: [{ price: pkg.priceId }],
+          payment_settings: {
+               save_default_payment_method: 'on_subscription',
+          },
+          expand: ['latest_invoice.payment_intent'],
+     });
+     await Subscription.create({
+          userId: user._id,
+          package: pkg._id,
+          subscriptionId: subscription.id,
+          price: pkg.price,
+          trxId: (subscription as any).latest_invoice?.payment_intent?.id,
+          status: subscription.status,
+          currentPeriodStart: (subscription as any).current_period_start,
+          currentPeriodEnd: (subscription as any).current_period_end,
+     });
+     return {
+          subscriptionId: subscription.id,
+          clientSecret: (subscription as any).latest_invoice.payment_intent?.client_secret,
+     };
+};
+
 export const SubscriptionService = {
      subscriptionDetailsFromDB,
      subscriptionsFromDB,
      companySubscriptionDetailsFromDB,
-     createSubscriptionCheckoutSession,
      upgradeSubscriptionToDB,
      cancelSubscriptionToDB,
      successMessage,
+     createSubscriptionSetupIntoDB,
+     createSubscriptionIntoDB,
 };

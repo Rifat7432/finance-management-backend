@@ -35,22 +35,43 @@ const cancelSubscription = catchAsync(async (req, res) => {
           data: result,
      });
 });
-// create checkout session
-const createCheckoutSession = catchAsync(async (req, res) => {
+// create subscription intents
+const createSubscriptionSetup = catchAsync(async (req, res) => {
      const { id }: any = req.user;
      const packageId = req.params.id;
-     const result = await SubscriptionService.createSubscriptionCheckoutSession(id, packageId);
+     const result = await SubscriptionService.createSubscriptionSetupIntoDB(id, packageId);
+
+     sendResponse(res, {
+          statusCode: StatusCodes.OK,
+          success: true,
+          message: 'Create Intent successfully',
+          data: {
+               customerId: result.customerId,
+               clientSecret: result.clientSecret,
+          },
+     });
+});
+//create subscription
+const createSubscription = catchAsync(async (req, res) => {
+     const { id }: any = req.user;
+     const packageId = req.params.id;
+     const result = await SubscriptionService.createSubscriptionIntoDB({
+          userId: id,
+          paymentMethodId: req.body.paymentMethodId,
+          packageId,
+     });
 
      sendResponse(res, {
           statusCode: StatusCodes.OK,
           success: true,
           message: 'Create checkout session successfully',
           data: {
-               sessionId: result.sessionId,
-               url: result.url,
+               subscriptionId: result.subscriptionId,
+               clientSecret: result.clientSecret,
           },
      });
 });
+
 // update subscriptions
 const updateSubscription = catchAsync(async (req, res) => {
      const { id }: any = req.user;
@@ -60,9 +81,9 @@ const updateSubscription = catchAsync(async (req, res) => {
      sendResponse(res, {
           statusCode: StatusCodes.OK,
           success: true,
-          message: 'Update checkout session successfully',
+          message: 'Subscription upgraded successfully',
           data: {
-               url: result.url,
+               url: result.subscriptionId,
           },
      });
 });
@@ -78,9 +99,10 @@ const orderCancel = catchAsync(async (req, res) => {
 export const SubscriptionController = {
      subscriptions,
      subscriptionDetails,
-     createCheckoutSession,
      updateSubscription,
      cancelSubscription,
      orderSuccess,
      orderCancel,
+     createSubscription,
+     createSubscriptionSetup,
 };

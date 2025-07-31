@@ -10,6 +10,8 @@ import { SavingRouter } from '../app/modules/saving/saving.route';
 import { IncomeRouter } from "../app/modules/income/income.route";
 import { AdminRoutes } from "../app/modules/admin/admin.route";
 import { AdRouter } from "../app/modules/ad/ad.route";
+import { SubscriptionRoutes } from "../app/modules/subscription/subscription.routes";
+import { PackageRoutes } from "../app/modules/package/package.routes";
 
 const router = Router();
 const routes: { path: string; route: Router }[] = [
@@ -56,6 +58,14 @@ const routes: { path: string; route: Router }[] = [
   {
     path: '/savings',
     route: SavingRouter,
+  },
+  {
+    path: '/subscriptions',
+    route: SubscriptionRoutes,
+  },
+  {
+    path: '/packages',
+    route: PackageRoutes,
   },
 ];
 
