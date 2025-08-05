@@ -1,0 +1,41 @@
+Tue Aug 05 2025 3:7:28 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Aug 05 2025 3:7:28 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Aug 05 2025 3:7:28 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Aug 05 2025 3:7:33 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/incomes/ 200 - 97.456 ms
+Tue Aug 05 2025 3:7:37 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/incomes/ 200 - 5.666 ms
+Tue Aug 05 2025 3:8:23 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/expenses/ 200 - 13.560 ms
+Tue Aug 05 2025 3:8:25 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/expenses/ 200 - 3.804 ms
+Tue Aug 05 2025 3:8:28 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/debts/ 201 - 10.513 ms
+Tue Aug 05 2025 3:8:29 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/debts/ 201 - 3.300 ms
+Tue Aug 05 2025 3:8:36 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/budgets/ 201 - 7.367 ms
+Tue Aug 05 2025 3:9:18 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Aug 05 2025 3:9:18 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Aug 05 2025 3:9:18 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Aug 05 2025 3:9:21 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Aug 05 2025 3:9:21 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Aug 05 2025 3:9:21 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Aug 05 2025 3:9:45 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Aug 05 2025 3:9:45 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Aug 05 2025 3:9:45 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Aug 05 2025 3:9:48 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Aug 05 2025 3:9:48 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Aug 05 2025 3:9:48 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Aug 05 2025 3:10:6 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/saving-goals/ 201 - 32.926 ms
+Tue Aug 05 2025 3:57:44 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Aug 05 2025 3:57:44 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Aug 05 2025 3:57:44 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Aug 05 2025 3:57:48 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Aug 05 2025 3:57:48 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Aug 05 2025 3:57:48 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Aug 05 2025 3:57:51 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Aug 05 2025 3:57:51 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Aug 05 2025 3:57:51 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Aug 05 2025 3:58:10 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Aug 05 2025 3:58:10 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Aug 05 2025 3:58:10 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Aug 05 2025 3:58:13 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Aug 05 2025 3:58:13 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Aug 05 2025 3:58:13 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Aug 05 2025 3:58:16 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Aug 05 2025 3:58:16 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Aug 05 2025 3:58:16 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m

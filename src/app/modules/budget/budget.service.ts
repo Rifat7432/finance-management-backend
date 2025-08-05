@@ -1,10 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
 import { Budget } from './budget.model';
 import AppError from '../../../errors/AppError';
-import { IBudget } from './budget.model';
+import { IBudget } from './budget.interface';
 
-const createBudgetToDB = async (payload: IBudget): Promise<IBudget> => {
-  const newBudget = await Budget.create(payload);
+
+const createBudgetToDB = async (payload: Partial<IBudget>,userId:string): Promise<IBudget> => {
+  const newBudget = await Budget.create({...payload,userId});
   if (!newBudget) {
     throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create budget');
   }

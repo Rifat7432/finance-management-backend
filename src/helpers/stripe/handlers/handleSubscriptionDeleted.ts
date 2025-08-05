@@ -8,28 +8,28 @@ import { User } from '../../../app/modules/user/user.model';
 // const Subscription:any = "";
 
 export const handleSubscriptionDeleted = async (data: Stripe.Subscription) => {
-     // Retrieve the subscription from Stripe
      const subscription = await stripe.subscriptions.retrieve(data.id);
 
-     // Find the current active subscription
      const userSubscription = await Subscription.findOne({
           customerId: subscription.customer,
           status: 'active',
      });
 
-     if (userSubscription) {
-          // Deactivate the subscription
-          await Subscription.findByIdAndUpdate(userSubscription._id, { status: 'cancel' }, { new: true });
+     if (!userSubscription) throw new AppError(StatusCodes.NOT_FOUND, 'Subscription not found.');
 
-          // Find the user associated with the subscription
-          const existingUser = await User.findById(userSubscription?.userId);
+     await Subscription.findByIdAndUpdate(userSubscription._id, {
+          status: 'cancel',
+          remaining: 0,
+          currentPeriodStart: null,
+          currentPeriodEnd: null,
+     });
 
-          if (existingUser) {
-               await User.findByIdAndUpdate(existingUser._id, { hasAccess: false, isSubscribed: false }, { new: true });
-          } else {
-               throw new AppError(StatusCodes.NOT_FOUND, `User not found.`);
-          }
-     } else {
-          throw new AppError(StatusCodes.NOT_FOUND, `Subscription not found.`);
-     }
+     const user = await User.findById(userSubscription.userId);
+     if (!user) throw new AppError(StatusCodes.NOT_FOUND, 'User not found.');
+
+     await User.findByIdAndUpdate(user._id, {
+          hasAccess: false,
+          isSubscribed: false,
+          packageName: null,
+     });
 };

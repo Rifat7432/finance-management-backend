@@ -4,7 +4,8 @@ import sendResponse from '../../../shared/sendResponse';
 import { BudgetService } from './budget.service';
 
 const createBudget = catchAsync(async (req, res) => {
-  const result = await BudgetService.createBudgetToDB(req.body);
+  const userId = req.user?.id
+  const result = await BudgetService.createBudgetToDB(req.body,userId);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.CREATED,
@@ -14,7 +15,7 @@ const createBudget = catchAsync(async (req, res) => {
 });
 
 const getUserBudgets = catchAsync(async (req, res) => {
-  const userId = req.user?._id || req.body.userId;
+  const userId = req.user?.id
   const result = await BudgetService.getUserBudgetsFromDB(userId);
   sendResponse(res, {
     success: true,

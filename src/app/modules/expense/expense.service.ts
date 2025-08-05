@@ -4,8 +4,8 @@ import AppError from '../../../errors/AppError';
 import { IExpense } from './expense.interface';
 
 // Create new expense
-const createExpenseToDB = async (payload: IExpense): Promise<IExpense> => {
-  const newExpense = await Expense.create(payload);
+const createExpenseToDB = async (payload: Partial<IExpense>,userId:string): Promise<IExpense> => {
+  const newExpense = await Expense.create({...payload,userId});
   if (!newExpense) {
     throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create expense');
   }

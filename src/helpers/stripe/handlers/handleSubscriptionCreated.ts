@@ -8,102 +8,82 @@ import { Subscription } from '../../../app/modules/subscription/subscription.mod
 import { sendNotifications } from '../../notificationsHelper';
 
 const formatUnixToIsoUtc = (timestamp: number): string => {
-     const date = new Date(timestamp * 1000);
-     return date.toISOString().replace('Z', '+00:00');
+  const date = new Date(timestamp * 1000);
+  return date.toISOString().replace('Z', '+00:00');
 };
 
 export const handleSubscriptionCreated = async (data: Stripe.Subscription) => {
-     try {
-          const getAdmin = await User.findOne({ role: 'SUPER_ADMIN' });
-          if (!getAdmin) {
-               throw new AppError(StatusCodes.NOT_FOUND, 'Admin not found!');
-          }
-          const customer = (await stripe.customers.retrieve(data.customer as string)) as Stripe.Customer;
-          const priceId = data.items.data[0]?.price?.id;
-          const invoice = await stripe.invoices.retrieve(data.latest_invoice as string);
-          const trxId = (invoice as any)['payment_intent']?.toString() || '';
-          const amountPaid = invoice?.total / 100;
+  try {
+    const adminUser = await User.findOne({ role: 'SUPER_ADMIN' });
+    if (!adminUser) throw new AppError(StatusCodes.NOT_FOUND, 'Admin not found!');
 
-          // Extract other needed fields from the subscription object
-          const remaining = data.items.data[0]?.quantity || 0;
-          // Convert Unix timestamp to Date
-          const currentPeriodStart = formatUnixToIsoUtc((data as any).current_period_start);
-          const currentPeriodEnd = formatUnixToIsoUtc((data as any).current_period_end);
-          const subscriptionId = data.id;
-          // Check if customer email is available
-          if (!customer?.email) {
-               throw new AppError(StatusCodes.BAD_REQUEST, 'No email found for the customer!');
-          }
+    const customer = await stripe.customers.retrieve(data.customer as string) as Stripe.Customer;
+    const priceId = data.items.data[0]?.price?.id;
+    const invoice = await stripe.invoices.retrieve(data.latest_invoice as string);
+    const trxId = (invoice as any)?.payment_intent?.toString() || '';
+    const amountPaid = invoice.total / 100;
 
-          if (customer?.email) {
-               const existingUser = await User.findOne({ email: customer?.email });
-               if (!existingUser) {
-                    throw new AppError(StatusCodes.NOT_FOUND, `User not found for email: ${customer.email}`);
-               }
-               if (existingUser) {
-                    const pricingPlan = await Package.findOne({ priceId });
-                    if (!pricingPlan) {
-                         throw new AppError(StatusCodes.NOT_FOUND, `Pricing plan not found for Price ID: ${priceId}`);
-                    }
+    const remaining = data.items.data[0]?.quantity || 0;
+    const currentPeriodStart = formatUnixToIsoUtc((data as any).current_period_start);
+    const currentPeriodEnd = formatUnixToIsoUtc((data as any).current_period_end);
+    const subscriptionId = data.id;
 
-                    if (pricingPlan) {
-                         // Check if the user already has an active subscription
-                         const currentActiveSubscription = await Subscription.findOne({
-                              userId: existingUser._id,
-                              status: 'active',
-                         });
+    if (!customer?.email) throw new AppError(StatusCodes.BAD_REQUEST, 'No email found for the customer');
 
-                         if (currentActiveSubscription) {
-                              throw new AppError(StatusCodes.CONFLICT, 'User already has an active subscription. Skipping.');
-                         }
+    const existingUser = await User.findOne({ email: customer.email });
+    if (!existingUser) throw new AppError(StatusCodes.NOT_FOUND, `User not found for email: ${customer.email}`);
 
-                         // Create the new subscription
-                         const newSubscription = new Subscription({
-                              userId: existingUser._id,
-                              customerId: customer?.id,
-                              package: pricingPlan._id,
-                              status: 'active',
-                              price: amountPaid,
-                              trxId,
-                              remaining,
-                              currentPeriodStart,
-                              currentPeriodEnd,
-                              subscriptionId,
-                         });
+    const pricingPlan = await Package.findOne({ priceId });
+    if (!pricingPlan) throw new AppError(StatusCodes.NOT_FOUND, `Pricing plan not found for Price ID: ${priceId}`);
 
-                         // Save the new subscription to the database
-                         await newSubscription.save();
+    const alreadySubscribed = await Subscription.findOne({
+      userId: existingUser._id,
+      status: 'active',
+    });
 
-                         // Update the user status
-                         await User.findByIdAndUpdate(
-                              existingUser._id,
-                              {
-                                   isSubscribed: true,
-                                   hasAccess: true,
-                                   isFreeTrial: false,
-                                   trialExpireAt: null,
-                                   packageName: pricingPlan.title,
-                              },
-                              { new: true },
-                         );
+    if (alreadySubscribed) {
+      throw new AppError(StatusCodes.CONFLICT, 'User already has an active subscription');
+    }
 
-                         await sendNotifications({
-                              title: `${existingUser.name}`,
-                              receiver: getAdmin._id,
-                              message: `A new subscription has been purchase for ${existingUser.name}`,
-                              type: 'ORDER',
-                         });
-                    } else {
-                         throw new AppError(StatusCodes.NOT_FOUND, `Pricing plan not found for Price ID: ${priceId}`);
-                    }
-               } else {
-                    throw new AppError(StatusCodes.NOT_FOUND, `User not found for email: ${customer?.email}`);
-               }
-          } else {
-               throw new AppError(StatusCodes.BAD_REQUEST, 'No email found for the customer!');
-          }
-     } catch (error) {
-          console.error('Error in handleSubscriptionCreated:', error);
-          throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, `Error in handleSubscriptionCreated: ${error instanceof Error ? error.message : error}`);
-     }
+    const newSubscription = new Subscription({
+      userId: existingUser._id,
+      customerId: customer.id,
+      package: pricingPlan._id,
+      status: 'active',
+      price: amountPaid,
+      trxId,
+      remaining,
+      currentPeriodStart,
+      currentPeriodEnd,
+      subscriptionId,
+    });
+
+    await newSubscription.save();
+
+    await User.findByIdAndUpdate(
+      existingUser._id,
+      {
+        isSubscribed: true,
+        hasAccess: true,
+        isFreeTrial: false,
+        trialExpireAt: null,
+        packageName: pricingPlan.title,
+      },
+      { new: true },
+    );
+
+    await sendNotifications({
+      title: `${existingUser.name}`,
+      receiver: adminUser._id,
+      message: `A new subscription has been purchased by ${existingUser.name}`,
+      type: 'ORDER',
+    });
+
+  } catch (error) {
+    console.error('Error in handleSubscriptionCreated:', error);
+    throw new AppError(
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      `Error in handleSubscriptionCreated: ${error instanceof Error ? error.message : error}`
+    );
+  }
 };

@@ -9,7 +9,6 @@ const createDebtZodSchema = z.object({
     capitalRepayment: z.string({ required_error: 'Capital repayment is required' }),
     interestRepayment: z.string({ required_error: 'Interest repayment is required' }),
     payDueDate: z.string({ required_error: 'Pay due date is required' }),
-    userId: z.string({ required_error: 'User ID is required' }),
   }),
 });
 
@@ -22,7 +21,6 @@ const updateDebtZodSchema = z.object({
     capitalRepayment: z.string().optional(),
     interestRepayment: z.string().optional(),
     payDueDate: z.string().optional(),
-    userId: z.string().optional(),
   }),
 });
 

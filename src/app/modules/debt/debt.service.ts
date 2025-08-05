@@ -4,8 +4,8 @@ import AppError from '../../../errors/AppError';
 import { IDebt } from './debt.interface';
 
 // Create new debt
-const createDebtToDB = async (payload: IDebt): Promise<IDebt> => {
-  const newDebt = await Debt.create(payload);
+const createDebtToDB = async (payload: Partial<IDebt>,userId:string): Promise<IDebt> => {
+  const newDebt = await Debt.create({...payload,userId});
   if (!newDebt) {
     throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create debt');
   }

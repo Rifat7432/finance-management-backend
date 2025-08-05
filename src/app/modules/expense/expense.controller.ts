@@ -5,7 +5,8 @@ import { ExpenseService } from './expense.service';
 
 // Create expense
 const createExpense = catchAsync(async (req, res) => {
-  const result = await ExpenseService.createExpenseToDB(req.body);
+      const userId = req.user?.id
+  const result = await ExpenseService.createExpenseToDB(req.body,userId);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,

@@ -4,7 +4,8 @@ import sendResponse from '../../../shared/sendResponse';
 import { SavingGoalService } from './savingGoal.service';
 
 const createSavingGoal = catchAsync(async (req, res) => {
-  const result = await SavingGoalService.createSavingGoalToDB(req.body);
+      const userId = req.user?.id
+  const result = await SavingGoalService.createSavingGoalToDB(req.body,userId);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.CREATED,

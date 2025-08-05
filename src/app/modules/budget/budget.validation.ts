@@ -6,7 +6,6 @@ const createBudgetZodSchema = z.object({
     amount: z.number({ required_error: 'Amount is required' }).min(0),
     type: z.string({ required_error: 'Type is required' }),
     category: z.string({ required_error: 'Category is required' }),
-    userId: z.string({ required_error: 'User ID is required' }),
   }),
 });
 
@@ -16,7 +15,6 @@ const updateBudgetZodSchema = z.object({
     amount: z.number().optional(),
     type: z.string().optional(),
     category: z.string().optional(),
-    userId: z.string().optional(),
   }),
 });
 

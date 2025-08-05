@@ -1,59 +1,75 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import colors from 'colors';
-import { handleSubscriptionCreated, handleSubscriptionDeleted, handleSubscriptionUpdated } from './handlers';
+import { handleSubscriptionCreated } from './handlers/handleSubscriptionCreated';
+import { handleSubscriptionDeleted } from './handlers/handleSubscriptionDeleted';
+import { handleSubscriptionUpdated } from './handlers/handleSubscriptionUpdated';
 import { StatusCodes } from 'http-status-codes';
 import { logger } from '../../shared/logger';
 import config from '../../config';
 import stripe from '../../config/stripe';
 import AppError from '../../errors/AppError';
+import { User } from '../../app/modules/user/user.model';
 
 const handleStripeWebhook = async (req: Request, res: Response) => {
-     // Extract Stripe signature and webhook secret
      const signature = req.headers['stripe-signature'] as string;
      const webhookSecret = config.stripe.stripe_webhook_secret as string;
 
-     let event: Stripe.Event | undefined;
+     let event: Stripe.Event;
 
-     // Verify the event signature
      try {
           event = stripe.webhooks.constructEvent(req.body, signature, webhookSecret);
      } catch (error) {
-          throw new AppError(StatusCodes.BAD_REQUEST, `Webhook signature verification failed. ${error}`);
+          logger.error(`Webhook signature verification failed: ${error}`);
+          return res.status(400).send(`Webhook error: ${(error as Error).message}`);
      }
 
-     // Check if the event is valid
-     if (!event) {
-          throw new AppError(StatusCodes.BAD_REQUEST, 'Invalid event received!');
-     }
-
-     // Extract event data and type
-     const data = event.data.object as Stripe.Subscription | Stripe.Account;
      const eventType = event.type;
-     console.log('this is event type', eventType);
-     // Handle the event based on its type
+     const data = event.data.object as Stripe.Subscription | Stripe.Account;
+
+     logger.info(colors.cyan(`Received Stripe event: ${eventType}`));
+
      try {
           switch (eventType) {
                case 'customer.subscription.created':
-                    handleSubscriptionCreated(data as Stripe.Subscription);
+                    await handleSubscriptionCreated(data as Stripe.Subscription);
                     break;
 
                case 'customer.subscription.updated':
-                    handleSubscriptionUpdated(data as Stripe.Subscription);
+                    await handleSubscriptionUpdated(data as Stripe.Subscription);
                     break;
 
                case 'customer.subscription.deleted':
-                    handleSubscriptionDeleted(data as Stripe.Subscription);
+                    await handleSubscriptionDeleted(data as Stripe.Subscription);
                     break;
+               case 'payment_intent.payment_failed': {
+                    const paymentIntent = event.data.object as Stripe.PaymentIntent;
+                    const customerId = paymentIntent.customer as string;
+                    // Optional: find the user and notify or mark failure
+                    const user = await User.findOne({ stripeCustomerId: customerId });
 
+                    if (user) {
+                         // Mark something like "lastPaymentStatus = failed"
+                         await User.findByIdAndUpdate(user._id, {
+                              lastPaymentStatus: 'failed',
+                              isSubscribed: false,
+                              hasAccess: false,
+                         });
+
+                         // Optional: send notification or alert to user
+                    }
+
+                    break;
+               }
                default:
-                    logger.warn(colors.bgGreen.bold(`Unhandled event type: ${eventType}`));
+                    logger.warn(colors.bgYellow.black(`Unhandled event type: ${eventType}`));
           }
-     } catch (error) {
-          throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, `Error handling event: ${error}`);
-     }
 
-     res.sendStatus(200);
+          res.sendStatus(200);
+     } catch (error) {
+          logger.error(`Stripe webhook processing error: ${error}`);
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Webhook processing failed');
+     }
 };
 
 export default handleStripeWebhook;

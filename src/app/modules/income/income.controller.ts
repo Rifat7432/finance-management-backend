@@ -6,7 +6,8 @@ import { Request } from 'express';
 
 // Create income
 const createIncome = catchAsync(async (req, res) => {
-  const result = await IncomeService.createIncomeToDB(req.body);
+    const userId = req.user?.id
+  const result = await IncomeService.createIncomeToDB(req.body,userId);
 
   sendResponse(res, {
     success: true,

@@ -1,7 +1,6 @@
 import { Types } from "mongoose";
 
 export interface IDebt {
-  _id?: Types.ObjectId;
   name: string;
   amount: number;
   monthlyPayment: string;

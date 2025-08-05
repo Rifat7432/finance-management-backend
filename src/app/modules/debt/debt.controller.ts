@@ -4,7 +4,8 @@ import sendResponse from '../../../shared/sendResponse';
 import { DebtService } from './debt.service';
 
 const createDebt = catchAsync(async (req, res) => {
-  const result = await DebtService.createDebtToDB(req.body);
+    const userId = req.user?.id
+  const result = await DebtService.createDebtToDB(req.body,userId);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.CREATED,

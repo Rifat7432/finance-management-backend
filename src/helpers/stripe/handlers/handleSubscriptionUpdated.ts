@@ -9,85 +9,65 @@ const formatUnixToDate = (timestamp: number) => new Date(timestamp * 1000);
 
 export const handleSubscriptionUpdated = async (data: Stripe.Subscription) => {
      try {
-          // Retrieve the subscription from Stripe
           const subscription = await stripe.subscriptions.retrieve(data.id);
-
-          // Retrieve the customer associated with the subscription
           const customer = (await stripe.customers.retrieve(subscription.customer as string)) as Stripe.Customer;
-
-          // Extract price ID from subscription items
           const priceId = subscription.items.data[0]?.price?.id;
+          const invoice = (await stripe.invoices.retrieve(subscription.latest_invoice as string)) as Stripe.Invoice;
 
-          // Retrieve the invoice to get the transaction ID and amount paid
-          const invoiceResponse = await stripe.invoices.retrieve(subscription.latest_invoice as string);
-          const invoice = invoiceResponse as Stripe.Invoice;
-
-          const trxId = (invoiceResponse as any)?.payment_intent;
-          const amountPaid = invoice?.total / 100;
-          // Extract other needed fields from the subscription object
+          const trxId = (invoice as any)?.payment_intent?.toString() || '';
+          const amountPaid = invoice.total / 100;
           const remaining = subscription.items.data[0]?.quantity || 0;
-          // Convert Unix timestamp to Date
           const currentPeriodStart = formatUnixToDate((subscription as any).current_period_start);
-          const currentPeriodEnd = formatUnixToDate((subscription as any).current_period_end as any);
+          const currentPeriodEnd = formatUnixToDate((subscription as any).current_period_end);
           const subscriptionId = subscription.id;
-          if (customer?.email) {
-               // Find the user by email
-               const existingUser = await User.findOne({ email: customer?.email });
 
-               if (!existingUser) {
-                    throw new AppError(StatusCodes.NOT_FOUND, `User not found for email: ${customer?.email}`);
-               }
-               // Find the pricing plan by priceId
-               const pricingPlan = await Package.findOne({ priceId });
-               if (!pricingPlan) {
-                    throw new AppError(StatusCodes.NOT_FOUND, `Pricing plan with Price ID: ${priceId} not found!`);
-               }
+          if (!customer?.email) throw new AppError(StatusCodes.BAD_REQUEST, 'No email found for customer.');
 
-               // Find the current active subscription and populate the package field
-               const currentActiveSubscription = await Subscription.findOne({
+          const existingUser = await User.findOne({ email: customer.email });
+          if (!existingUser) throw new AppError(StatusCodes.NOT_FOUND, `User not found for email: ${customer.email}`);
+
+          const pricingPlan = await Package.findOne({ priceId });
+          if (!pricingPlan) throw new AppError(StatusCodes.NOT_FOUND, `Package with priceId ${priceId} not found`);
+
+          const currentSub = await Subscription.findOne({
+               userId: existingUser._id,
+               status: 'active',
+          }).populate('package');
+
+          if (currentSub && (currentSub.package as any)?.priceId !== priceId) {
+               // Old plan, deactivate
+               await Subscription.findByIdAndUpdate(currentSub._id, {
+                    status: 'deactivated',
+                    remaining: 0,
+                    currentPeriodStart: null,
+                    currentPeriodEnd: null,
+               });
+          }
+
+          // Create or update the current subscription
+          await Subscription.findOneAndUpdate(
+               { subscriptionId },
+               {
                     userId: existingUser._id,
+                    customerId: customer.id,
+                    package: pricingPlan._id,
+                    price: amountPaid,
+                    trxId,
+                    subscriptionId,
+                    currentPeriodStart,
+                    currentPeriodEnd,
+                    remaining,
                     status: 'active',
-               }).populate('package');
+               },
+               { upsert: true, new: true },
+          );
 
-               if (currentActiveSubscription) {
-                    if (String((currentActiveSubscription?.package as any)?.priceId) !== priceId) {
-                         // Deactivate the old subscription
-                         await Subscription.findByIdAndUpdate(
-                              currentActiveSubscription?._id,
-                              {
-                                   status: 'deactivated',
-                                   remaining: 0,
-                                   currentPeriodEnd: null,
-                                   currentPeriodStart: null,
-                              },
-                              { new: true },
-                         );
-
-                         // Create a new subscription
-                         const newSubscription = new Subscription({
-                              userId: existingUser._id,
-                              customerId: customer.id,
-                              package: pricingPlan._id,
-                              price: amountPaid,
-                              trxId,
-                              subscriptionId,
-                              currentPeriodStart,
-                              currentPeriodEnd,
-                              remaining,
-                              status: 'active',
-                         });
-
-                         await newSubscription.save();
-                    }
-               }
-          } else {
-               throw new AppError(StatusCodes.BAD_REQUEST, 'No email found for the customer!');
-          }
+          await User.findByIdAndUpdate(existingUser._id, {
+               isSubscribed: true,
+               hasAccess: true,
+               packageName: pricingPlan.title,
+          });
      } catch (error) {
-          if (error instanceof AppError) {
-               throw error;
-          } else {
-               throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, 'Error updating subscription status');
-          }
+          throw error instanceof AppError ? error : new AppError(StatusCodes.INTERNAL_SERVER_ERROR, 'Error updating subscription status');
      }
 };

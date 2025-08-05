@@ -17,8 +17,6 @@ const createIncomeZodSchema = z.object({
       .string()
       .optional(),
 
-    userId: z
-      .string({ required_error: 'User ID is required' }),
   }),
 });
 
