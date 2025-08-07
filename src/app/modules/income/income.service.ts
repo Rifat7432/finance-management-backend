@@ -13,11 +13,19 @@ const createIncomeToDB = async (payload: Partial<IIncome>, userId: string): Prom
 };
 
 // Get incomes by user
-const getUserIncomesFromDB = async (userId: string): Promise<IIncome[]> => {
-     const incomes = await Income.find({ userId });
-     if (!incomes || incomes.length === 0) {
-          throw new AppError(StatusCodes.NOT_FOUND, 'No incomes found for this user');
-     }
+const getUserIncomesFromDB = async (userId: string, query: Partial<IIncome>): Promise<IIncome[]> => {
+     const now = new Date();
+     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+     const incomes = await Income.find({
+          userId,
+          ...(query.frequency ? { frequency: query.frequency } : {}),
+          createdAt: {
+               $gte: startOfMonth,
+               $lte: endOfMonth,
+          },
+     });
      return incomes;
 };
 

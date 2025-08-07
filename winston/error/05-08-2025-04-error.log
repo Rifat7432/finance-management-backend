@@ -1,2 +1,0 @@
-Tue Aug 05 2025 4:38:45 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/home/ 404 - 18.484 ms
-Tue Aug 05 2025 4:43:37 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/home/ 400 - 16.062 ms

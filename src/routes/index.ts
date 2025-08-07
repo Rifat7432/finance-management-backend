@@ -12,7 +12,7 @@ import { AdminRoutes } from "../app/modules/admin/admin.route";
 import { AdRouter } from "../app/modules/ad/ad.route";
 import { SubscriptionRoutes } from "../app/modules/subscription/subscription.routes";
 import { PackageRoutes } from "../app/modules/package/package.routes";
-import { UserHomeRouter } from "../app/modules/UserHome/userHome.route";
+import { AnalyticsRouter } from "../app/modules/analytics/analytics.route";
 
 const router = Router();
 const routes: { path: string; route: Router }[] = [
@@ -69,8 +69,8 @@ const routes: { path: string; route: Router }[] = [
     route: PackageRoutes,
   },
   {
-    path: '/home',
-    route: UserHomeRouter,
+    path: '/analytics',
+    route: AnalyticsRouter,
   },
 ];
 

@@ -208,6 +208,6 @@ const getAnalyticsFromDB = async (userId: string) => {
      return { user, analytics: result.length > 0 ? result[0] : {}, savingGoalCompletionRate: savingGoalCompletionRate.length > 0 ? savingGoalCompletionRate[0].percentComplete : 0 };
 };
 
-export const UserHomeService = {
+export const AnalyticsService = {
      getAnalyticsFromDB,
 };
