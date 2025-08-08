@@ -4,7 +4,7 @@ import { Document, Types } from 'mongoose';
 export interface IIncome extends Document {
      name: string;
      amount: number;
-     receiveDate: string; // changed from 'reaciveDate'
+     receiveDate: Date; // changed from 'reaciveDate'
      frequency: 'yearly' | 'monthly' | 'on-off'; // added frequency options
      userId: Types.ObjectId;
 }

@@ -20,7 +20,19 @@ const createIncome = catchAsync(async (req, res) => {
 // Get all incomes for logged-in user
 const getUserIncomes = catchAsync(async (req: Request, res) => {
   const user: any = req.user;
-  const result = await IncomeService.getUserIncomesFromDB(user.id,req.query);
+  const result = await IncomeService.getUserIncomesFromDB(user.id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Incomes retrieved successfully',
+    data: result,
+  });
+});
+// Get all incomes for logged-in user by frequency
+const getUserIncomesByFrequency = catchAsync(async (req: Request, res) => {
+  const user: any = req.user;
+  const result = await IncomeService.getUserIncomesByFrequencyFromDB(user.id,req.query);
 
   sendResponse(res, {
     success: true,
@@ -72,6 +84,7 @@ const deleteIncome = catchAsync(async (req, res) => {
 export const IncomeController = {
   createIncome,
   getUserIncomes,
+  getUserIncomesByFrequency,
   getSingleIncome,
   updateIncome,
   deleteIncome,

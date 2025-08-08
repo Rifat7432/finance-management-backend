@@ -8,5 +8,6 @@ const router = express.Router();
 
 
 router.get('/',auth(USER_ROLES.USER),AnalyticsController.getAnalytics)
+router.get('/user-last-update',auth(USER_ROLES.USER),AnalyticsController.getLatestUpdate)
 
 export const AnalyticsRouter = router;

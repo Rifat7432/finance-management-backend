@@ -22,10 +22,16 @@ router.get(
   auth(USER_ROLES.USER, USER_ROLES.ADMIN),
   IncomeController.getUserIncomes
 );
+// Get all incomes for logged-in user by frequency
+router.get(
+  '/frequency',
+  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  IncomeController.getUserIncomesByFrequency
+);
 
 // Get a single income
 router.get(
-  '/:id',
+  '/income/:id',
   auth(USER_ROLES.USER, USER_ROLES.ADMIN),
   IncomeController.getSingleIncome
 );

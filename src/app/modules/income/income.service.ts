@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { IIncome } from './income.interface';
 import { Income } from './income.model';
 import AppError from '../../../errors/AppError';
-
+import { startOfMonth, endOfMonth } from 'date-fns';
 // Create new income
 const createIncomeToDB = async (payload: Partial<IIncome>, userId: string): Promise<IIncome> => {
      const newIncome = await Income.create({ ...payload, userId });
@@ -13,17 +13,21 @@ const createIncomeToDB = async (payload: Partial<IIncome>, userId: string): Prom
 };
 
 // Get incomes by user
-const getUserIncomesFromDB = async (userId: string, query: Partial<IIncome>): Promise<IIncome[]> => {
-     const now = new Date();
-     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
-
+const getUserIncomesFromDB = async (userId: string): Promise<IIncome[]> => {
+     const incomes = await Income.find({ userId });
+     return incomes;
+};
+// Get incomes by user  by frequency
+const getUserIncomesByFrequencyFromDB = async (userId: string, query: Partial<IIncome>): Promise<IIncome[]> => {
+     const today = new Date();
+     const monthStart = startOfMonth(today); // First day of current month
+     const monthEnd = endOfMonth(today);
      const incomes = await Income.find({
           userId,
           ...(query.frequency ? { frequency: query.frequency } : {}),
           createdAt: {
-               $gte: startOfMonth,
-               $lte: endOfMonth,
+               $gte: monthStart,
+               $lte: monthEnd,
           },
      });
      return incomes;
@@ -59,6 +63,7 @@ const deleteIncomeFromDB = async (id: string): Promise<boolean> => {
 export const IncomeService = {
      createIncomeToDB,
      getUserIncomesFromDB,
+     getUserIncomesByFrequencyFromDB,
      getSingleIncomeFromDB,
      updateIncomeToDB,
      deleteIncomeFromDB,

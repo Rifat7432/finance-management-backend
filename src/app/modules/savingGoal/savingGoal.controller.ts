@@ -15,7 +15,7 @@ const createSavingGoal = catchAsync(async (req, res) => {
 });
 
 const getUserSavingGoals = catchAsync(async (req, res) => {
-  const userId = req.user?._id || req.body.userId;
+  const userId = req.user?.id 
   const result = await SavingGoalService.getUserSavingGoalsFromDB(userId);
   sendResponse(res, {
     success: true,

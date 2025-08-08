@@ -1,0 +1,10 @@
+Fri Aug 08 2025 6:5:50 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/expenses/analytics 200 - 422.240 ms
+Fri Aug 08 2025 6:12:13 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Fri Aug 08 2025 6:12:13 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Fri Aug 08 2025 6:12:13 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Fri Aug 08 2025 6:12:15 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Fri Aug 08 2025 6:12:15 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Fri Aug 08 2025 6:12:15 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Fri Aug 08 2025 6:18:8 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Fri Aug 08 2025 6:18:8 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Fri Aug 08 2025 6:18:8 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m

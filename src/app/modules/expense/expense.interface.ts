@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 export interface IExpense extends Document {
      name: string;
      amount: number;
-     endDate: string; // Or Date, if you want real date type
-     frequency: 'once' | 'weekly' | 'monthly';
+     endDate: Date; // Or Date, if you want real date type
+     frequency: 'on-off' | 'weekly' | 'monthly' | 'yearly'; // Adjust as needed
      userId: Types.ObjectId;
 }
