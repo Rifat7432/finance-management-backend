@@ -6,39 +6,14 @@
     "auditLog": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\.209dfa6c6d2ab9c865d05725383e448bbff00873-audit.json",
     "files": [
         {
-            "date": 1754601492383,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\08-08-2025-03-success.log",
-            "hash": "dbcc54ae52299e08919dffd2cb3bc16b8f885fb8c0f4a83a083010d6a832232f"
+            "date": 1754766131483,
+            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\10-08-2025-01-success.log",
+            "hash": "3f3cba4825dae58314f2b07a0815304e88091b26fde1d56b853f3b01bc234edc"
         },
         {
-            "date": 1754604000617,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\08-08-2025-04-success.log",
-            "hash": "33ec1b0f708b0ab7d5e9e9e2235a97f5c2a76fae4de110a1c7985a70bbbcc30b"
-        },
-        {
-            "date": 1754607602295,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\08-08-2025-05-success.log",
-            "hash": "4ef9fd99f65d9cf4ed7a64b3834129c12a2455b2a30ac348c1d1e2729e477e79"
-        },
-        {
-            "date": 1754611550434,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\08-08-2025-06-success.log",
-            "hash": "e9b70be63e3f7af8bb0a0144c7a312cecc6d1819ee19f7f3d365eb2aa93d9201"
-        },
-        {
-            "date": 1754676547401,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\09-08-2025-00-success.log",
-            "hash": "1c1ff813062a38565f523b0fcb074ee670e4c203aacf8e6a9274fec54daa32bd"
-        },
-        {
-            "date": 1754685486819,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\09-08-2025-02-success.log",
-            "hash": "540bad8e5dfc05fc098d00aeb5f94fb3f6ce167fae3a9cc97ddb417b24b98444"
-        },
-        {
-            "date": 1754686815665,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\09-08-2025-03-success.log",
-            "hash": "4e7c931581b90db86fcc1590b4432cb0b3e9c8deee7fe4bbd7bbf1baa9c01329"
+            "date": 1754780194877,
+            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\10-08-2025-04-success.log",
+            "hash": "ffeb2545bab0823992cfb247ff31801a6d1d2616b0e096fc869e7e21df8ce3c9"
         }
     ],
     "hashType": "sha256"

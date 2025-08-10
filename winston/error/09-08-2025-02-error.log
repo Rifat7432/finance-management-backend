@@ -1,2 +1,0 @@
-Sat Aug 09 2025 2:40:57 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/saving-goals/ 400 - 137.296 ms
-Sat Aug 09 2025 2:47:59 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/saving-goals/ 400 - 26.377 ms
