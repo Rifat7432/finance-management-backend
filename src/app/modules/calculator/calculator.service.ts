@@ -26,7 +26,7 @@ async function getSavingCalculatorFromDB(payload: { amount: number; frequency: s
      };
 }
 
-const loanRepaymentCalculator = (payload: { principal: number; annualInterestRate: number; loanTermYears: number }) => {
+const loanRepaymentCalculatorFromDB = (payload: { principal: number; annualInterestRate: number; loanTermYears: number }) => {
      const { principal, loanTermYears, annualInterestRate } = payload;
      const monthlyInterestRate = annualInterestRate / 100 / 12;
      const totalPayments = loanTermYears * 12;
@@ -46,7 +46,7 @@ const loanRepaymentCalculator = (payload: { principal: number; annualInterestRat
           totalPayableAmount: Math.round(totalPayableAmount * 100) / 100,
      };
 };
-const inflationCalculator = (payload: { initialAmount: number; annualInflationRate: number; years: number }) => {
+const inflationCalculatorFromDB = (payload: { initialAmount: number; annualInflationRate: number; years: number }) => {
      const { initialAmount, annualInflationRate, years } = payload;
      const rateDecimal = annualInflationRate / 100;
      const futureValue = initialAmount * Math.pow(1 + rateDecimal, years);
@@ -55,7 +55,6 @@ const inflationCalculator = (payload: { initialAmount: number; annualInflationRa
           futureValue: Math.round(futureValue * 100) / 100,
      };
 };
-
 
 // import fetch from 'node-fetch';
 
@@ -103,7 +102,7 @@ const inflationCalculator = (payload: { initialAmount: number; annualInflationRa
 //   return cpiData;
 // }
 
-// async function inflationCalculator(payload: InflationPayload) {
+// async function historicalInflationCalculator(payload: InflationPayload) {
 //   const { fromYear, toYear, amount } = payload;
 
 //   if (fromYear >= toYear) {
@@ -148,4 +147,6 @@ const inflationCalculator = (payload: { initialAmount: number; annualInflationRa
 
 export const CalculatorService = {
      getSavingCalculatorFromDB,
+     loanRepaymentCalculatorFromDB,
+     inflationCalculatorFromDB,
 };
