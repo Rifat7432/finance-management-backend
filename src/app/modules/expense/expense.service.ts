@@ -3,7 +3,6 @@ import { Expense } from './expense.model';
 import AppError from '../../../errors/AppError';
 import { IExpense } from './expense.interface';
 import { startOfMonth, endOfMonth, startOfYear, endOfYear } from 'date-fns';
-import mongoose from 'mongoose';
 // Create new expense
 const createExpenseToDB = async (payload: Partial<IExpense>, userId: string): Promise<IExpense> => {
      const newExpense = await Expense.create({ ...payload, userId });

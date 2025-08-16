@@ -1,9 +1,13 @@
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
-export interface IBudget {
+export interface IBudget extends Document {
      name: string;
      amount: number;
-     type: string;
+     type: 'personal' | 'household';
      category: string;
      userId: Types.ObjectId;
 }
+export type BudgetWithCreatedAt = {
+  amount: number;
+  createdAt: Date;
+};
