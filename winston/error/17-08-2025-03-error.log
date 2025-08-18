@@ -1,0 +1,8 @@
+Sun Aug 17 2025 3:12:58 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/users 400 - 8.965 ms
+Sun Aug 17 2025 3:13:46 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/users 400 - 1.653 ms
+Sun Aug 17 2025 3:14:49 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/users 400 - 8.043 ms
+Sun Aug 17 2025 3:15:46 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/users 400 - 8.226 ms
+Sun Aug 17 2025 3:16:23 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/users 400 - 8.961 ms
+Sun Aug 17 2025 3:18:6 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/users 400 - 7.334 ms
+Sun Aug 17 2025 3:18:13 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/users 400 - 1.921 ms
+Sun Aug 17 2025 3:23:55 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/auth/verify-email 400 - 34.648 ms

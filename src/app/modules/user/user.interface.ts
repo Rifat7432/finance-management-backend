@@ -16,6 +16,9 @@ export type IUser = {
           oneTimeCode: number;
           expireAt: Date;
      };
+     notifications?:{
+          
+     }
 };
 
 export type UserModel = {
