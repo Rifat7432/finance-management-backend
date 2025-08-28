@@ -1,4 +1,4 @@
-import { IContact, ICreateAccount, IHelpContact, IResetPassword, IResetPasswordByEmail } from '../types/emailTamplate';
+import { IContact, ICreateAccount, IHelpContact, IPartnerInvite, IPartnerRequest, IResetPassword, IResetPasswordByEmail } from '../types/emailTamplate';
 
 const createAccount = (values: ICreateAccount) => {
      const data = {
@@ -115,6 +115,46 @@ const contactFormTemplate = (values: IHelpContact) => {
      };
      return data;
 };
+const partnerInvite = (values: IPartnerInvite) => {
+     const data = {
+          to: values.email,
+          subject: `${values.inviterName} invited you to be their partner on OurApp`,
+          html: `
+        <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">
+            <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
+                <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
+                <h2 style="color: #277E16; font-size: 24px; margin-bottom: 20px;">Hi ${values.name}, You've been invited by ${values.inviterName}!</h2>
+                <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">You’ve been invited to be ${values.inviterName}'s partner on OurApp. Here are your login credentials:</p>
+                <div style="background-color: #277E16; width: 120px; padding: 10px; text-align: center; border-radius: 8px; color: #fff; font-size: 25px; letter-spacing: 2px; margin: 20px auto;">${values.password}</div>
+                <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Use this password to log in and complete your profile.</p>
+                <p style="color: #555; font-size: 16px; line-height: 1.5;">Click the button below to login to OurApp:</p>
+                <a href="https://ourapp.com/login" target="_blank" style="display: inline-block; background-color: #277E16; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-size: 18px; margin: 20px auto;">Login to OurApp</a>
+                <p style="color: #b9b4b4; font-size: 16px; text-align: center;">If you didn’t request this, you can ignore this email.</p>
+            </div>
+        </body>`,
+     };
+     return data;
+};
+const partnerRequest = (values: IPartnerRequest) => {
+     const data = {
+          to: values.email,
+          subject: `${values.inviterName} wants to make you their partner on OurApp`,
+          html: `
+        <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">
+            <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
+                <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
+                <h2 style="color: #277E16; font-size: 24px; margin-bottom: 20px;">Hi ${values.name},</h2>
+                <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">${values.inviterName} wants to make you their partner on OurApp as a ${values.relation}. Please review and respond to this request.</p>
+                <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">If you would like to proceed, click the button below to accept the invitation:</p>
+                <a href="https://ourapp.com/partner-request/accept/${values.requestId}" target="_blank" style="display: inline-block; background-color: #277E16; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-size: 18px; margin: 20px auto;">Accept Invitation</a>
+                <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">If you do not wish to join, click the button below to reject the request:</p>
+                <a href="https://ourapp.com/partner-request/reject/${values.requestId}" target="_blank" style="display: inline-block; background-color: #ff4d4d; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-size: 18px; margin: 20px auto;">Reject Invitation</a>
+                <p style="color: #b9b4b4; font-size: 16px; text-align: center;">If you didn’t request this, you can ignore this email.</p>
+            </div>
+        </body>`,
+     };
+     return data;
+};
 
 export const emailTemplate = {
      createAccount,
@@ -122,4 +162,6 @@ export const emailTemplate = {
      resetPasswordByUrl,
      contactFormTemplate,
      contact,
+     partnerInvite,
+     partnerRequest,
 };

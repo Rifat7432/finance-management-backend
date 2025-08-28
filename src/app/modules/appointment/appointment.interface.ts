@@ -4,14 +4,14 @@ export interface IAppointment {
   _id?: Types.ObjectId;
   name: string;
   email: string;
-  attendent: string;
+  attendant: string;
   isChild: boolean;
   approxIncome: number;
   investment: number;
-  dicuss?: string;
+  discuss?: string;
   reachingFor: string;
   ask: string;
   date: string;
-  timeSlote: string;
+  timeSlot: string;
   userId: Types.ObjectId;
 }

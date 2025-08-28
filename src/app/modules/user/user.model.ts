@@ -64,10 +64,10 @@ const userSchema = new Schema<IUser, UserModel>(
                default: '', // Specifies whether the ID is from Google or Apple
           },
           partnerId: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    default: null,
-},
+               type: Schema.Types.ObjectId,
+               ref: 'User',
+               default: null,
+          },
           authentication: {
                type: {
                     isResetPassword: {

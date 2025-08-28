@@ -25,3 +25,16 @@ export type IContact = {
      subject: string;
      message: string;
 };
+export type IPartnerInvite = {
+     name: string;
+     inviterName: string;
+     email: string;
+     password: string;
+};
+export type IPartnerRequest = {
+     email: string;
+     name: string;
+     inviterName: string;
+     relation: string;
+     requestId: string;
+};
