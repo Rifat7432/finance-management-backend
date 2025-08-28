@@ -35,7 +35,8 @@ router.route('/').post(
      validateRequest(UserValidation.createUserZodSchema),
      UserController.createUser,
 );
-
+router.post('/google', validateRequest(UserValidation.googleAuthZodSchema), UserController.createUserByGoogle);
+router.post('/apple', validateRequest(UserValidation.appleAuthZodSchema), UserController.createUserByApple);
 router.delete('/delete', auth(USER_ROLES.USER), UserController.deleteProfile);
 
 export const UserRouter = router;

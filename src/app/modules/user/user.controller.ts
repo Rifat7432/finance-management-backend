@@ -15,10 +15,30 @@ const createUser = catchAsync(async (req, res) => {
           data: result,
      });
 });
+const createUserByApple = catchAsync(async (req, res) => {
+     const userData = req.body;
+     const result = await UserService.handleAppleAuthentication(userData);
+     sendResponse(res, {
+          success: true,
+          statusCode: StatusCodes.OK,
+          message: result.message ? result.message : 'User login successfully',
+          data: result,
+     });
+});
+const createUserByGoogle = catchAsync(async (req, res) => {
+     const userData = req.body;
+     const result = await UserService.handleGoogleAuthentication(userData);
+     sendResponse(res, {
+          success: true,
+          statusCode: StatusCodes.OK,
+          message: result.message ? result.message : 'User login successfully',
+          data: result,
+     });
+});
 
 const getUserProfile = catchAsync(async (req, res) => {
      const user: any = req.user;
-   
+
      const result = await UserService.getUserProfileFromDB(user);
 
      sendResponse(res, {
@@ -77,4 +97,6 @@ export const UserController = {
      getUserProfile,
      updateProfile,
      deleteProfile,
+     createUserByGoogle,
+     createUserByApple,
 };

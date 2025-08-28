@@ -18,8 +18,29 @@ const updateUserZodSchema = z.object({
           image: z.string().optional(),
      }),
 });
+const googleAuthZodSchema = z.object({
+     body: z.object({
+          email: z.string({ required_error: 'Email is required' }).email('Invalid email address'),
+          googleId: z.string({ required_error: 'googleId is required' }),
+          name: z.string({ required_error: 'Name is required' }),
+          email_verified: z.boolean(),
+          picture: z.string().optional(),
+     }),
+});
+const appleAuthZodSchema = z.object({
+     body: z.object({
+          email: z.string({ required_error: 'Email is required' }).email('Invalid email address'),
+          appleId: z.string({ required_error: 'appleId is required' }),
+          fullName: z.object({
+               givenName: z.string({ required_error: 'Name is required' }),
+               familyName: z.string({ required_error: 'Name is required' }),
+          }),
+     }),
+});
 
 export const UserValidation = {
      createUserZodSchema,
      updateUserZodSchema,
+     googleAuthZodSchema,
+     appleAuthZodSchema,
 };

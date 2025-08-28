@@ -54,6 +54,20 @@ const userSchema = new Schema<IUser, UserModel>(
                type: String,
                default: '',
           },
+          socialId: {
+               type: String,
+               default: '', // Stores either Apple or Google ID
+          },
+          authProvider: {
+               type: String,
+               enum: ['google', 'apple'],
+               default: '', // Specifies whether the ID is from Google or Apple
+          },
+          partnerId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+},
           authentication: {
                type: {
                     isResetPassword: {
