@@ -14,4 +14,5 @@ export interface IAppointment {
   date: string;
   timeSlot: string;
   userId: Types.ObjectId;
+  status?:"pending" | "complete"
 }

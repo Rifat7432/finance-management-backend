@@ -3,6 +3,7 @@ import { IAppointment } from './appointment.interface';
 
 
 
+
 const appointmentSchema = new Schema<IAppointment>({
   name: { type: String, required: true },
   email: { type: String, required: true },
@@ -16,6 +17,7 @@ const appointmentSchema = new Schema<IAppointment>({
   date: { type: String, required: true },
   timeSlot: { type: String, required: true },
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  status: { type: String, enum: ['pending', 'complete'], default: 'pending' },
 }, { timestamps: true });
 
 export const Appointment = model<IAppointment>('Appointment', appointmentSchema);

@@ -4,11 +4,13 @@ import sendResponse from '../../../shared/sendResponse';
 import { AppointmentService } from './appointment.service';
 
 const createAppointment = catchAsync(async (req, res) => {
-  const result = await AppointmentService.createAppointmentToDB(req.body);
+  const { date, time } = req.body;
+  const userId = req.user?.id;
+  const result = await AppointmentService.createAppointmentToDB(date, time,userId);
   sendResponse(res, {
     success: true,
-    statusCode: StatusCodes.CREATED,
-    message: 'Appointment created successfully',
+    statusCode: StatusCodes.OK,
+    message: 'Time slot booked successfully',
     data: result,
   });
 });
@@ -16,6 +18,16 @@ const createAppointment = catchAsync(async (req, res) => {
 const getUserAppointments = catchAsync(async (req, res) => {
   const userId = req.user?._id || req.body.userId;
   const result = await AppointmentService.getUserAppointmentsFromDB(userId);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Appointments retrieved successfully',
+    data: result,
+  });
+});
+const getAllAppointments = catchAsync(async (req, res) => {
+  const userId = req.user?._id || req.body.userId;
+  const result = await AppointmentService.getAllAppointmentsFromDB();
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
@@ -61,5 +73,5 @@ export const AppointmentController = {
   getUserAppointments,
   getSingleAppointment,
   updateAppointment,
-  deleteAppointment,
+  deleteAppointment,getAllAppointments
 };

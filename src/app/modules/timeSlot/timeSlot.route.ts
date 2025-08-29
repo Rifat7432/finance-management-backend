@@ -32,11 +32,5 @@ router.delete(
   TimeSlotController.deleteTimeSlot
 );
 
-// Booking endpoint
-router.post(
-  '/book',
-  validateRequest(TimeSlotValidation.bookTimeSlotZodSchema),
-  TimeSlotController.bookTimeSlot
-);
 
 export const TimeSlotRouter = router;
