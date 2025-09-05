@@ -23,30 +23,15 @@ const createSavingGoalToDB = async (payload: Partial<ISavingGoal>, userId: strin
      return savingGoal;
 };
 
-const getUserSavingGoalsFromDB = async (userId: string): Promise<ISavingGoal[]> => {
+const getUserSavingGoalsFromDB = async (userId: string) => {
      // Get all goals for this user
-     const goals = await SavingGoal.find({ userId });
-     // Calculate progress for each goal
-     const goalsWithProgress = goals.map((goal) => {
-          const startDate = new Date(goal.date);
-          const today = new Date();
-          // Months passed since start
-          const monthsPassed = Math.max(0, (today.getFullYear() - startDate.getFullYear()) * 12 + (today.getMonth() - startDate.getMonth()));
-
-          // Calculate how much should have been saved by now
-          const savedSoFar = monthsPassed * goal.monthlyTarget;
-
-          // Ensure we don't go over totalAmount
-          const percentComplete = Math.min((savedSoFar / goal.totalAmount) * 100, 100);
-
-          return {
-               ...goal.toObject(),
-               percentComplete: parseFloat(percentComplete.toFixed(2)), // 2 decimal places
-               monthsPassed,
-               isCompleted: percentComplete >= 100,
-          };
-     });
-     return goalsWithProgress;
+     const goals = await SavingGoal.find({ userId, isDeleted: false });
+     const totalCompletion = goals.reduce((sum, goal) => sum + goal.completionRation, 0);
+     const avgCompletion = totalCompletion / goals.length;
+     return {
+          avgCompletion,
+          goals,
+     };
 };
 
 const getSingleSavingGoalFromDB = async (id: string): Promise<ISavingGoal | null> => {
@@ -61,6 +46,9 @@ const updateSavingGoalToDB = async (id: string, payload: Partial<ISavingGoal>): 
      const currentGoal = await SavingGoal.findById(id);
      if (!currentGoal) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Saving goal not found');
+     }
+     if (currentGoal.isDeleted) {
+          throw new AppError(StatusCodes.BAD_REQUEST, 'Saving goal is deleted');
      }
 
      const updatedTotalAmount = payload.totalAmount ?? currentGoal.totalAmount;
@@ -87,7 +75,11 @@ const updateSavingGoalToDB = async (id: string, payload: Partial<ISavingGoal>): 
 };
 
 const deleteSavingGoalFromDB = async (id: string): Promise<boolean> => {
-     const deleted = await SavingGoal.findByIdAndDelete(id);
+     const goal = await SavingGoal.findOne({ _id: id, isDeleted: false });
+     if (!goal || goal.isDeleted) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'Saving goal is already deleted or not found');
+     }
+     const deleted = await SavingGoal.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
      if (!deleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Saving goal not found');
      }

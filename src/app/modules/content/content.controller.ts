@@ -14,7 +14,7 @@ const createContent = catchAsync(async (req, res) => {
 });
 
 const getContents = catchAsync(async (req, res) => {
-  const result = await ContentService.getContentsFromDB();
+  const result = await ContentService.getContentsFromDB(req.query);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,

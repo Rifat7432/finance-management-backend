@@ -13,7 +13,7 @@ const createBudgetToDB = async (payload: Partial<IBudget>, userId: string): Prom
 };
 
 const getUserBudgetsFromDB = async (userId: string): Promise<IBudget[]> => {
-     const budgets = await Budget.find({ userId });
+     const budgets = await Budget.find({ userId, isDeleted: false });
      if (!budgets.length) {
           throw new AppError(StatusCodes.NOT_FOUND, 'No budgets found for this user');
      }
@@ -21,20 +21,32 @@ const getUserBudgetsFromDB = async (userId: string): Promise<IBudget[]> => {
 };
 
 // Get all budgets for a user by type (personal/household) in current month
-export const getUserBudgetsByTypeFromDB = async (userId: string, query: Partial<IBudget>): Promise<IBudget[]> => {
+export const getUserBudgetsByTypeFromDB = async (partnerId: string, userId: string, query: Partial<IBudget>): Promise<IBudget[]> => {
      const today = new Date();
      const monthStart = startOfMonth(today);
      const monthEnd = endOfMonth(today);
 
      const budgets = await Budget.find({
           userId,
+          isDeleted: false,
           ...(query.type ? { type: query.type } : {}),
           createdAt: {
                $gte: monthStart,
                $lte: monthEnd,
           },
      });
-
+     if (query.type === 'household' && partnerId) {
+          const partnerBudgets = await Budget.find({
+               userId: partnerId,
+               isDeleted: false,
+               type: 'household',
+               createdAt: {
+                    $gte: monthStart,
+                    $lte: monthEnd,
+               },
+          });
+          budgets.push(...partnerBudgets);
+     }
      return budgets;
 };
 
@@ -47,6 +59,7 @@ export const getYearlyBudgetAnalyticsFromDB = async (userId: string, year?: numb
      // Fetch all budgets created within the target year
      const budgets = await Budget.find({
           userId,
+          isDeleted: false,
           createdAt: {
                $gte: yearStart,
                $lte: yearEnd,
@@ -75,6 +88,10 @@ export const getYearlyBudgetAnalyticsFromDB = async (userId: string, year?: numb
 };
 
 const updateBudgetToDB = async (id: string, payload: Partial<IBudget>): Promise<IBudget | null> => {
+     const isBudgetExist = await Budget.findOne({ _id: id, isDeleted: false });
+     if (!isBudgetExist) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'Budget is already deleted or not found');
+     }
      const updated = await Budget.findByIdAndUpdate(id, payload, { new: true });
      if (!updated) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to update budget');
@@ -83,7 +100,11 @@ const updateBudgetToDB = async (id: string, payload: Partial<IBudget>): Promise<
 };
 
 const deleteBudgetFromDB = async (id: string): Promise<boolean> => {
-     const deleted = await Budget.findByIdAndDelete(id);
+     const isBudgetExist = await Budget.findOne({ _id: id, isDeleted: false });
+     if (!isBudgetExist) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'Budget is already deleted or not found');
+     }
+     const deleted = await Budget.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
      if (!deleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Budget not found');
      }

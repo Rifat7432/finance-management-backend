@@ -1,16 +1,10 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document } from 'mongoose';
 
 export interface IContent extends Document {
-  campaignName: string;
-  audience: 'Public' | 'Private' | 'Internal';
-  title: string;
-  description?: string;
-  videoUrl: string;
-  thumbnailUrl?: string;
-  createdBy: mongoose.Types.ObjectId;
-  status: 'Draft' | 'Published' | 'Archived';
-  views: number;
-  likes: number;
-  createdAt: Date;
-  updatedAt: Date;
+     title: string;
+     category: string;
+     duration: string;
+     videoUrl: string;
+     views: number;
+     isDeleted: boolean;
 }

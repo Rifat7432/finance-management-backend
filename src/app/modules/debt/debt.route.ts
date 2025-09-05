@@ -19,9 +19,14 @@ router.get(
   auth(USER_ROLES.USER, USER_ROLES.ADMIN),
   DebtController.getUserDebts
 );
+router.get(
+  '/insights',
+  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  DebtController.getDebtInsights
+);
 
 router.get(
-  '/:id',
+  '/single/:id',
   auth(USER_ROLES.USER, USER_ROLES.ADMIN),
   DebtController.getSingleDebt
 );

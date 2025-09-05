@@ -14,7 +14,7 @@ const createExpenseToDB = async (payload: Partial<IExpense>, userId: string): Pr
 
 // Get all expenses for a user
 const getUserExpensesFromDB = async (userId: string): Promise<IExpense[]> => {
-     const expenses = await Expense.find({ userId });
+     const expenses = await Expense.find({ userId, isDeleted: false });
      return expenses;
 };
 // Get all expenses for a user by frequency
@@ -24,6 +24,7 @@ const getUserExpensesByFrequencyFromDB = async (userId: string, query: Partial<I
      const monthEnd = endOfMonth(today);
      const incomes = await Expense.find({
           userId,
+          isDeleted: false,
           ...(query.frequency ? { frequency: query.frequency } : {}),
           createdAt: {
                $gte: monthStart,
@@ -33,43 +34,42 @@ const getUserExpensesByFrequencyFromDB = async (userId: string, query: Partial<I
      return incomes;
 };
 export const getYearlyExpenseAnalyticsFromDB = async (userId: string, year?: number) => {
-  const targetYear = year || new Date().getFullYear();
+     const targetYear = year || new Date().getFullYear();
 
-  const yearStart = startOfYear(new Date(targetYear, 0, 1));
-  const yearEnd = endOfYear(new Date(targetYear, 0, 1));
+     const yearStart = startOfYear(new Date(targetYear, 0, 1));
+     const yearEnd = endOfYear(new Date(targetYear, 0, 1));
 
+     // Fetch all expenses for the user and year within the range
+     const expenses = await Expense.find({
+          userId: userId,
+          isDeleted: false,
+          endDate: {
+               $gte: yearStart.toISOString(),
+               $lte: yearEnd.toISOString(),
+          },
+     }).lean();
 
+     // Prepare month names
+     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  // Fetch all expenses for the user and year within the range
-  const expenses = await Expense.find({
-    userId: userId,
-    endDate: {
-      $gte: yearStart.toISOString(),
-      $lte: yearEnd.toISOString(),
-    },
-  }).lean();
+     // Initialize monthly totals with 0
+     const monthlyTotals = Array(12).fill(0);
 
-  // Prepare month names
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+     // Sum amounts per month
+     expenses.forEach((expense) => {
+          const expenseDate = new Date(expense.endDate);
+          const monthIndex = expenseDate.getMonth(); // 0-based index (0=Jan)
 
-  // Initialize monthly totals with 0
-  const monthlyTotals = Array(12).fill(0);
+          monthlyTotals[monthIndex] += expense.amount;
+     });
 
-  // Sum amounts per month
-  expenses.forEach(expense => {
-    const expenseDate = new Date(expense.endDate);
-    const monthIndex = expenseDate.getMonth(); // 0-based index (0=Jan)
+     // Format result
+     const formattedResult = monthNames.map((month, index) => ({
+          month,
+          totalExpenses: monthlyTotals[index],
+     }));
 
-    monthlyTotals[monthIndex] += expense.amount;
-  });
-
-  // Format result
-  const formattedResult = monthNames.map((month, index) => ({
-    month,
-    totalExpenses: monthlyTotals[index]
-  }));
-
-  return formattedResult;
+     return formattedResult;
 };
 
 // Get a single expense
@@ -78,11 +78,18 @@ const getSingleExpenseFromDB = async (id: string): Promise<IExpense | null> => {
      if (!expense) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Expense not found');
      }
+     if (expense.isDeleted) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'Expense Deleted');
+     }
      return expense;
 };
 
 // Update expense
 const updateExpenseToDB = async (id: string, payload: Partial<IExpense>): Promise<IExpense | null> => {
+     const isExpenseExist = await Expense.findOne({ _id: id, isDeleted: false });
+     if (!isExpenseExist) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'Expense not found');
+     }
      const updated = await Expense.findByIdAndUpdate(id, payload, { new: true });
      if (!updated) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to update expense');
@@ -92,7 +99,11 @@ const updateExpenseToDB = async (id: string, payload: Partial<IExpense>): Promis
 
 // Delete expense
 const deleteExpenseFromDB = async (id: string): Promise<boolean> => {
-     const deleted = await Expense.findByIdAndDelete(id);
+     const isExpenseExist = await Expense.findOne({ _id: id, isDeleted: false });
+     if (!isExpenseExist) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'Expense not found');
+     }
+     const deleted = await Expense.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
      if (!deleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Expense not found');
      }

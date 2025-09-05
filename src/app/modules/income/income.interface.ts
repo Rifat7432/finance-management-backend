@@ -7,4 +7,5 @@ export interface IIncome extends Document {
      receiveDate: Date; // changed from 'reaciveDate'
      frequency: 'yearly' | 'monthly' | 'on-off'; // added frequency options
      userId: Types.ObjectId;
+     isDeleted: boolean;
 }

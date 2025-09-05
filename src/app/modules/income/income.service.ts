@@ -14,7 +14,7 @@ const createIncomeToDB = async (payload: Partial<IIncome>, userId: string): Prom
 
 // Get incomes by user
 const getUserIncomesFromDB = async (userId: string): Promise<IIncome[]> => {
-     const incomes = await Income.find({ userId });
+     const incomes = await Income.find({ userId, isDeleted: false });
      return incomes;
 };
 // Get incomes by user  by frequency
@@ -23,6 +23,7 @@ const getUserIncomesByFrequencyFromDB = async (userId: string, query: Partial<II
      const monthStart = startOfMonth(today); // First day of current month
      const monthEnd = endOfMonth(today);
      const incomes = await Income.find({
+          isDeleted: false,
           userId,
           ...(query.frequency ? { frequency: query.frequency } : {}),
           createdAt: {
@@ -39,11 +40,18 @@ const getSingleIncomeFromDB = async (id: string): Promise<IIncome | null> => {
      if (!income) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Income not found');
      }
+     if (income.isDeleted) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'Income Deleted');
+     }
      return income;
 };
 
 // Update income by ID
 const updateIncomeToDB = async (id: string, payload: Partial<IIncome>): Promise<IIncome | null> => {
+     const isIncomeExist = await Income.findOne({ _id: id, isDeleted: false });
+     if (!isIncomeExist) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'Income not found');
+     }
      const updated = await Income.findByIdAndUpdate(id, payload, { new: true });
      if (!updated) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to update income');
@@ -51,9 +59,13 @@ const updateIncomeToDB = async (id: string, payload: Partial<IIncome>): Promise<
      return updated;
 };
 
-// Delete income (hard delete)
+// Delete income (soft delete)
 const deleteIncomeFromDB = async (id: string): Promise<boolean> => {
-     const deleted = await Income.findByIdAndDelete(id);
+     const isIncomeExist = await Income.findOne({ _id: id, isDeleted: false });
+     if (!isIncomeExist) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'Income is already deleted or not found');
+     }
+     const deleted = await Income.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
      if (!deleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Income not found');
      }

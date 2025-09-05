@@ -8,6 +8,7 @@ const incomeSchema = new Schema<IIncome>(
           receiveDate: { type: Date, required: true }, // consider Date if storing real date
           frequency: { type: String, enum: ['on-off', 'monthly', 'yearly'], default: 'on-off' }, // e.g., 'once', 'weekly', 'monthly'
           userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+          isDeleted: { type: Boolean, default: false },
      },
      { timestamps: true },
 );

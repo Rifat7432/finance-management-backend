@@ -6,19 +6,24 @@
     "auditLog": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\.845f633cc0cff820cfe432cbbb89243aa768f8ad-audit.json",
     "files": [
         {
-            "date": 1756414486886,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\29-08-2025-02-error.log",
-            "hash": "257cc7ae9fcb3663537e501e1e2905c7d5562c542cde752df914e0dfd2626421"
+            "date": 1757011173094,
+            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\05-09-2025-00-error.log",
+            "hash": "961557f2c7e9cfba101014731dfd4772b7c408ded528e49a926c803361ee488e"
         },
         {
-            "date": 1756494032688,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\30-08-2025-01-error.log",
-            "hash": "c44192223b4476cc018ede42df415cf7ab49ee3f2d19e7f06122e43db84114f5"
+            "date": 1757024448644,
+            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\05-09-2025-04-error.log",
+            "hash": "884ae95aba60f215105e9bc0754852cb1962f341a2a7504f04cdea412bf4a8ca"
         },
         {
-            "date": 1756498500726,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\30-08-2025-02-error.log",
-            "hash": "141e594ab554c16c9af67a95970774cc63339460551bfd928fbfb272a655b9ea"
+            "date": 1757026823765,
+            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\05-09-2025-05-error.log",
+            "hash": "74b38253d4b4ebb2928e074cc8c9e924171f11159ff977c2f36148c60bbd3c7a"
+        },
+        {
+            "date": 1757030678786,
+            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\05-09-2025-06-error.log",
+            "hash": "c0dfa918d3fb34bd7d03ce1b1873847754794d2ff082b5c3490bcb70672494a4"
         }
     ],
     "hashType": "sha256"

@@ -3,10 +3,11 @@ import { Types } from "mongoose";
 export interface IDebt {
   name: string;
   amount: number;
-  monthlyPayment: string;
-  AdHocPayment: string;
-  capitalRepayment: string;
-  interestRepayment: string;
+  monthlyPayment: number;
+  AdHocPayment: number;
+  capitalRepayment: number;
+  interestRepayment: number;
   payDueDate: string;
   userId: Types.ObjectId;
+  isDeleted:boolean;
 }

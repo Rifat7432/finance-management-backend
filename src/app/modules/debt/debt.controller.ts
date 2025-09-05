@@ -14,6 +14,16 @@ const createDebt = catchAsync(async (req, res) => {
   });
 });
 
+const getDebtInsights = catchAsync(async (req, res) => {
+  const userId = req.user?._id || req.body.userId;
+  const result = await DebtService.getDebtInsightsFromDB(userId);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Debts retrieved successfully',
+    data: result,
+  });
+});
 const getUserDebts = catchAsync(async (req, res) => {
   const userId = req.user?._id || req.body.userId;
   const result = await DebtService.getUserDebtsFromDB(userId);
@@ -63,4 +73,5 @@ export const DebtController = {
   getSingleDebt,
   updateDebt,
   deleteDebt,
+  getDebtInsights
 };

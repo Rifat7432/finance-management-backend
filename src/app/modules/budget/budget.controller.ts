@@ -27,7 +27,7 @@ const getUserBudgets = catchAsync(async (req, res) => {
 
 export const getUserBudgetsByType = catchAsync(async (req, res) => {
      const user: any = req.user;
-     const result = await BudgetService.getUserBudgetsByTypeFromDB(user.id, req.query);
+     const result = await BudgetService.getUserBudgetsByTypeFromDB(user.partnerId,user.id, req.query);
 
      sendResponse(res, {
           success: true,
