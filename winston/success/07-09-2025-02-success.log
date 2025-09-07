@@ -1,0 +1,23 @@
+Sun Sep 07 2025 2:14:5 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sun Sep 07 2025 2:14:5 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sun Sep 07 2025 2:14:5 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Sun Sep 07 2025 2:57:11 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sun Sep 07 2025 2:57:11 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sun Sep 07 2025 2:57:11 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Sun Sep 07 2025 2:57:19 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sun Sep 07 2025 2:57:19 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sun Sep 07 2025 2:57:19 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Sun Sep 07 2025 2:57:25 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sun Sep 07 2025 2:57:25 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sun Sep 07 2025 2:57:25 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Sun Sep 07 2025 2:57:27 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sun Sep 07 2025 2:57:27 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sun Sep 07 2025 2:57:27 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Sun Sep 07 2025 2:57:33 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sun Sep 07 2025 2:57:33 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sun Sep 07 2025 2:57:33 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Sun Sep 07 2025 2:57:38 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sun Sep 07 2025 2:57:38 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sun Sep 07 2025 2:57:38 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Sun Sep 07 2025 2:57:50 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/users 200 - 392.231 ms
+Sun Sep 07 2025 2:57:53 [SERVER-NAME] info: Mail send successfully

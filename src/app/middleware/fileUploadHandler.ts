@@ -1,164 +1,113 @@
 import { Request } from 'express';
 import fs from 'fs';
-import { StatusCodes } from 'http-status-codes';
-import multer, { FileFilterCallback } from 'multer';
 import path from 'path';
+import multer, { FileFilterCallback } from 'multer';
+import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
-const fileUploadHandler = () => {
-     // Create upload folder
-     const baseUploadDir = path.join(process.cwd(), 'uploads');
-     if (!fs.existsSync(baseUploadDir)) {
-          fs.mkdirSync(baseUploadDir);
-     }
 
-     // Folder create for different file types
-     const createDir = (dirPath: string) => {
-          if (!fs.existsSync(dirPath)) {
-               fs.mkdirSync(dirPath);
-          }
-     };
+const s3 = new S3Client({
+    region: process.env.AWS_REGION,
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    },
+});
 
-     // Create filename
-     const storage = multer.diskStorage({
-          destination: (req, file, cb) => {
-               let uploadDir;
-               switch (file.fieldname) {
-                    case 'image':
-                         uploadDir = path.join(baseUploadDir, 'image');
-                         break;
-                    case 'thumbnail':
-                         uploadDir = path.join(baseUploadDir, 'thumbnail');
-                         break;
-                    case 'banner':
-                         uploadDir = path.join(baseUploadDir, 'banner');
-                         break;
-                    case 'permits':
-                         uploadDir = path.join(baseUploadDir, 'permits');
-                         break;
-                    case 'insurance':
-                         uploadDir = path.join(baseUploadDir, 'insurance');
-                         break;
-                    case 'driverLicense':
-                         uploadDir = path.join(baseUploadDir, 'driverLicense');
-                         break;
-                    case 'logo':
-                         uploadDir = path.join(baseUploadDir, 'logo');
-                         break;
-                    case 'audio':
-                         uploadDir = path.join(baseUploadDir, 'audio');
-                         break;
-                    case 'video':
-                         uploadDir = path.join(baseUploadDir, 'video');
-                         break;
-                    case 'document':
-                         uploadDir = path.join(baseUploadDir, 'document');
-                         break;
-                    default:
-                         uploadDir = path.join(baseUploadDir, 'others');
-               }
-               createDir(uploadDir);
-               cb(null, uploadDir);
-          },
+// S3 upload helper for images/videos
+const uploadFileToS3 = async (localFilePath: string, folderName: string) => {
+    const fileStream = fs.createReadStream(localFilePath);
+    const fileName = path.basename(localFilePath);
 
-          filename: (req, file, cb) => {
-               const fileExt = path.extname(file.originalname);
-               const fileName = file.originalname.replace(fileExt, '').toLowerCase().split(' ').join('-') + '-' + Date.now();
-               cb(null, fileName + fileExt);
-          },
-     });
+    const command = new PutObjectCommand({
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        Key: `${folderName}/${fileName}`,
+        Body: fileStream,
+        ACL: 'public-read', // change to private if required
+    });
 
-     // File filter
-     const filterFilter = (req: Request, file: any, cb: FileFilterCallback) => {
-          if (
-               file.fieldname === 'image' ||
-               file.fieldname === 'thumbnail' || // Added the 'thumbnail' field here
-               file.fieldname === 'logo' ||
-               file.fieldname === 'banner' ||
-               file.fieldname === 'permits' ||
-               file.fieldname === 'insurance' ||
-               file.fieldname === 'driverLicense'
-          ) {
-               if (
-                    file.mimetype === 'image/png' ||
-                    file.mimetype === 'image/jpg' ||
-                    file.mimetype === 'image/jpeg' ||
-                    file.mimetype === 'image/svg' ||
-                    file.mimetype === 'image/webp' ||
-                    file.mimetype === 'application/octet-stream' ||
-                    file.mimetype === 'image/svg+xml'
-               ) {
-                    cb(null, true);
-               } else {
-                    cb(new AppError(StatusCodes.BAD_REQUEST, 'Only .jpeg, .png, .jpg .svg .webp .octet-stream .svg+xml file supported'));
-               }
-          } else if (file.fieldname === 'audio') {
-               if (file.mimetype === 'audio/mpeg' || file.mimetype === 'audio/mp3' || file.mimetype === 'audio/wav' || file.mimetype === 'audio/ogg' || file.mimetype === 'audio/webm') {
-                    cb(null, true);
-               } else {
-                    cb(new AppError(StatusCodes.BAD_REQUEST, 'Only .mp3, .wav, .ogg, .webm audio files are supported'));
-               }
-          } else if (file.fieldname === 'video') {
-               if (
-                    file.mimetype === 'video/mp4' ||
-                    file.mimetype === 'video/webm' ||
-                    file.mimetype === 'video/quicktime' ||
-                    file.mimetype === 'video/x-msvideo' ||
-                    file.mimetype === 'video/x-matroska' ||
-                    file.mimetype === 'video/mpeg'
-               ) {
-                    cb(null, true);
-               } else {
-                    cb(new AppError(StatusCodes.BAD_REQUEST, 'Only .mp4, .webm, .mov, .avi, .mkv, .mpeg video files are supported'));
-               }
-          } else if (file.fieldname === 'document') {
-               if (
-                    file.mimetype === 'application/pdf' ||
-                    file.mimetype === 'application/msword' ||
-                    file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-                    file.mimetype === 'application/vnd.ms-excel' ||
-                    file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-                    file.mimetype === 'application/vnd.ms-powerpoint' ||
-                    file.mimetype === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
-                    file.mimetype === 'text/plain' ||
-                    file.mimetype === 'application/rtf' ||
-                    file.mimetype === 'application/zip' ||
-                    file.mimetype === 'application/x-7z-compressed' ||
-                    file.mimetype === 'application/x-rar-compressed'
-               ) {
-                    cb(null, true);
-               } else {
-                    cb(new AppError(StatusCodes.BAD_REQUEST, 'Only PDF, Word, Excel, PowerPoint, text, RTF, zip, 7z, and rar files are supported'));
-               }
-          } else {
-               // Allow PDF files for all other field types
-               if (file.mimetype === 'application/pdf') {
-                    cb(null, true);
-               } else {
-                    cb(new AppError(StatusCodes.BAD_REQUEST, 'This file type is not supported'));
-               }
-          }
-     };
+    await s3.send(command);
 
-     const upload = multer({
-          storage: storage,
-          limits: {
-               fileSize: 100 * 1024 * 1024, // 100MB file size limit
-          },
-          fileFilter: filterFilter,
-     }).fields([
-          { name: 'image', maxCount: 10 },
-          { name: 'thumbnail', maxCount: 5 }, // Added this line for thumbnail
-          { name: 'logo', maxCount: 5 },
-          { name: 'banner', maxCount: 5 },
-          { name: 'audio', maxCount: 5 },
-          { name: 'video', maxCount: 5 },
-          { name: 'document', maxCount: 10 },
-          { name: 'driverLicense', maxCount: 1 },
-          { name: 'insurance', maxCount: 1 },
-          { name: 'permits', maxCount: 1 },
-     ]);
-     return upload;
+    // Delete local temp file after upload
+    fs.unlinkSync(localFilePath);
+
+    return `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${folderName}/${fileName}`;
+};
+
+// Multer storage for temporary staging (images/videos only)
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        if (['image', 'video'].includes(file.fieldname)) {
+            const tempDir = path.join(process.cwd(), 'uploads', 'temp');
+            if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
+            cb(null, tempDir);
+        } else {
+            // Other fields stored normally
+            const otherDir = path.join(process.cwd(), 'uploads', file.fieldname || 'others');
+            if (!fs.existsSync(otherDir)) fs.mkdirSync(otherDir, { recursive: true });
+            cb(null, otherDir);
+        }
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        const name = file.originalname.replace(ext, '').toLowerCase().split(' ').join('-') + '-' + Date.now();
+        cb(null, name + ext);
+    },
+});
+
+// File filter
+const filterFilter = (req: Request, file: any, cb: FileFilterCallback) => {
+    const imageTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/svg', 'image/webp', 'image/svg+xml'];
+    const videoTypes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska', 'video/mpeg'];
+
+    if (file.fieldname === 'image') {
+        if (imageTypes.includes(file.mimetype)) cb(null, true);
+        else cb(new AppError(StatusCodes.BAD_REQUEST, 'Invalid image format'));
+    } else if (file.fieldname === 'video') {
+        if (videoTypes.includes(file.mimetype)) cb(null, true);
+        else cb(new AppError(StatusCodes.BAD_REQUEST, 'Invalid video format'));
+    } else {
+        // All other fields allowed (document, audio, etc.)
+        cb(null, true);
+    }
+};
+
+// Export multer upload handler
+const fileUploadHandler = () =>
+    multer({
+        storage,
+        limits: { fileSize: 100 * 1024 * 1024 },
+        fileFilter: filterFilter,
+    }).fields([
+        { name: 'image', maxCount: 10 },
+        { name: 'video', maxCount: 5 },
+        { name: 'thumbnail', maxCount: 5 },
+        { name: 'logo', maxCount: 5 },
+        { name: 'banner', maxCount: 5 },
+        { name: 'audio', maxCount: 5 },
+        { name: 'document', maxCount: 10 },
+        { name: 'driverLicense', maxCount: 1 },
+        { name: 'insurance', maxCount: 1 },
+        { name: 'permits', maxCount: 1 },
+    ]);
+
+// Move images/videos to S3 after multer saves them temporarily
+export const moveImagesVideosToS3 = async (files: any) => {
+    const s3Paths: Record<string, string | string[]> = {};
+
+    for (const field of ['image', 'video']) {
+        const fileField = files?.[field];
+        if (fileField && Array.isArray(fileField) && fileField.length > 0) {
+            if (fileField.length === 1) {
+                s3Paths[field] = await uploadFileToS3(fileField[0].path, field);
+            } else {
+                s3Paths[field] = await Promise.all(fileField.map(f => uploadFileToS3(f.path, field)));
+            }
+        }
+    }
+
+    return s3Paths;
 };
 
 export default fileUploadHandler;

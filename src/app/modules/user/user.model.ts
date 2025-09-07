@@ -60,8 +60,8 @@ const userSchema = new Schema<IUser, UserModel>(
           },
           authProvider: {
                type: String,
-               enum: ['google', 'apple'],
-               default: '', // Specifies whether the ID is from Google or Apple
+               enum: ['google', 'apple',"local"],
+               default: 'local', // Specifies whether the ID is from Google or Apple
           },
           partnerId: {
                type: Schema.Types.ObjectId,

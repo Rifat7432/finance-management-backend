@@ -12,7 +12,7 @@ export type IUser = {
      status: 'active' | 'blocked';
      verified: boolean;
      socialId?: string;
-     authProvider?: 'google' | 'apple';
+     authProvider?: 'google' | 'apple' | "local";
      partnerId?: mongoose.Types.ObjectId;
      authentication?: {
           isResetPassword: boolean;
