@@ -1,0 +1,25 @@
+Tue Sep 16 2025 2:11:36 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Sep 16 2025 2:11:36 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Sep 16 2025 2:11:36 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Sep 16 2025 2:14:45 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Sep 16 2025 2:14:45 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Sep 16 2025 2:14:45 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Sep 16 2025 2:14:51 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/users 200 - 1166.397 ms
+Tue Sep 16 2025 2:14:54 [SERVER-NAME] info: Mail send successfully
+Tue Sep 16 2025 2:15:52 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/users 200 - 911.336 ms
+Tue Sep 16 2025 2:15:55 [SERVER-NAME] info: Mail send successfully
+Tue Sep 16 2025 2:27:7 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Sep 16 2025 2:27:7 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Sep 16 2025 2:27:7 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Sep 16 2025 2:29:53 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Sep 16 2025 2:29:53 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Sep 16 2025 2:29:53 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Sep 16 2025 2:29:57 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Sep 16 2025 2:29:57 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Sep 16 2025 2:29:57 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Sep 16 2025 2:30:32 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Sep 16 2025 2:30:32 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Sep 16 2025 2:30:32 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Tue Sep 16 2025 2:32:25 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Tue Sep 16 2025 2:32:25 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Tue Sep 16 2025 2:32:25 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m

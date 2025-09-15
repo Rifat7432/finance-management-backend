@@ -6,6 +6,7 @@ import auth from '../../middleware/auth';
 import { USER_ROLES } from '../../../enums/user';
 import fileUploadHandler from '../../middleware/fileUploadHandler';
 import { getSingleFilePath } from '../../../shared/getFilePath';
+import moveImagesVideosToS3 from '../../middleware/moveImagesVideosToS3';
 
 const router = express.Router();
 
@@ -13,11 +14,22 @@ router.post(
      '/',
      auth(USER_ROLES.ADMIN),
      fileUploadHandler(),
-     (req: Request, res: Response, next: NextFunction) => {
-          const image = getSingleFilePath(req.files, 'image');
-          const data = JSON.parse(req.body.data);
-          req.body = { image, ...data };
-          next();
+     async (req: Request, res: Response, next: NextFunction) => {
+          try {
+               // 🔹 Upload image/video files from local → S3
+               const s3Uploads = await moveImagesVideosToS3(req.files);
+
+               const video = Array.isArray(s3Uploads.video) ? s3Uploads.video[0].url : s3Uploads.video?.url;
+
+               // merge request body
+               const data = JSON.parse(req.body.data || '{}');
+
+               req.body = video ? { videoUrl: video, ...data } : { ...data };
+
+               next();
+          } catch (error) {
+               next(error);
+          }
      },
      validateRequest(ContentValidation.createContentZodSchema),
      ContentController.createContent,
@@ -27,7 +39,30 @@ router.get('/', auth(USER_ROLES.ADMIN), ContentController.getContents);
 
 router.get('/:id', auth(USER_ROLES.ADMIN), ContentController.getSingleContent);
 
-router.patch('/:id', auth(USER_ROLES.ADMIN), validateRequest(ContentValidation.updateContentZodSchema), ContentController.updateContent);
+router.patch(
+     '/:id',
+     auth(USER_ROLES.ADMIN),
+     fileUploadHandler(),
+     async (req: Request, res: Response, next: NextFunction) => {
+          try {
+               // 🔹 Upload image/video files from local → S3
+               const s3Uploads = await moveImagesVideosToS3(req.files);
+
+               const video = Array.isArray(s3Uploads.video) ? s3Uploads.video[0].url : s3Uploads.video?.url;
+
+               // merge request body
+               const data = JSON.parse(req.body.data || '{}');
+
+               req.body = video ? { videoUrl: video, ...data } : { ...data };
+
+               next();
+          } catch (error) {
+               next(error);
+          }
+     },
+     validateRequest(ContentValidation.updateContentZodSchema),
+     ContentController.updateContent,
+);
 router.delete('/:id', auth(USER_ROLES.ADMIN), ContentController.deleteContent);
 
 export const ContentRouter = router;

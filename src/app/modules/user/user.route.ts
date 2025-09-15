@@ -6,6 +6,7 @@ import { getSingleFilePath } from '../../../shared/getFilePath';
 import auth from '../../middleware/auth';
 import fileUploadHandler from '../../middleware/fileUploadHandler';
 import validateRequest from '../../middleware/validateRequest';
+import moveImagesVideosToS3 from '../../middleware/moveImagesVideosToS3';
 const router = express.Router();
 
 router
@@ -14,11 +15,22 @@ router
      .patch(
           auth(USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.USER, USER_ROLES.VENDOR),
           fileUploadHandler(),
-          (req: Request, res: Response, next: NextFunction) => {
-               const image = getSingleFilePath(req.files, 'image');
-               const data = JSON.parse(req.body.data);
-               req.body = { image, ...data };
-               next();
+          async (req: Request, res: Response, next: NextFunction) => {
+               try {
+                    // 🔹 Upload image/video files from local → S3
+                    const s3Uploads = await moveImagesVideosToS3(req.files);
+
+                    // pick S3 URL (single or first item if multiple)
+                    const image = Array.isArray(s3Uploads.image) ? s3Uploads.image[0].url : s3Uploads.image?.url;
+
+                    // merge request body
+                    const data = JSON.parse(req.body.data || '{}');
+                    req.body = image ? { image, ...data } : { ...data };
+
+                    next();
+               } catch (error) {
+                    next(error);
+               }
           },
           validateRequest(UserValidation.updateUserZodSchema),
           UserController.updateProfile,
@@ -26,11 +38,22 @@ router
 
 router.route('/').post(
      fileUploadHandler(),
-     (req: Request, res: Response, next: NextFunction) => {
-          const image = getSingleFilePath(req.files, 'image');
-          const data = JSON.parse(req.body.data);
-          req.body = { image, ...data };
-          next();
+     async (req: Request, res: Response, next: NextFunction) => {
+          try {
+               // 🔹 Upload image/video files from local → S3
+               const s3Uploads = await moveImagesVideosToS3(req.files);
+
+               // pick S3 URL (single or first item if multiple)
+               const image = Array.isArray(s3Uploads.image) ? s3Uploads.image[0].url : s3Uploads.image?.url;
+
+               // merge request body
+               const data = JSON.parse(req.body.data || '{}');
+                  req.body = image ? { image, ...data } : { ...data };
+
+               next();
+          } catch (error) {
+               next(error);
+          }
      },
      validateRequest(UserValidation.createUserZodSchema),
      UserController.createUser,
