@@ -6,9 +6,14 @@
     "auditLog": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\.209dfa6c6d2ab9c865d05725383e448bbff00873-audit.json",
     "files": [
         {
-            "date": 1757967093879,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\16-09-2025-02-success.log",
-            "hash": "1c84418fd0f1db755ec2e8791b40c19dfbae5e780ae5d257cf27b81b82cc4bce"
+            "date": 1758054932393,
+            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\17-09-2025-02-success.log",
+            "hash": "48b2d33099c6d0a026869cba39e0fc9b542d3754bd4a55a3b2fd25a697fff154"
+        },
+        {
+            "date": 1758056450402,
+            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\success\\17-09-2025-03-success.log",
+            "hash": "00362674872c805311231674bb973290745d97d2542590495bd9d8e889efb58c"
         }
     ],
     "hashType": "sha256"

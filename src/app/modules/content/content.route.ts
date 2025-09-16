@@ -35,7 +35,7 @@ router.post(
      ContentController.createContent,
 );
 
-router.get('/', auth(USER_ROLES.ADMIN), ContentController.getContents);
+router.get('/', auth(USER_ROLES.ADMIN,USER_ROLES.USER), ContentController.getContents);
 
 router.get('/:id', auth(USER_ROLES.ADMIN), ContentController.getSingleContent);
 

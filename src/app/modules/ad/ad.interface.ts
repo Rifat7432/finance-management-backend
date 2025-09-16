@@ -5,4 +5,6 @@ export interface IAd {
   name: string;
   startDate: string;
   endDate: string;
+  url: string;
+  isDeleted?:boolean
 }
