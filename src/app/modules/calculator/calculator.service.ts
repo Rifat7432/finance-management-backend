@@ -30,17 +30,13 @@ const loanRepaymentCalculatorFromDB = (payload: { principal: number; annualInter
      const { principal, loanTermYears, annualInterestRate } = payload;
      const monthlyInterestRate = annualInterestRate / 100 / 12;
      const totalPayments = loanTermYears * 12;
-
      let monthlyPayment: number;
-
      if (monthlyInterestRate === 0) {
           monthlyPayment = principal / totalPayments;
      } else {
           monthlyPayment = (principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalPayments)) / (Math.pow(1 + monthlyInterestRate, totalPayments) - 1);
      }
-
      const totalPayableAmount = monthlyPayment * totalPayments;
-
      return {
           monthlyPayment: Math.round(monthlyPayment * 100) / 100,
           totalPayableAmount: Math.round(totalPayableAmount * 100) / 100,

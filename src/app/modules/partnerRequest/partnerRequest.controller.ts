@@ -15,7 +15,7 @@ const createPartnerRequest = catchAsync(async (req, res) => {
 });
 
 const getPartnerRequests = catchAsync(async (req, res) => {
-        const userId = req.user?.id;
+     const userId = req.user?.id;
      const result = await PartnerRequestService.getPartnerRequestsFromDB(userId);
      sendResponse(res, {
           success: true,
@@ -25,8 +25,8 @@ const getPartnerRequests = catchAsync(async (req, res) => {
      });
 });
 const acceptPartnerRequest = catchAsync(async (req, res) => {
-        const userId = req.user?.id;
-     const result = await PartnerRequestService.acceptPartnerRequestToDB(req.params.id,userId);
+     const userId = req.user?.id;
+     const result = await PartnerRequestService.acceptPartnerRequestToDB(req.params.id, userId);
      sendResponse(res, {
           success: true,
           statusCode: StatusCodes.OK,
@@ -46,13 +46,14 @@ const getSinglePartnerRequest = catchAsync(async (req, res) => {
      });
 });
 
-const updatePartnerRequest = catchAsync(async (req, res) => {
+const UnlinkWithPartnerRequest = catchAsync(async (req, res) => {
      const { id } = req.params;
-     const result = await PartnerRequestService.updatePartnerRequestToDB(id, req.body);
+     const user = req.user;
+     const result = await PartnerRequestService.UnlinkWithPartnerRequestToDB(id, user.id);
      sendResponse(res, {
           success: true,
           statusCode: StatusCodes.OK,
-          message: 'Partner request updated successfully',
+          message: 'Partner request unlink successfully',
           data: result,
      });
 });
@@ -71,7 +72,7 @@ export const PartnerRequestController = {
      createPartnerRequest,
      getPartnerRequests,
      getSinglePartnerRequest,
-     updatePartnerRequest,
+     UnlinkWithPartnerRequest,
      deletePartnerRequest,
-     acceptPartnerRequest
+     acceptPartnerRequest,
 };

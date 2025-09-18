@@ -4,7 +4,8 @@ import sendResponse from '../../../shared/sendResponse';
 import { DateNightService } from './dateNight.service';
 
 const createDateNight = catchAsync(async (req, res) => {
-  const result = await DateNightService.createDateNightToDB(req.body);
+  const user = req.user
+  const result = await DateNightService.createDateNightToDB(user.id,req.body);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.CREATED,
@@ -14,7 +15,8 @@ const createDateNight = catchAsync(async (req, res) => {
 });
 
 const getDateNights = catchAsync(async (req, res) => {
-  const result = await DateNightService.getDateNightsFromDB();
+   const user = req.user
+  const result = await DateNightService.getDateNightsFromDB(user.id);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,

@@ -3,6 +3,7 @@ import { IDateNight } from './dateNight.interface';
 
 const dateNightSchema = new Schema<IDateNight>(
      {
+          userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
           plan: {
                type: String,
                required: true,
@@ -29,6 +30,10 @@ const dateNightSchema = new Schema<IDateNight>(
                trim: true,
           },
           enableNotification: {
+               type: Boolean,
+               default: false,
+          },
+          isDeleted: {
                type: Boolean,
                default: false,
           },

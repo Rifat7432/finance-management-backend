@@ -14,7 +14,7 @@ router.get('/', PartnerRequestController.getPartnerRequests);
 
 router.get('/:id', PartnerRequestController.getSinglePartnerRequest);
 
-router.patch('/:id', validateRequest(PartnerRequestValidation.updatePartnerRequestZodSchema), PartnerRequestController.updatePartnerRequest);
+router.post('/unlink/:partnerId', auth(USER_ROLES.USER), PartnerRequestController.UnlinkWithPartnerRequest);
 
 router.delete('/:id', PartnerRequestController.deletePartnerRequest);
 

@@ -70,3 +70,6 @@ Wed Sep 17 2025 3:23:44 [SERVER-NAME] info: [33m♻️  Application & Socket li
 Wed Sep 17 2025 3:24:4 [SERVER-NAME] info: [32mConfig validation successful.[39m
 Wed Sep 17 2025 3:24:4 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
 Wed Sep 17 2025 3:24:4 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Wed Sep 17 2025 3:24:7 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Wed Sep 17 2025 3:24:7 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Wed Sep 17 2025 3:24:7 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
