@@ -1,0 +1,7 @@
+Mon Sep 22 2025 5:31:5 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/packages/ 401 - 17.125 ms
+Mon Sep 22 2025 5:32:58 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/packages/ 401 - 12.192 ms
+Mon Sep 22 2025 5:33:13 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/auth/login 409 - 70.461 ms
+Mon Sep 22 2025 5:33:32 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/auth/login 400 - 2.504 ms
+Mon Sep 22 2025 5:33:44 [SERVER-NAME] error: Email Greeting never received
+Mon Sep 22 2025 5:35:8 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/auth/verify-email 400 - 2.415 ms
+Mon Sep 22 2025 5:38:40 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/packages/ 403 - 20.247 ms

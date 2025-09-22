@@ -28,7 +28,7 @@ const isDatePastOrToday = (date: Date): boolean => {
 
 // ⏰ Cron job: Every day at midnight
 cron.schedule('0 0 * * *', async () => {
-     console.log('🔄 Running salary automation task...');
+     console.log('🔄 Running income automation task...');
 
      try {
           // Calculate last month range

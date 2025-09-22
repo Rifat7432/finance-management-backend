@@ -6,19 +6,9 @@
     "auditLog": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\.845f633cc0cff820cfe432cbbb89243aa768f8ad-audit.json",
     "files": [
         {
-            "date": 1758054932396,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\17-09-2025-02-error.log",
-            "hash": "ca1ffb9fdfb55834551b6bd431350d0cae0d9c84a9c898bf9ed1e7ca6a18bed7"
-        },
-        {
-            "date": 1758056450405,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\17-09-2025-03-error.log",
-            "hash": "d5112b37eb5acd9d368c438a662d98be0e39b422f5b061f7587ff2d098cc50c5"
-        },
-        {
-            "date": 1758132596361,
-            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\18-09-2025-00-error.log",
-            "hash": "883db24bd5120ca339d9bff1cddc561b1531b5bef85bd7dbeb5ea51d0f787459"
+            "date": 1758497347421,
+            "name": "C:\\Users\\mdrif\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\22-09-2025-05-error.log",
+            "hash": "1adc12ed6d3a11d29e4fbfa154c18f60df04f6bfff6971e0c71760b431b15c1d"
         }
     ],
     "hashType": "sha256"

@@ -3,73 +3,86 @@ import stripe from '../../config/stripe';
 import AppError from '../../errors/AppError';
 import { IPackage } from '../../app/modules/package/package.interface';
 
-export const createSubscriptionProduct = async (payload: Partial<IPackage>): Promise<{ productId: string; priceId: string } | null> => {
-     // Create Product in Stripe
-     const product = await stripe.products.create({
-          name: payload.title as string,
-          description: payload.description as string,
-     });
+export const createSubscriptionProduct = async (
+  payload: Partial<IPackage>
+): Promise<{
+  productId: string;
+  regularPriceId: string;
+  promoPriceId?: string;
+}> => {
+  // Create Product in Stripe
+  const product = await stripe.products.create({
+    name: payload.title as string,
+    description: payload.description as string,
+  });
 
-     let interval: 'month' | 'year' = 'month'; // Default to 'month'
-     let intervalCount = 1; // Default to every 1 month
+  if (!product) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create product in Stripe');
+  }
 
-     // Map duration to interval_count
-     switch (payload.duration) {
-          case '1 month':
-               interval = 'month';
-               intervalCount = 1;
-               break;
-          case '3 months':
-               interval = 'month';
-               intervalCount = 3;
-               break;
-          case '6 months':
-               interval = 'month';
-               intervalCount = 6;
-               break;
-          case '1 year':
-               interval = 'year';
-               intervalCount = 1;
-               break;
-          default:
-               interval = 'month';
-               intervalCount = 1;
-     }
+  // Interval mapping (flexible)
+  let interval: 'month' | 'year' = 'month';
+  let intervalCount = 1;
 
-     // Create Price for the Product
-     const price = await stripe.prices.create({
-          product: product.id,
-          unit_amount: Number(payload.price) * 100, // in cents
-          currency: 'usd', // or your chosen currency
-          recurring: { interval, interval_count: intervalCount },
-     });
+  switch (payload.duration) {
+    case '1 month':
+      interval = 'month';
+      intervalCount = 1;
+      break;
+    case '3 months':
+      interval = 'month';
+      intervalCount = 3;
+      break;
+    case '6 months':
+      interval = 'month';
+      intervalCount = 6;
+      break;
+    case '1 year':
+      interval = 'year';
+      intervalCount = 1;
+      break;
+    default:
+      interval = 'month';
+      intervalCount = 1;
+  }
 
-     if (!price) {
-          throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create price in Stripe');
-     }
+  // Create Regular Price
+  if (!payload.price) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Regular price is required');
+  }
 
-     // Create a Payment Link
-     // const paymentLink = await stripe.paymentLinks.create({
-     //     line_items: [
-     //         {
-     //             price: price.id,
-     //             quantity: 1,
-     //         },
-     //     ],
-     //     after_completion: {
-     //         type: 'redirect',
-     //         redirect: {
-     //             url: `${config.stripe.frontend_url}`, // Redirect URL on successful payment
-     //         },
-     //     },
-     //     metadata: {
-     //         productId: product.id,
-     //     },
-     // });
+  const regularPrice = await stripe.prices.create({
+    product: product.id,
+    unit_amount: Number(payload.price) * 100,
+    currency: payload.currency || 'usd',
+    recurring: { interval, interval_count: intervalCount },
+  });
 
-     // if (!paymentLink.url) {
-     //     throw new AppError(StatusCodes.BAD_REQUEST, "Failed to create payment link");
-     // }
+  if (!regularPrice) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create regular price in Stripe');
+  }
 
-     return { productId: product.id, priceId: price.id };
+  let promoPriceId: string | undefined;
+
+  // Create Promo Price if admin provided
+  if (payload.promoPrice) {
+    const promoPrice = await stripe.prices.create({
+      product: product.id,
+      unit_amount: Number(payload.promoPrice) * 100,
+      currency: payload.currency || 'usd',
+      recurring: { interval, interval_count: intervalCount },
+    });
+
+    if (!promoPrice) {
+      throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create promo price in Stripe');
+    }
+
+    promoPriceId = promoPrice.id;
+  }
+
+  return {
+    productId: product.id,
+    regularPriceId: regularPrice.id,
+    promoPriceId,
+  };
 };
