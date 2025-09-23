@@ -8,7 +8,7 @@ export type ISubscription = {
      trxId: string;
      remaining: number;
      subscriptionId: string;
-     status: 'expired' | 'active' | 'cancel';
+     status: 'expired' | 'active' | 'cancel' | 'deactivated';
      currentPeriodStart: string;
      currentPeriodEnd: string;
 };

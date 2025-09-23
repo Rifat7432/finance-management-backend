@@ -345,16 +345,18 @@ const createSubscriptionIntoDB = async ({
   const subscription = schedule.subscription as any;
 
   // Save subscription in DB
-  await Subscription.create({
-    userId: user._id,
-    package: pkg._id,
-    subscriptionId: subscription.id,
-    scheduleId: schedule.id,
-    trxId: subscription.latest_invoice?.payment_intent?.id,
-    status: subscription.status,
-    currentPeriodStart: subscription.current_period_start,
-    currentPeriodEnd: subscription.current_period_end,
-  });
+     await Subscription.create({
+          userId: user._id,
+          package: pkg._id,
+          subscriptionId: subscription.id,
+          customerId: user.stripeCustomerId,
+          trxId: subscription.latest_invoice?.payment_intent?.id || '',
+          price: pkg.price,
+          remaining: 0, // Set this as needed, e.g. pkg.credit or similar
+          status: subscription.status === 'active' ? 'active' : (subscription.status === 'canceled' ? 'cancel' : subscription.status),
+          currentPeriodStart: String(subscription.current_period_start),
+          currentPeriodEnd: String(subscription.current_period_end),
+     });
 
   return {
     subscriptionId: subscription.id,

@@ -2,42 +2,36 @@ import { StatusCodes } from 'http-status-codes';
 import { Appointment } from './appointment.model';
 import AppError from '../../../errors/AppError';
 import { IAppointment } from './appointment.interface';
-import { TimeSlot } from '../timeSlot/timeSlot.model';
 
 import { NotificationSettings } from '../notificationSettings/notificationSettings.model';
 import { Notification } from '../notification/notification.model';
 import { firebaseHelper } from '../../../helpers/firebaseHelper';
 
 const createAppointmentToDB = async (date: string, time: string, userId: string): Promise<IAppointment | null> => {
-     // Find the time slot document for the given date
-     const slotDoc = await TimeSlot.findOne({ date });
-     if (!slotDoc) {
-          throw new AppError(StatusCodes.NOT_FOUND, 'No time slots found for this date');
+     // Validate date
+     const parsedDate = new Date(date);
+     if (isNaN(parsedDate.getTime())) {
+          throw new AppError(StatusCodes.BAD_REQUEST, 'Invalid date format');
      }
 
-     // Find the specific slot by time
-     const slot = slotDoc.availableSlots.find((s) => s.time === time);
-     if (!slot) {
-          throw new AppError(StatusCodes.NOT_FOUND, 'Time slot not found');
+     // Validate time (HH:mm or HH:mm:ss)
+     const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/;
+     if (!timeRegex.test(time)) {
+          throw new AppError(StatusCodes.BAD_REQUEST, 'Invalid time format (expected HH:mm or HH:mm:ss)');
      }
 
-     // Check if the slot is already booked
-     if (slot.isBooked) {
+     // Check if an appointment already exists for the given date and time
+     const existingAppointment = await Appointment.findOne({ date, time });
+     if (existingAppointment) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Time slot already booked');
      }
 
-     // Mark the slot as booked
-     slot.isBooked = true;
-     await slotDoc.save();
-
-     // Create an appointment and associate it with the booked slot
+     // Create the appointment
      const appointment = await Appointment.create({
           user: userId,
           date,
           time,
-          timeSlot: slotDoc._id,
      });
-
 
      // Send notification only to the user who booked the appointment, if their settings allow
      const userSetting = await NotificationSettings.findOne({ userId });
@@ -90,66 +84,56 @@ const getSingleAppointmentFromDB = async (id: string): Promise<IAppointment | nu
 };
 
 const updateAppointmentToDB = async (id: string, payload: Partial<IAppointment>): Promise<IAppointment | null> => {
-  // Retrieve the existing appointment
-  const appointment = await Appointment.findById(id);
-  if (!appointment) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'Appointment not found');
-  }
+     // Retrieve the existing appointment
+     const appointment = await Appointment.findById(id);
+     if (!appointment) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'Appointment not found');
+     }
 
-  // Handle case where appointment time or date is updated
-  const newDate = (payload as any).date;
-  const newTime = (payload as any).time;
-  const oldDate = appointment.get('date');
-  const oldTime = appointment.get('time');
+     // Handle case where appointment time or date is updated
+     const newDate = (payload as any).date;
+     const newTime = (payload as any).time;
+     const oldDate = appointment.get('date');
+     const oldTime = appointment.get('time');
 
-  // If the date or time is updated, we need to validate and update the time slots
-  if (newDate || newTime) {
-    let slotDoc = await TimeSlot.findOne({ date: newDate || oldDate }); // Check the updated date or the old one
-    if (!slotDoc) {
-      throw new AppError(StatusCodes.NOT_FOUND, 'No time slots found for the given date');
-    }
+     // If the date or time is updated, validate and check for double booking
+     if (newDate || newTime) {
+          // Validate new date if provided
+          if (newDate) {
+               const parsedDate = new Date(newDate);
+               if (isNaN(parsedDate.getTime())) {
+                    throw new AppError(StatusCodes.BAD_REQUEST, 'Invalid date format');
+               }
+          }
+          // Validate new time if provided
+          if (newTime) {
+               const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/;
+               if (!timeRegex.test(newTime)) {
+                    throw new AppError(StatusCodes.BAD_REQUEST, 'Invalid time format (expected HH:mm or HH:mm:ss)');
+               }
+          }
 
-    // If the time is being updated, find the new time slot
-    const slot = slotDoc.availableSlots.find((s) => s.time === newTime || s.time === oldTime);
-    if (!slot) {
-      throw new AppError(StatusCodes.NOT_FOUND, 'Time slot not found');
-    }
+          // Check if another appointment already exists for the new date and time
+          const checkDate = newDate || oldDate;
+          const checkTime = newTime || oldTime;
+          const existingAppointment = await Appointment.findOne({ date: checkDate, time: checkTime, _id: { $ne: id } });
+          if (existingAppointment) {
+               throw new AppError(StatusCodes.BAD_REQUEST, 'Time slot already booked');
+          }
 
-    // Check if the new time slot is already booked (if changing time)
-    if (newTime && slot.isBooked) {
-      throw new AppError(StatusCodes.BAD_REQUEST, 'Selected time slot is already booked');
-    }
+          // Update the appointment with new details
+          appointment.set('date', newDate || oldDate);
+          appointment.set('time', newTime || oldTime);
+          const updatedAppointment = await appointment.save();
+          return updatedAppointment;
+     }
 
-    // Mark the old time slot as available if the time is being changed
-    if (newTime && oldTime !== newTime) {
-      const oldSlot = slotDoc.availableSlots.find((s) => s.time === oldTime);
-      if (oldSlot) {
-        oldSlot.isBooked = false;
-        await slotDoc.save();
-      }
-    }
-
-    // Mark the new time slot as booked if the time is updated
-    if (newTime && oldTime !== newTime) {
-      slot.isBooked = true;
-      await slotDoc.save();
-    }
-
-    // Update the appointment with new details
-    appointment.set('date', newDate || appointment.get('date'));
-    appointment.set('time', newTime || appointment.get('time'));
-    const updatedAppointment = await appointment.save(); // Save the changes
-
-    return updatedAppointment;
-  }
-
-  // If the date and time are not updated, simply update other fields
-  const updated = await Appointment.findByIdAndUpdate(id, payload, { new: true });
-  if (!updated) {
-    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to update appointment');
-  }
-  
-  return updated;
+     // If the date and time are not updated, simply update other fields
+     const updated = await Appointment.findByIdAndUpdate(id, payload, { new: true });
+     if (!updated) {
+          throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to update appointment');
+     }
+     return updated;
 };
 
 
