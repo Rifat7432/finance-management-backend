@@ -4,6 +4,10 @@ import AppError from '../../../errors/AppError';
 import { IAppointment } from './appointment.interface';
 import { TimeSlot } from '../timeSlot/timeSlot.model';
 
+import { NotificationSettings } from '../notificationSettings/notificationSettings.model';
+import { Notification } from '../notification/notification.model';
+import { firebaseHelper } from '../../../helpers/firebaseHelper';
+
 const createAppointmentToDB = async (date: string, time: string, userId: string): Promise<IAppointment | null> => {
      // Find the time slot document for the given date
      const slotDoc = await TimeSlot.findOne({ date });
@@ -33,6 +37,31 @@ const createAppointmentToDB = async (date: string, time: string, userId: string)
           time,
           timeSlot: slotDoc._id,
      });
+
+
+     // Send notification only to the user who booked the appointment, if their settings allow
+     const userSetting = await NotificationSettings.findOne({ userId });
+     if (userSetting?.appointmentNotification) {
+          if (userSetting.deviceTokenList && userSetting.deviceTokenList.length > 0) {
+               await firebaseHelper.sendNotification(
+                    [{ id: String(userSetting.userId), deviceToken: userSetting.deviceTokenList[0] }],
+                    {
+                         title: 'New Appointment Booked',
+                         body: `Appointment booked for ${date} at ${time}`,
+                    },
+                    userSetting.deviceTokenList,
+                    'multiple',
+                    { appointmentId: String(appointment._id) }
+               );
+          }
+          await Notification.create({
+               title: 'New Appointment Booked',
+               message: `Appointment booked for ${date} at ${time}`,
+               receiver: userSetting.userId,
+               type: 'APPOINTMENT',
+               read: false,
+          });
+     }
 
      return appointment;
 };

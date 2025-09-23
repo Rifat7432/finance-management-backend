@@ -2,12 +2,51 @@ import { StatusCodes } from 'http-status-codes';
 import AppError from '../../../errors/AppError';
 import { Content } from './content.model';
 
+
+import { NotificationSettings } from '../notificationSettings/notificationSettings.model';
+import { Notification } from '../notification/notification.model';
+import { firebaseHelper } from '../../../helpers/firebaseHelper';
+
 const createContentToDB = async (payload: any) => {
-     const newContent = await Content.create(payload);
-     if (!newContent) {
-          throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create content');
-     }
-     return newContent;
+      const newContent = await Content.create(payload);
+      if (!newContent) {
+            throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create content');
+      }
+
+      // Find all users with contentNotification enabled
+      const settings = await NotificationSettings.find({ contentNotification: true });
+      if (settings && settings.length > 0) {
+           await Promise.all(settings.map(async (setting) => {
+                const notificationPromises = [];
+                if (setting.deviceTokenList && setting.deviceTokenList.length > 0) {
+                     // Send push notification
+                     notificationPromises.push(
+                          firebaseHelper.sendNotification(
+                               [{ id: String(setting.userId), deviceToken: setting.deviceTokenList[0] }],
+                               {
+                                    title: 'New Content Available',
+                                    body: newContent.title,
+                               },
+                               setting.deviceTokenList,
+                               'multiple',
+                               { contentId: String(newContent._id) }
+                          )
+                     );
+                }
+                // Store notification in DB
+                notificationPromises.push(
+                     Notification.create({
+                          title: 'New Content Available',
+                          message: newContent.title,
+                          receiver: setting.userId,
+                          type: 'ADMIN',
+                          read: false,
+                     })
+                );
+                await Promise.all(notificationPromises);
+           }));
+      }
+      return newContent;
 };
 
 const getContentsFromDB = async (query: any) => {

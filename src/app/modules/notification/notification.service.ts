@@ -5,65 +5,78 @@ import AppError from '../../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
 import { sendNotifications } from '../../../helpers/notificationsHelper';
 
+// ✅ Get notifications for logged-in user
+const getNotificationFromDB = async (user: JwtPayload): Promise<{ result: INotification[]; unreadCount: number }> => {
+  const result = await Notification.find({ receiver: user.id }).sort({ createdAt: -1 });
 
-// get notifications
-const getNotificationFromDB = async (user: JwtPayload): Promise<INotification> => {
-     const result = await Notification.find({ receiver: user.id }).populate({
-          path: 'sender',
-          select: 'name profile',
-     });
+  const unreadCount = await Notification.countDocuments({
+    receiver: user.id,
+    read: false,
+  });
 
-     const unreadCount = await Notification.countDocuments({
-          receiver: user.id,
-          read: false,
-     });
-
-     const data: any = {
-          result,
-          unreadCount,
-     };
-
-     return data;
+  return { result, unreadCount };
 };
 
-// read notifications only for user
-const readNotificationToDB = async (user: JwtPayload): Promise<INotification | undefined> => {
-     const result: any = await Notification.updateMany({ receiver: user.id, read: false }, { $set: { read: true } });
-     return result;
+// ✅ Mark all notifications as read for user
+const readNotificationToDB = async (user: JwtPayload): Promise<{ modifiedCount: number }> => {
+  const result = await Notification.updateMany(
+    { receiver: user.id, read: false },
+    { $set: { read: true } }
+  );
+
+  return { modifiedCount: result.modifiedCount };
 };
 
-// get notifications for admin
-const adminNotificationFromDB = async () => {
-     const result = await Notification.find({ type: 'ADMIN' });
-     return result;
+// ✅ Get all admin notifications
+const adminNotificationFromDB = async (): Promise<INotification[]> => {
+  const result = await Notification.find({ type: 'ADMIN' }).sort({ createdAt: -1 });
+  return result;
 };
 
-// read notifications only for admin
-const adminReadNotificationToDB = async (): Promise<INotification | null> => {
-     const result: any = await Notification.updateMany({ type: 'ADMIN', read: false }, { $set: { read: true } }, { new: true });
-     return result;
-};
-const adminSendNotificationFromDB = async (payload: any) => {
-     const { title, message, receiver } = payload;
+// ✅ Mark all admin notifications as read
+const adminReadNotificationToDB = async (): Promise<{ modifiedCount: number }> => {
+  const result = await Notification.updateMany(
+    { type: 'ADMIN', read: false },
+    { $set: { read: true } }
+  );
 
-     // Validate input
-     if (!title || !message) {
-          throw new AppError(StatusCodes.BAD_REQUEST, 'Title and message are required');
-     }
-     const notificationData = {
-          title,
-          referenceModel: 'MESSAGE',
-          text: message,
-          type: 'ADMIN',
-          receiver: receiver || null,
-     };
-
-     const result = await sendNotifications(notificationData);
+  return { modifiedCount: result.modifiedCount };
 };
+
+// ✅ Send an admin notification (save to DB + push via Firebase)
+const adminSendNotificationFromDB = async (payload: { title?: string; message: string; receiver?: string }) => {
+  const { title, message, receiver } = payload;
+
+  if (!message) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Message is required');
+  }
+
+  // Save notification in DB
+  const notificationData: Partial<INotification> = {
+    title: title || 'Admin Notification',
+    message,
+    type: 'ADMIN',
+    receiver: receiver ? (receiver as any) : undefined, // cast to ObjectId
+    read: false,
+  };
+
+  const savedNotification = await Notification.create(notificationData);
+
+  // Trigger Firebase push
+  await sendNotifications({
+    title: notificationData.title!,
+    message: notificationData.message,
+    receiver,
+    type: 'ADMIN',
+  });
+
+  return savedNotification;
+};
+
 export const NotificationService = {
-     adminNotificationFromDB,
-     getNotificationFromDB,
-     readNotificationToDB,
-     adminReadNotificationToDB,
-     adminSendNotificationFromDB,
+  adminNotificationFromDB,
+  getNotificationFromDB,
+  readNotificationToDB,
+  adminReadNotificationToDB,
+  adminSendNotificationFromDB,
 };
