@@ -1,0 +1,4 @@
+Sat Sep 27 2025 3:22:56 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Sep 27 2025 3:22:58 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Sep 27 2025 3:22:58 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://127.0.0.1:5001[39m
+Sat Sep 27 2025 3:49:53 [SERVER-NAME] info: [34mSIGINT received. Shutting down gracefully...[39m

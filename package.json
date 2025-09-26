@@ -10,7 +10,7 @@
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier . --write",
     "seed": "ts-node src/seed/seedAdmin.ts",
-    "build": "tsc",
+    "build": "npx tsc",
     "start": "node dist/server.js"
   },
   "keywords": [],
