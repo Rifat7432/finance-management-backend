@@ -31,7 +31,7 @@ const createUserToDB = async (payload: IUser): Promise<IUser> => {
           email: createUser.email!,
      };
      const createAccountTemplate = emailTemplate.createAccount(values);
-     emailHelper.sendEmail(createAccountTemplate);
+     await emailHelper.sendEmail(createAccountTemplate);
 
      //save to DB
      const authentication = {
@@ -81,7 +81,7 @@ const handleAppleAuthentication = async (payload: {
                email: newUser.email,
           };
           const createAccountTemplate = emailTemplate.createAccount(values);
-          emailHelper.sendEmail(createAccountTemplate);
+          await emailHelper.sendEmail(createAccountTemplate);
           // Save OTP for later verification
           const authentication = {
                oneTimeCode: otp,
@@ -98,7 +98,7 @@ const handleAppleAuthentication = async (payload: {
                const otp = generateOTP(4);
                const value = { otp, email: existingUser.email };
                const forgetPassword = emailTemplate.resetPassword(value);
-               emailHelper.sendEmail(forgetPassword);
+               await emailHelper.sendEmail(forgetPassword);
                //save to DB
                const authentication = { oneTimeCode: otp, expireAt: new Date(Date.now() + 3 * 60000) };
                await User.findOneAndUpdate({ email }, { $set: { authentication } });
@@ -155,7 +155,7 @@ const handleGoogleAuthentication = async (payload: { email: string; googleId: st
                email: newUser.email,
           };
           const createAccountTemplate = emailTemplate.createAccount(values);
-          emailHelper.sendEmail(createAccountTemplate);
+          await emailHelper.sendEmail(createAccountTemplate);
 
           // Save OTP for later verification
           const authentication = {
@@ -174,7 +174,7 @@ const handleGoogleAuthentication = async (payload: { email: string; googleId: st
                const otp = generateOTP(4);
                const value = { otp, email: existingUser.email };
                const forgetPassword = emailTemplate.resetPassword(value);
-               emailHelper.sendEmail(forgetPassword);
+               await emailHelper.sendEmail(forgetPassword);
 
                //save to DB
                const authentication = { oneTimeCode: otp, expireAt: new Date(Date.now() + 3 * 60000) };
