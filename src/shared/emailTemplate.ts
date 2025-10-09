@@ -5,52 +5,19 @@ const createAccount = (values: ICreateAccount) => {
           to: values.email,
           subject: 'Verify your account',
           html: `<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">
-    <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
-        <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
-          <h2 style="color: #277E16; font-size: 24px; margin-bottom: 20px;">Hey! ${values.name}, Your Account Credentials</h2>
-        <div style="text-align: center;">
-            <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Your single use code is:</p>
-            <div style="background-color: #277E16; width: 120px; padding: 10px; text-align: center; border-radius: 8px; color: #fff; font-size: 25px; letter-spacing: 2px; margin: 20px auto;">${values.otp}</div>
-            <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">This code is valid for 3 minutes.</p>
-        </div>
-    </div>
-</body>`,
-     };
-     return data;
-};
-const contact = (values: IContact) => {
-     const data = {
-          to: values.email,
-          subject: 'We’ve Received Your Message – Thank You!',
-          html: `<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">      
-      <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-          <img src="https://res.cloudinary.com/ddhhyc6mr/image/upload/v1742293522/buzzy-box-logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
-          <h2 style="color: #277E16; font-size: 24px; margin-bottom: 20px; text-align: center;">Thank You for Contacting Us, ${values.name}!</h2>
-          
-          <p style="color: #555; font-size: 16px; line-height: 1.5; text-align: center;">
-              We have received your message and our team will get back to you as soon as possible.
-          </p>
-          
-          <div style="padding: 15px; background-color: #f4f4f4; border-radius: 8px; margin: 20px 0;">
-              <p style="color: #333; font-size: 16px; font-weight: bold;">Your Message Details:</p>
-              <p><strong>Name:</strong> ${values.name}</p>
-              <p><strong>Email:</strong> ${values.email}</p>
-              <p><strong>Subject:</strong> ${values.subject}</p>
-              <br/>
-              <p><strong>Message:</strong> ${values.message}</p>
-          </div>
-
-          <p style="color: #555; font-size: 14px; text-align: center;">
-              If your inquiry is urgent, feel free to reach out to us directly at 
-              <a href="mailto:support@yourdomain.com" style="color: #277E16; text-decoration: none;">support@yourdomain.com</a>.
-          </p>
-
-          <p style="color: #555; font-size: 14px; text-align: center; margin-top: 20px;">
-              Best Regards, <br/>
-              The [Your Company Name] Team
-          </p>
+  <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
+    <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
+    <h2 style="color: #636AE8; font-size: 24px; margin-bottom: 20px;">Hey! ${values.name}, Your Account Credentials</h2>
+    <div style="text-align: center;">
+      <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Your single use code is:</p>
+      <div style="background-color: #636AE8; width: 120px; padding: 10px; text-align: center; border-radius: 8px; color: #fff; font-size: 25px; letter-spacing: 2px; margin: 20px auto;">
+        ${values.otp}
       </div>
-  </body>`,
+      <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">This code is valid for 3 minutes.</p>
+    </div>
+  </div>
+</body>
+`,
      };
      return data;
 };
@@ -63,7 +30,7 @@ const resetPassword = (values: IResetPassword) => {
         <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
         <div style="text-align: center;">
             <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Your single use code is:</p>
-            <div style="background-color: #277E16; width: 120px; padding: 10px; text-align: center; border-radius: 8px; color: #fff; font-size: 25px; letter-spacing: 2px; margin: 20px auto;">${values.otp}</div>
+            <div style="background-color: #636AE8; width: 120px; padding: 10px; text-align: center; border-radius: 8px; color: #fff; font-size: 25px; letter-spacing: 2px; margin: 20px auto;">${values.otp}</div>
             <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">This code is valid for 3 minutes.</p>
                 <p style="color: #b9b4b4; font-size: 16px; line-height: 1.5; margin-bottom: 20px;text-align:left">If you didn't request this code, you can safely ignore this email. Someone else might have typed your email address by mistake.</p>
         </div>
@@ -82,36 +49,12 @@ const resetPasswordByUrl = (values: IResetPasswordByEmail) => {
         <div style="text-align: center;">
           <h2 style="color: #333;">Reset Your Password</h2>
           <p style="color: #555; font-size: 16px; line-height: 1.5;">We received a request to reset your password. Click the button below to reset it:</p>
-          <a href="${values.resetUrl}" target="_blank" style="display: inline-block; background-color: #277E16; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-size: 18px; margin: 20px auto;">Reset Password</a>
+          <a href="${values.resetUrl}" target="_blank" style="display: inline-block; background-color: #636AE8; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-size: 18px; margin: 20px auto;">Reset Password</a>
           <p style="color: #555; font-size: 16px; line-height: 1.5; margin-top: 20px;">If you didn’t request this, you can ignore this email.</p>
           <p style="color: #b9b4b4; font-size: 14px;">This link will expire in 10 minutes.</p>
         </div>
       </div>
     </body>`,
-     };
-     return data;
-};
-
-const contactFormTemplate = (values: IHelpContact) => {
-     const data = {
-          to: values.email,
-          subject: 'Thank you for reaching out to us',
-          html: `<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">
-    <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-        <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
-        <div style="text-align: center;">
-            <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Hello ${values.name},</p>
-            <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Thank you for reaching out to us. We have received your message:</p>
-            <div style="background-color: #f1f1f1; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px;">
-                <p style="color: #555; font-size: 16px; line-height: 1.5;">"${values.message}"</p>
-            </div>
-            <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">We will get back to you as soon as possible. Below are the details you provided:</p>
-            <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 10px;">Email: ${values.email}</p>
-            <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 10px;">Phone: ${values.phone}</p>
-            <p style="color: #b9b4b4; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">If you need immediate assistance, please feel free to contact us directly at our support number.</p>
-        </div>
-    </div>
-</body>`,
      };
      return data;
 };
@@ -123,12 +66,10 @@ const partnerInvite = (values: IPartnerInvite) => {
         <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">
             <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
                 <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
-                <h2 style="color: #277E16; font-size: 24px; margin-bottom: 20px;">Hi ${values.name}, You've been invited by ${values.inviterName}!</h2>
+                <h2 style="color: #636AE8; font-size: 24px; margin-bottom: 20px;">Hi ${values.name}, You've been invited by ${values.inviterName}!</h2>
                 <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">You’ve been invited to be ${values.inviterName}'s partner on OurApp. Here are your login credentials:</p>
-                <div style="background-color: #277E16; width: 120px; padding: 10px; text-align: center; border-radius: 8px; color: #fff; font-size: 25px; letter-spacing: 2px; margin: 20px auto;">${values.password}</div>
+                <div style="background-color: #636AE8; width: 120px; padding: 10px; text-align: center; border-radius: 8px; color: #fff; font-size: 25px; letter-spacing: 2px; margin: 20px auto;">${values.password}</div>
                 <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Use this password to log in and complete your profile.</p>
-                <p style="color: #555; font-size: 16px; line-height: 1.5;">Click the button below to login to OurApp:</p>
-                <a href="https://ourapp.com/login" target="_blank" style="display: inline-block; background-color: #277E16; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-size: 18px; margin: 20px auto;">Login to OurApp</a>
                 <p style="color: #b9b4b4; font-size: 16px; text-align: center;">If you didn’t request this, you can ignore this email.</p>
             </div>
         </body>`,
@@ -143,15 +84,107 @@ const partnerRequest = (values: IPartnerRequest) => {
         <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">
             <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
                 <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
-                <h2 style="color: #277E16; font-size: 24px; margin-bottom: 20px;">Hi ${values.name},</h2>
+                <h2 style="color: #636AE8; font-size: 24px; margin-bottom: 20px;">Hi ${values.name},</h2>
                 <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">${values.inviterName} wants to make you their partner on OurApp as a ${values.relation}. Please review and respond to this request.</p>
-                <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">If you would like to proceed, click the button below to accept the invitation:</p>
-                <a href="https://ourapp.com/partner-request/accept/${values.requestId}" target="_blank" style="display: inline-block; background-color: #277E16; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-size: 18px; margin: 20px auto;">Accept Invitation</a>
-                <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">If you do not wish to join, click the button below to reject the request:</p>
-                <a href="https://ourapp.com/partner-request/reject/${values.requestId}" target="_blank" style="display: inline-block; background-color: #ff4d4d; color: white; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-size: 18px; margin: 20px auto;">Reject Invitation</a>
                 <p style="color: #b9b4b4; font-size: 16px; text-align: center;">If you didn’t request this, you can ignore this email.</p>
             </div>
         </body>`,
+     };
+     return data;
+};
+const monthlySummary = (values: { email: string; name: string; month: string; income: number; budget: number; expenses: number; disposable: number }) => {
+     const data = {
+          to: values.email,
+          subject: `${values.month} Financial Summary`,
+          html: `
+      <body style="font-family: Arial, sans-serif; background-color:#f9f9f9; margin:40px; padding:20px; color:#555;">
+        <div style="width:100%; max-width:600px; margin:0 auto; padding:20px; background:#fff;
+          border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);">
+          <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo"
+            style="display:block; margin:0 auto 20px; width:150px;" />
+          <h2 style="color:#636AE8; font-size:24px; text-align:center; margin-bottom:20px;">
+            ${values.month} Financial Summary for ${values.name}
+          </h2>
+
+          <div style="background-color:#f4f4f4; padding:15px; border-radius:8px;">
+            <p style="font-size:16px;"><strong>Income:</strong> $${values.income}</p>
+            <p style="font-size:16px;"><strong>Budget:</strong> $${values.budget}</p>
+            <p style="font-size:16px;"><strong>Expenses:</strong> $${values.expenses}</p>
+            <hr style="border:none; border-top:1px solid #ddd; margin:10px 0;">
+            <p style="font-size:16px; color:#636AE8;"><strong>Disposable Income:</strong> $${values.disposable}</p>
+          </div>
+
+          <p style="font-size:15px; text-align:center; margin-top:20px;">
+            Keep tracking your finances and make informed decisions for a better month ahead!
+          </p>
+          <p style="color:#b9b4b4; font-size:13px; text-align:center; margin-top:20px;">This summary was generated automatically.</p>
+        </div>
+      </body>`,
+     };
+     return data;
+};
+const expensesExceedIncome = (values: { email: string; name: string; income: number; totalExpenses: number }) => {
+     const data = {
+          to: values.email,
+          subject: `Your Expenses Are Higher Than Your Income`,
+          html: `
+      <body style="font-family: Arial, sans-serif; background-color:#f9f9f9; margin:40px; padding:20px; color:#555;">
+        <div style="width:100%; max-width:600px; margin:0 auto; padding:20px; background:#fff;
+          border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); text-align:center;">
+          <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo"
+            style="display:block; margin:0 auto 20px; width:150px;" />
+          <h2 style="color:#636AE8; font-size:24px; margin-bottom:20px;">Hey ${values.name},</h2>
+          <p style="font-size:16px; line-height:1.5;">We noticed your total monthly expenses (<strong>$${values.totalExpenses}</strong>) have exceeded your income (<strong>$${values.income}</strong>).</p>
+          <p style="font-size:16px;">Consider reducing spending or updating your budget to stay on track financially.</p>
+          <p style="color:#b9b4b4; font-size:14px; margin-top:20px;">Generated automatically by your finance tracker.</p>
+        </div>
+      </body>`,
+     };
+     return data;
+};
+const budgetExceedsIncome = (values: { email: string; name: string; income: number; totalBudget: number }) => {
+     const data = {
+          to: values.email,
+          subject: `Your Budget Exceeds Your Income`,
+          html: `
+      <body style="font-family: Arial, sans-serif; background-color:#f9f9f9; margin:40px; padding:20px; color:#555;">
+        <div style="width:100%; max-width:600px; margin:0 auto; padding:20px; background:#fff;
+          border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); text-align:center;">
+          <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo"
+            style="display:block; margin:0 auto 20px; width:150px;" />
+          <h2 style="color:#636AE8; font-size:24px; margin-bottom:20px;">Hi ${values.name},</h2>
+          <p style="font-size:16px; line-height:1.5;">Your total monthly budget (<strong>$${values.totalBudget}</strong>) is higher than your income (<strong>$${values.income}</strong>).</p>
+          <p style="font-size:16px;">We recommend adjusting your budget to maintain a healthy balance.</p>
+          <p style="color:#b9b4b4; font-size:14px; margin-top:20px;">This is an automated financial alert.</p>
+        </div>
+      </body>`,
+     };
+     return data;
+};
+const subscriptionEvent = (values: { email: string; name: string; status: 'active' | 'canceled' | 'failed' | 'renewal' | 'phase_changed'; planName: string; nextBillingDate?: string }) => {
+     const eventMessages: Record<typeof values.status, string> = {
+          active: `Your subscription for <strong>${values.planName}</strong> is now active! 🎉`,
+          canceled: `Your subscription for <strong>${values.planName}</strong> has been canceled.`,
+          failed: `We couldn’t process your latest payment for <strong>${values.planName}</strong>. Please update your payment method.`,
+          renewal: `Your subscription for <strong>${values.planName}</strong> has been successfully renewed.`,
+          phase_changed: `Your subscription for <strong>${values.planName}</strong> has moved to a new phase.`,
+     };
+
+     const data = {
+          to: values.email,
+          subject: `Subscription Update: ${values.planName}`,
+          html: `
+      <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 40px; padding: 20px; color: #555;">
+        <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff;
+          border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
+          <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo"
+            style="display: block; margin: 0 auto 20px; width:150px" />
+          <h2 style="color: #636AE8; font-size: 24px; margin-bottom: 20px;">Hi ${values.name},</h2>
+          <p style="font-size: 16px; line-height: 1.5;">${eventMessages[values.status]}</p>
+          ${values.nextBillingDate ? `<p style="color:#555;font-size:15px;">Next Billing Date: <strong>${values.nextBillingDate}</strong></p>` : ''}
+          <p style="color:#b9b4b4; font-size: 14px; margin-top: 20px;">If you didn’t make this change, please contact support immediately.</p>
+        </div>
+      </body>`,
      };
      return data;
 };
@@ -160,8 +193,10 @@ export const emailTemplate = {
      createAccount,
      resetPassword,
      resetPasswordByUrl,
-     contactFormTemplate,
-     contact,
      partnerInvite,
      partnerRequest,
+     monthlySummary,
+     expensesExceedIncome,
+     budgetExceedsIncome,
+     subscriptionEvent,
 };
