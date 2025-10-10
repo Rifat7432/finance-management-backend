@@ -12,6 +12,7 @@ import { AdRouter } from "../app/modules/ad/ad.route";
 import { SubscriptionRoutes } from "../app/modules/subscription/subscription.routes";
 import { PackageRoutes } from "../app/modules/package/package.routes";
 import { AnalyticsRouter } from "../app/modules/analytics/analytics.route";
+import { ContentRouter } from "../app/modules/content/content.route";
 
 const router = Router();
 const routes: { path: string; route: Router }[] = [
@@ -66,6 +67,10 @@ const routes: { path: string; route: Router }[] = [
   {
     path: '/analytics',
     route: AnalyticsRouter,
+  },
+  {
+    path: '/contents',
+    route: ContentRouter,
   },
 ];
 

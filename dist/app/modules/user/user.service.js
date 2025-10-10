@@ -43,7 +43,7 @@ const createUserToDB = (payload) => __awaiter(void 0, void 0, void 0, function* 
         email: createUser.email,
     };
     const createAccountTemplate = emailTemplate_1.emailTemplate.createAccount(values);
-    emailHelper_1.emailHelper.sendEmail(createAccountTemplate);
+    yield emailHelper_1.emailHelper.sendEmail(createAccountTemplate);
     //save to DB
     const authentication = {
         oneTimeCode: otp,
@@ -83,7 +83,7 @@ const handleAppleAuthentication = (payload) => __awaiter(void 0, void 0, void 0,
             email: newUser.email,
         };
         const createAccountTemplate = emailTemplate_1.emailTemplate.createAccount(values);
-        emailHelper_1.emailHelper.sendEmail(createAccountTemplate);
+        yield emailHelper_1.emailHelper.sendEmail(createAccountTemplate);
         // Save OTP for later verification
         const authentication = {
             oneTimeCode: otp,
@@ -100,7 +100,7 @@ const handleAppleAuthentication = (payload) => __awaiter(void 0, void 0, void 0,
             const otp = (0, generateOTP_1.default)(4);
             const value = { otp, email: existingUser.email };
             const forgetPassword = emailTemplate_1.emailTemplate.resetPassword(value);
-            emailHelper_1.emailHelper.sendEmail(forgetPassword);
+            yield emailHelper_1.emailHelper.sendEmail(forgetPassword);
             //save to DB
             const authentication = { oneTimeCode: otp, expireAt: new Date(Date.now() + 3 * 60000) };
             yield user_model_1.User.findOneAndUpdate({ email }, { $set: { authentication } });
@@ -151,7 +151,7 @@ const handleGoogleAuthentication = (payload) => __awaiter(void 0, void 0, void 0
             email: newUser.email,
         };
         const createAccountTemplate = emailTemplate_1.emailTemplate.createAccount(values);
-        emailHelper_1.emailHelper.sendEmail(createAccountTemplate);
+        yield emailHelper_1.emailHelper.sendEmail(createAccountTemplate);
         // Save OTP for later verification
         const authentication = {
             oneTimeCode: otp,
@@ -168,7 +168,7 @@ const handleGoogleAuthentication = (payload) => __awaiter(void 0, void 0, void 0
             const otp = (0, generateOTP_1.default)(4);
             const value = { otp, email: existingUser.email };
             const forgetPassword = emailTemplate_1.emailTemplate.resetPassword(value);
-            emailHelper_1.emailHelper.sendEmail(forgetPassword);
+            yield emailHelper_1.emailHelper.sendEmail(forgetPassword);
             //save to DB
             const authentication = { oneTimeCode: otp, expireAt: new Date(Date.now() + 3 * 60000) };
             yield user_model_1.User.findOneAndUpdate({ email }, { $set: { authentication } });

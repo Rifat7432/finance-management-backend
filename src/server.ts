@@ -17,39 +17,39 @@ let socketServer: SocketServer;
 
 // Function to start the server
 export async function startServer() {
-  try {
-    // Validate config
-    validateConfig();
-    // Connect to the database
-    await connectToDatabase();
-    // Create HTTP server
-    httpServer = createServer(app);
-    const httpPort = Number(config.port);
-    const ipAddress = config.ip_address as string;
+     try {
+          // Validate config
+          validateConfig();
+          // Connect to the database
+          await connectToDatabase();
+          // Create HTTP server
+          httpServer = createServer(app);
+          const httpPort = Number(config.port);
+          const ipAddress = config.ip_address as string;
 
-    // Set timeouts
-    httpServer.timeout = 120000;
-    httpServer.keepAliveTimeout = 5000;
-    httpServer.headersTimeout = 60000;
+          // Set timeouts
+          httpServer.timeout = 120000;
+          httpServer.keepAliveTimeout = 5000;
+          httpServer.headersTimeout = 60000;
 
-    // Set up Socket.io server on the same HTTP server
-    socketServer = new SocketServer(httpServer, {
-      cors: {
-        origin: config.allowed_origins || '*',
-        methods: ['GET', 'POST'],
-        credentials: true,
-      },
-    });
-    socketHelper.socket(socketServer);
+          // Set up Socket.io server on the same HTTP server
+          socketServer = new SocketServer(httpServer, {
+               cors: {
+                    origin: config.allowed_origins || '*',
+                    methods: ['GET', 'POST'],
+                    credentials: true,
+               },
+          });
+          socketHelper.socket(socketServer);
 
-    // Start HTTP server (and socket.io on same port)
-    httpServer.listen(httpPort, ipAddress, () => {
-      logger.info(colors.yellow(`♻️  Application & Socket listening on http://${ipAddress}:${httpPort}`));
-    });
-  } catch (error) {
-    logger.error(colors.red('Failed to start server'), error);
-    process.exit(1);
-  }
+          // Start HTTP server (and socket.io on same port)
+          httpServer.listen(httpPort, ipAddress, () => {
+               logger.info(colors.yellow(`♻️  Application & Socket listening on http://${ipAddress}:${httpPort} or http://localhost:${httpPort} in ${config.node_env} mode`));
+          });
+     } catch (error) {
+          logger.error(colors.red('Failed to start server'), error);
+          process.exit(1);
+     }
 }
 // Set up error handlers
 setupProcessHandlers();

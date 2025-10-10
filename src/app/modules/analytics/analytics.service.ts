@@ -8,10 +8,11 @@ import mongoose from 'mongoose';
 import { SavingGoal } from '../savingGoal/savingGoal.model';
 import { Budget } from '../budget/budget.model';
 import { Expense } from '../expense/expense.model';
+import { Appointment } from '../appointment/appointment.model';
+import { DateNight } from '../dateNight/dateNight.model';
 
 // create user
 const getAnalyticsFromDB = async (userId: string) => {
-     console.log('userId', userId);
      const user = await User.isExistUserById(userId);
      if (!user) {
           throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
@@ -210,72 +211,24 @@ const getAnalyticsFromDB = async (userId: string) => {
      return { user, analytics: result.length > 0 ? result[0] : {}, savingGoalCompletionRate: savingGoalCompletionRate.length > 0 ? savingGoalCompletionRate[0].percentComplete : 0 };
 };
 const getLatestUpdateFromDB = async (userId: string) => {
-     const latestFive = await Budget.aggregate([
-          {
-               $match: { userId: new mongoose.Types.ObjectId(userId) },
-          },
-          {
-               $project: {
-                    name: 1,
-                    amount: 1,
-                    type: { $literal: 'Budget' },
-                    createdAt: 1,
-               },
-          },
-          {
-               $unionWith: {
-                    coll: Expense.collection.name,
-                    pipeline: [
-                         { $match: { userId: new mongoose.Types.ObjectId(userId) } },
-                         {
-                              $project: {
-                                   name: 1,
-                                   amount: 1,
-                                   type: { $literal: 'Expense' },
-                                   createdAt: 1,
-                              },
-                         },
-                    ],
-               },
-          },
-          {
-               $unionWith: {
-                    coll: Income.collection.name,
-                    pipeline: [
-                         { $match: { userId: new mongoose.Types.ObjectId(userId) } },
-                         {
-                              $project: {
-                                   name: 1,
-                                   amount: 1,
-                                   type: { $literal: 'Income' },
-                                   createdAt: 1,
-                              },
-                         },
-                    ],
-               },
-          },
-          {
-               $unionWith: {
-                    coll: SavingGoal.collection.name,
-                    pipeline: [
-                         { $match: { userId: new mongoose.Types.ObjectId(userId) } },
-                         {
-                              $project: {
-                                   name: 1,
-                                   amount: '$totalAmount', // Map totalAmount to amount for consistency
-                                   type: { $literal: 'SavingGoal' },
-                                   createdAt: 1,
-                              },
-                         },
-                    ],
-               },
-          },
-          { $sort: { createdAt: -1 } },
-          { $limit: 5 },
-     ]);
+    const user = await User.isExistUserById(userId);
+    if (!user) {
+        throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
+    }
 
-     return latestFive;
+    const appointments = await Appointment.find({ userId }).sort({ createdAt: -1 });
+    const dateNights = await DateNight.find({ userId }).sort({ createdAt: -1 }).limit(2);
+    const expenses = await Expense.find({ userId }).sort({ createdAt: -1 }).limit(2);
+
+    console.log(appointments, dateNights, expenses);
+
+    return {
+        appointments,
+        dateNights,
+        expenses,
+    };
 };
+
 
 export const AnalyticsService = {
      getAnalyticsFromDB,

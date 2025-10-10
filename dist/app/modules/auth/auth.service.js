@@ -42,7 +42,7 @@ const loginUserFromDB = (payload) => __awaiter(void 0, void 0, void 0, function*
         const otp = (0, generateOTP_1.default)(4);
         const value = { otp, email: isExistUser.email };
         const forgetPassword = emailTemplate_1.emailTemplate.resetPassword(value);
-        emailHelper_1.emailHelper.sendEmail(forgetPassword);
+        yield emailHelper_1.emailHelper.sendEmail(forgetPassword);
         //save to DB
         const authentication = { oneTimeCode: otp, expireAt: new Date(Date.now() + 3 * 60000) };
         yield user_model_1.User.findOneAndUpdate({ email }, { $set: { authentication } });
@@ -72,7 +72,7 @@ const forgetPasswordToDB = (email) => __awaiter(void 0, void 0, void 0, function
     const otp = (0, generateOTP_1.default)(4);
     const value = { otp, email: isExistUser.email };
     const forgetPassword = emailTemplate_1.emailTemplate.resetPassword(value);
-    emailHelper_1.emailHelper.sendEmail(forgetPassword);
+    yield emailHelper_1.emailHelper.sendEmail(forgetPassword);
     //save to DB
     const authentication = { oneTimeCode: otp, expireAt: new Date(Date.now() + 3 * 60000) };
     yield user_model_1.User.findOneAndUpdate({ email }, { $set: { authentication } });
@@ -88,7 +88,7 @@ const resendOtpFromDb = (email) => __awaiter(void 0, void 0, void 0, function* (
     const otp = (0, generateOTP_1.default)(4);
     const values = { name: isExistUser.name, otp: otp, email: isExistUser.email };
     const createAccountTemplate = emailTemplate_1.emailTemplate.createAccount(values);
-    emailHelper_1.emailHelper.sendEmail(createAccountTemplate);
+    yield emailHelper_1.emailHelper.sendEmail(createAccountTemplate);
     //save to DB
     const authentication = { oneTimeCode: otp, expireAt: new Date(Date.now() + 3 * 60000) };
     yield user_model_1.User.findOneAndUpdate({ _id: isExistUser._id }, { $set: { authentication } });
@@ -112,7 +112,7 @@ const forgetPasswordByUrlToDB = (email) => __awaiter(void 0, void 0, void 0, fun
     // Prepare email template
     const forgetPasswordEmail = emailTemplate_1.emailTemplate.resetPasswordByUrl({ email: isExistUser.email, resetUrl });
     // Send reset email
-    yield emailHelper_1.emailHelper.sendEmail(forgetPasswordEmail);
+    yield yield emailHelper_1.emailHelper.sendEmail(forgetPasswordEmail);
 });
 //verify email
 const verifyEmailToDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {

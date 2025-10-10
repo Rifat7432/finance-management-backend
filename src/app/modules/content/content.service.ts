@@ -50,7 +50,7 @@ const createContentToDB = async (payload: any) => {
 };
 
 const getContentsFromDB = async (query: any) => {
-     const contents = await Content.find({ ...(query.category ? { category: query.category } : {}) });
+     const contents = await Content.find({ ...(query.category ? { category: query.category } : {}) ,isDeleted:false});
      if (!contents.length) {
           throw new AppError(StatusCodes.NOT_FOUND, 'No content found');
      }

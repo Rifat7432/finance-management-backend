@@ -1,0 +1,4 @@
+Sat Oct 11 2025 3:4:15 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.063 ms
+Sat Oct 11 2025 3:4:15 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 156.798 ms
+Sat Oct 11 2025 3:44:42 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.235 ms
+Sat Oct 11 2025 3:44:42 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 163.726 ms

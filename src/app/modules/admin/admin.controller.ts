@@ -15,6 +15,16 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
           data: result,
      });
 });
+const getUserSubscriptions = catchAsync(async (req: Request, res: Response) => {
+     const result = await AdminService.getUserSubscriptionsFromDB();
+
+     sendResponse(res, {
+          statusCode: StatusCodes.OK,
+          success: true,
+          message: 'User Subscription Retrieved Successfully',
+          data: result,
+     });
+});
 
 const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
      const payload = req.params.id;
@@ -39,6 +49,7 @@ const getAdmin = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const AdminController = {
+     getUserSubscriptions,
      deleteAdmin,
      createAdmin,
      getAdmin,

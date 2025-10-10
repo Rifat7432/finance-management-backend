@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post(
      '/',
-     auth(USER_ROLES.ADMIN),
+     // auth(USER_ROLES.ADMIN),
      fileUploadHandler(),
      async (req: Request, res: Response, next: NextFunction) => {
           try {
@@ -35,7 +35,7 @@ router.post(
      ContentController.createContent,
 );
 
-router.get('/', auth(USER_ROLES.ADMIN,USER_ROLES.USER), ContentController.getContents);
+router.get('/', auth(USER_ROLES.ADMIN, USER_ROLES.USER), ContentController.getContents);
 
 router.get('/:id', auth(USER_ROLES.ADMIN), ContentController.getSingleContent);
 

@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import AppError from '../../../errors/AppError';
 import { IUser } from '../user/user.interface';
 import { User } from '../user/user.model';
+import { Subscription } from '../subscription/subscription.model';
 
 const createAdminToDB = async (payload: IUser): Promise<IUser> => {
      const createAdmin: any = await User.create(payload);
@@ -14,6 +15,46 @@ const createAdminToDB = async (payload: IUser): Promise<IUser> => {
      return createAdmin;
 };
 
+const getUserSubscriptionsFromDB = async () => {
+     const result = await Subscription.aggregate([
+          {
+               $lookup: {
+                    from: 'users',
+                    localField: 'userId',
+                    foreignField: '_id',
+                    as: 'user',
+               },
+          },
+          { $unwind: '$user' },
+          {
+               $project: {
+                    _id: 0,
+                    name: '$user.name',
+                    email: '$user.email',
+                    phone: { $ifNull: ['$user.phone', '(319) 555-0115'] },
+                    image: '$user.image',
+                    status: {
+                         $switch: {
+                              branches: [
+                                   { case: { $eq: ['$status', 'active'] }, then: 'Active' },
+                                   { case: { $eq: ['$status', 'expired'] }, then: 'Expired' },
+                                   { case: { $eq: ['$status', 'cancel'] }, then: 'Inactive' },
+                                   { case: { $eq: ['$status', 'deactivated'] }, then: 'Inactive' },
+                              ],
+                              default: 'Unknown',
+                         },
+                    },
+                    startDate: '$currentPeriodStart',
+                    endDate: '$currentPeriodEnd',
+               },
+          },
+          {
+               $sort: { startDate: -1 },
+          },
+     ]);
+
+     return result;
+};
 const deleteAdminFromDB = async (id: any): Promise<IUser | undefined> => {
      const isExistAdmin = await User.findByIdAndDelete(id);
      if (!isExistAdmin) {
@@ -31,4 +72,5 @@ export const AdminService = {
      createAdminToDB,
      deleteAdminFromDB,
      getAdminFromDB,
+     getUserSubscriptionsFromDB
 };
