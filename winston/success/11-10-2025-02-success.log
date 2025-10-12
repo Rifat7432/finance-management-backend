@@ -1,9 +1,0 @@
-Sat Oct 11 2025 2:8:26 [SERVER-NAME] info: [32mConfig validation successful.[39m
-Sat Oct 11 2025 2:8:27 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
-Sat Oct 11 2025 2:8:27 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
-Sat Oct 11 2025 2:16:4 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.830 ms
-Sat Oct 11 2025 2:16:4 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 167.773 ms
-Sat Oct 11 2025 2:16:22 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.110 ms
-Sat Oct 11 2025 2:16:22 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 153.828 ms
-Sat Oct 11 2025 2:52:7 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.311 ms
-Sat Oct 11 2025 2:52:8 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 156.876 ms
