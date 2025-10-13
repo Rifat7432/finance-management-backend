@@ -1,0 +1,11 @@
+Mon Oct 13 2025 5:7:0 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/appointments/ 400 - 94.209 ms
+Mon Oct 13 2025 5:7:29 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/appointments/ 400 - 102.787 ms
+Mon Oct 13 2025 5:17:39 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/appointments/? 400 - 79.733 ms
+Mon Oct 13 2025 5:17:51 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/appointments/? 400 - 76.380 ms
+Mon Oct 13 2025 5:18:46 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/appointments/? 400 - 80.784 ms
+Mon Oct 13 2025 5:19:35 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/appointments/all/appointment? 403 - 76.488 ms
+Mon Oct 13 2025 5:19:40 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/appointments/all/appointment? 403 - 75.816 ms
+Mon Oct 13 2025 5:20:30 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/appointments/all/appointment? 400 - 77.483 ms
+Mon Oct 13 2025 5:20:35 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/appointments/all/appointment? 400 - 78.070 ms
+Mon Oct 13 2025 5:21:47 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/appointments/all/appointment? 400 - 154.029 ms
+Mon Oct 13 2025 5:27:7 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/appointments/ 400 - 161.785 ms

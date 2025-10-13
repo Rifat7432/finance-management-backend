@@ -4,9 +4,9 @@ import sendResponse from '../../../shared/sendResponse';
 import { AppointmentService } from './appointment.service';
 
 const createAppointment = catchAsync(async (req, res) => {
-  const { date, time } = req.body;
+
   const userId = req.user?.id;
-  const result = await AppointmentService.createAppointmentToDB(date, time,userId);
+  const result = await AppointmentService.createAppointmentToDB(req.body,userId);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
@@ -26,8 +26,7 @@ const getUserAppointments = catchAsync(async (req, res) => {
   });
 });
 const getAllAppointments = catchAsync(async (req, res) => {
-  const userId = req.user?._id || req.body.userId;
-  const result = await AppointmentService.getAllAppointmentsFromDB();
+  const result = await AppointmentService.getAllAppointmentsFromDB(req.query);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,

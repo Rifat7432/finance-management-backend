@@ -1,0 +1,6 @@
+Mon Oct 13 2025 4:38:41 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/contents/ 400 - 464.175 ms
+Mon Oct 13 2025 4:38:46 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/contents/ 400 - 330.031 ms
+Mon Oct 13 2025 4:38:51 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/contents/ 400 - 332.542 ms
+Mon Oct 13 2025 4:57:7 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/appointments/ 400 - 256.690 ms
+Mon Oct 13 2025 4:57:41 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/appointments/ 400 - 76.258 ms
+Mon Oct 13 2025 4:57:52 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/appointments/ 400 - 74.947 ms

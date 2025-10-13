@@ -13,7 +13,6 @@ const createAppointmentZodSchema = z.object({
     ask: z.string({ required_error: 'Ask is required' }),
     date: z.string({ required_error: 'Date is required' }),
     timeSlot: z.string({ required_error: 'Time slot is required' }),
-    userId: z.string({ required_error: 'User ID is required' }),
   }),
 });
 
@@ -30,7 +29,7 @@ const updateAppointmentZodSchema = z.object({
     ask: z.string().optional(),
     date: z.string().optional(),
     timeSlot: z.string().optional(),
-    userId: z.string().optional(),
+  
   }),
 });
 

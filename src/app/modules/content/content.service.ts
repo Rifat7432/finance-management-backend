@@ -52,7 +52,7 @@ const createContentToDB = async (payload: any) => {
 };
 
 const getContentsFromDB = async (query: any) => {
-     const contents = new QueryBuilder(Content.find(), query).filter().sort().paginate().fields();
+     const contents = new QueryBuilder(Content.find(), {...query, isDeleted: false}).filter().sort().paginate().fields();
      const result = await contents.modelQuery;
      const meta = await contents.countTotal();
 

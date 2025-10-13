@@ -1,0 +1,20 @@
+Mon Oct 13 2025 2:42:45 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.085 ms
+Mon Oct 13 2025 2:42:45 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 168.837 ms
+Mon Oct 13 2025 2:45:13 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Mon Oct 13 2025 2:45:15 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Mon Oct 13 2025 2:45:16 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Mon Oct 13 2025 2:45:16 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Mon Oct 13 2025 2:46:6 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Mon Oct 13 2025 2:46:7 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Mon Oct 13 2025 2:46:7 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Mon Oct 13 2025 2:46:15 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Mon Oct 13 2025 2:46:16 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Mon Oct 13 2025 2:46:16 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Mon Oct 13 2025 2:46:21 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Mon Oct 13 2025 2:46:23 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Mon Oct 13 2025 2:46:28 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Mon Oct 13 2025 2:46:29 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Mon Oct 13 2025 2:46:29 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Mon Oct 13 2025 2:46:32 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Mon Oct 13 2025 2:46:33 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Mon Oct 13 2025 2:46:33 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
