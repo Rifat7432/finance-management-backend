@@ -110,7 +110,7 @@ const forgetPasswordByUrlToDB = async (email: string) => {
      const resetToken = createToken(jwtPayload, config.jwt.jwt_secret as string, config.reset_pass_expire_time as string);
 
      // Construct password reset URL
-     const resetUrl = `${config.frontend_url}/auth/login/set_password?email=${isExistUser.email}&token=${resetToken}`;
+     const resetUrl = `${config.frontend_url}/auth/reset-password?email=${isExistUser.email}&token=${resetToken}`;
 
      // Prepare email template
      const forgetPasswordEmail = emailTemplate.resetPasswordByUrl({ email: isExistUser.email, resetUrl });
@@ -197,6 +197,7 @@ const resetPasswordToDB = async (token: string, payload: IAuthResetPassword) => 
 // reset password by url
 const resetPasswordByUrl = async (token: string, payload: IAuthResetPassword) => {
      const { newPassword, confirmPassword } = payload;
+     console.log(newPassword)
      let decodedToken;
      try {
           decodedToken = await verifyToken(token, config.jwt.jwt_secret as Secret);

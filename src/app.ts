@@ -30,11 +30,12 @@ app.use(Morgan.errorHandler);
 // ----------------------------
 // 🌐 CORS Middleware
 // ----------------------------
+
 app.use(
-     cors({
-          origin: config.allowed_origins || '*',
-          credentials: true,
-     }),
+  cors({
+    origin: "http://localhost:3000", // ✅ no trailing slash
+    credentials: true,
+  })
 );
 
 // ----------------------------

@@ -11,6 +11,7 @@ const auth =
      async (req: Request, res: Response, next: NextFunction) => {
           try {
                const tokenWithBearer = req.headers.authorization;
+            
                if (!tokenWithBearer) {
                     throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized !!');
                }
