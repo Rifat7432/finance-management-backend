@@ -39,9 +39,22 @@ const getInflationCalculator = catchAsync(async (req, res) => {
           data: data,
      });
 });
+// Get Calculator results
+const getHistoricalInflationCalculator = catchAsync(async (req, res) => {
+     const payload = req.body; // Assumes Zod validation runs before this
+     const data = await CalculatorService.inflationCalculatorFromAPI(payload);
+
+     sendResponse(res, {
+          success: true,
+          statusCode: StatusCodes.OK,
+          message: 'Calculator results retrieved successfully',
+          data: data,
+     });
+});
 
 export const CalculatorController = {
      getSavingCalculator,
      getLoanRepaymentCalculator,
      getInflationCalculator,
+     getHistoricalInflationCalculator
 };

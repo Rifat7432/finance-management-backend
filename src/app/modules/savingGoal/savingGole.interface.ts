@@ -5,6 +5,7 @@ export interface ISavingGoal {
      totalAmount: number;
      monthlyTarget: number;
      completionRation:number;
+     savedMoney:number;
      isCompleted: boolean;
      date: string;
      completeDate: string;

@@ -12,6 +12,7 @@ import { stripeWebhookRoute } from './routes/stripeWebhook.route';
 // 👉 Import the cron job here
 import './app/cronJobs/IncomeScheduler'; // ✅ This runs the job on app start
 import './app/cronJobs/ExpensesScheduler'; // ✅ starts Expense scheduler on app start
+import './app/cronJobs/AutoSavingGoalUpdateScheduler'; // ✅ starts Auto Saving Goal Update scheduler on app start
 
 const app: Application = express();
 
@@ -32,10 +33,10 @@ app.use(Morgan.errorHandler);
 // ----------------------------
 
 app.use(
-  cors({
-    origin: "http://localhost:3000", // ✅ no trailing slash
-    credentials: true,
-  })
+     cors({
+          origin: 'http://localhost:3000', // ✅ no trailing slash
+          credentials: true,
+     }),
 );
 
 // ----------------------------

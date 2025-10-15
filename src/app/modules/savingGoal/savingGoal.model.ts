@@ -7,6 +7,7 @@ const savingGoalSchema = new Schema<ISavingGoal>(
           totalAmount: { type: Number, required: true },
           monthlyTarget: { type: Number, required: true },
           completionRation: { type: Number, default: 0 },
+          savedMoney: { type: Number, default: 0 },
           date: { type: String, required: true },
           completeDate: { type: String, required: true },
           userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },

@@ -1,0 +1,66 @@
+Thu Oct 16 2025 4:21:12 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:21:13 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:21:13 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:32:58 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:32:58 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:32:58 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:33:15 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:33:17 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:33:18 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:33:18 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:33:25 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:33:25 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:33:25 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:35:2 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:35:3 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:35:3 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:35:6 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:35:7 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:35:7 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:35:14 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:35:16 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:35:16 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:35:16 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:37:18 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:37:19 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:37:19 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:37:23 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:37:24 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:37:24 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:37:26 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:37:26 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:37:26 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:39:22 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/calculator/saving-calculator 200 - 225.055 ms
+Thu Oct 16 2025 4:39:56 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/calculator/saving-calculator 200 - 50.330 ms
+Thu Oct 16 2025 4:42:41 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/calculator/loan-repayment-calculator 200 - 50.637 ms
+Thu Oct 16 2025 4:44:47 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/calculator/inflation-calculator 200 - 48.776 ms
+Thu Oct 16 2025 4:47:9 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/calculator/historical-inflation-calculator 200 - 382.522 ms
+Thu Oct 16 2025 4:47:36 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:47:37 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:47:37 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:49:33 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/analytics/user-last-update 200 - 241.667 ms
+Thu Oct 16 2025 4:53:26 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:53:27 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:53:27 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:53:30 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:53:31 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:53:31 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:53:43 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:53:44 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:53:45 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:53:45 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:53:47 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:53:47 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:53:47 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:54:8 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:54:9 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:54:9 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:54:17 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:54:18 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:54:18 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:56:1 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/debts/insights 200 - 83.423 ms
+Thu Oct 16 2025 4:56:54 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:57:0 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Oct 16 2025 4:57:1 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Thu Oct 16 2025 4:57:1 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
+Thu Oct 16 2025 4:57:8 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/debts/ 200 - 118.795 ms

@@ -11,7 +11,7 @@ const auth =
      async (req: Request, res: Response, next: NextFunction) => {
           try {
                const tokenWithBearer = req.headers.authorization;
-            
+
                if (!tokenWithBearer) {
                     throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized !!');
                }
@@ -39,7 +39,7 @@ const auth =
                     }
 
                     if (user?.isDeleted) {
-                         throw new AppError(StatusCodes.FORBIDDEN, 'This user accaunt is deleted !!');
+                         throw new AppError(StatusCodes.FORBIDDEN, 'This user account is deleted !!');
                     }
 
                     //guard user
@@ -50,6 +50,8 @@ const auth =
                     //set user to header
                     req.user = verifyUser;
                     next();
+               } else {
+                    throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized !!');
                }
           } catch (error) {
                next(error);
