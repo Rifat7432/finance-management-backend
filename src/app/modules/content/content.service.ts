@@ -6,6 +6,7 @@ import { NotificationSettings } from '../notificationSettings/notificationSettin
 import { Notification } from '../notification/notification.model';
 import { firebaseHelper } from '../../../helpers/firebaseHelper';
 import QueryBuilder from '../../builder/QueryBuilder';
+import { deleteFileFromS3 } from '../../middleware/uploadFileToS3';
 
 const createContentToDB = async (payload: any) => {
      const newContent = await Content.create(payload);
@@ -71,6 +72,10 @@ const updateContentToDB = async (id: string, payload: any) => {
      const content = await Content.findById(id);
      if (!content || content.isDeleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Content not found or deleted');
+     }
+          //unlink file here
+     if (payload.videoUrl) {
+          deleteFileFromS3(content.videoUrl);
      }
      const updated = await Content.findByIdAndUpdate(id, payload, { new: true });
      if (!updated) {

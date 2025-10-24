@@ -19,6 +19,8 @@ const content_model_1 = require("./content.model");
 const notificationSettings_model_1 = require("../notificationSettings/notificationSettings.model");
 const notification_model_1 = require("../notification/notification.model");
 const firebaseHelper_1 = require("../../../helpers/firebaseHelper");
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
+const uploadFileToS3_1 = require("../../middleware/uploadFileToS3");
 const createContentToDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const newContent = yield content_model_1.Content.create(payload);
     if (!newContent) {
@@ -50,11 +52,10 @@ const createContentToDB = (payload) => __awaiter(void 0, void 0, void 0, functio
     return newContent;
 });
 const getContentsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const contents = yield content_model_1.Content.find(Object.assign({}, (query.category ? { category: query.category } : {})));
-    if (!contents.length) {
-        throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'No content found');
-    }
-    return contents;
+    const contents = new QueryBuilder_1.default(content_model_1.Content.find(), Object.assign(Object.assign({}, query), { isDeleted: false })).filter().sort().paginate().fields();
+    const result = yield contents.modelQuery;
+    const meta = yield contents.countTotal();
+    return { meta, result };
 });
 const getSingleContentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const content = yield content_model_1.Content.findById(id);
@@ -67,6 +68,10 @@ const updateContentToDB = (id, payload) => __awaiter(void 0, void 0, void 0, fun
     const content = yield content_model_1.Content.findById(id);
     if (!content || content.isDeleted) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'Content not found or deleted');
+    }
+    //unlink file here
+    if (payload.videoUrl) {
+        (0, uploadFileToS3_1.deleteFileFromS3)(content.videoUrl);
     }
     const updated = yield content_model_1.Content.findByIdAndUpdate(id, payload, { new: true });
     if (!updated) {

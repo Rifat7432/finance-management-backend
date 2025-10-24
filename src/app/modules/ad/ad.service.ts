@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { Ad } from './ad.model';
 import AppError from '../../../errors/AppError';
 import { IAd } from './ad.interface';
+import { deleteFileFromS3 } from '../../middleware/uploadFileToS3';
 
 const createAdToDB = async (payload: IAd): Promise<IAd> => {
      const newAd = await Ad.create(payload);
@@ -38,6 +39,9 @@ const updateAdToDB = async (id: string, payload: Partial<IAd>): Promise<IAd | nu
      const ad = await Ad.findById(id);
      if (!ad || ad.isDeleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Ad not found or deleted');
+     }
+     if (payload.url) {
+          deleteFileFromS3(ad.url);
      }
      const updated = await Ad.findByIdAndUpdate(id, payload, { new: true });
      if (!updated) {

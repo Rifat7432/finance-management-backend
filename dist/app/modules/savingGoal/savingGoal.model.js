@@ -7,6 +7,7 @@ const savingGoalSchema = new mongoose_1.Schema({
     totalAmount: { type: Number, required: true },
     monthlyTarget: { type: Number, required: true },
     completionRation: { type: Number, default: 0 },
+    savedMoney: { type: Number, default: 0 },
     date: { type: String, required: true },
     completeDate: { type: String, required: true },
     userId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true },

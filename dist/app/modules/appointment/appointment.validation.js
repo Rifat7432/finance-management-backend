@@ -15,7 +15,6 @@ const createAppointmentZodSchema = zod_1.z.object({
         ask: zod_1.z.string({ required_error: 'Ask is required' }),
         date: zod_1.z.string({ required_error: 'Date is required' }),
         timeSlot: zod_1.z.string({ required_error: 'Time slot is required' }),
-        userId: zod_1.z.string({ required_error: 'User ID is required' }),
     }),
 });
 const updateAppointmentZodSchema = zod_1.z.object({
@@ -31,7 +30,6 @@ const updateAppointmentZodSchema = zod_1.z.object({
         ask: zod_1.z.string().optional(),
         date: zod_1.z.string().optional(),
         timeSlot: zod_1.z.string().optional(),
-        userId: zod_1.z.string().optional(),
     }),
 });
 exports.AppointmentValidation = {

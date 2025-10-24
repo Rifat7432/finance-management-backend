@@ -27,6 +27,15 @@ const createAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
         data: result,
     });
 }));
+const getUserSubscriptions = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield admin_service_1.AdminService.getUserSubscriptionsFromDB();
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        success: true,
+        message: 'User Subscription Retrieved Successfully',
+        data: result,
+    });
+}));
 const deleteAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const payload = req.params.id;
     const result = yield admin_service_1.AdminService.deleteAdminFromDB(payload);
@@ -47,6 +56,7 @@ const getAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 
     });
 }));
 exports.AdminController = {
+    getUserSubscriptions,
     deleteAdmin,
     createAdmin,
     getAdmin,

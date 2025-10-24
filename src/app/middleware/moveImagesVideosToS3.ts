@@ -1,4 +1,5 @@
-import uploadFileToS3 from './uploadFileToS3';
+import { uploadFileToS3 } from "./uploadFileToS3";
+
 
 const moveImagesVideosToS3 = async (files: any) => {
      const s3Paths: Record<string, any> = {};

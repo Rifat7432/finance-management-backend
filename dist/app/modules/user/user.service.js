@@ -17,12 +17,12 @@ const http_status_codes_1 = require("http-status-codes");
 const user_1 = require("../../../enums/user");
 const emailHelper_1 = require("../../../helpers/emailHelper");
 const emailTemplate_1 = require("../../../shared/emailTemplate");
-const unlinkFile_1 = __importDefault(require("../../../shared/unlinkFile"));
 const user_model_1 = require("./user.model");
 const AppError_1 = __importDefault(require("../../../errors/AppError"));
 const generateOTP_1 = __importDefault(require("../../../utils/generateOTP"));
 const config_1 = __importDefault(require("../../../config"));
 const jwtHelper_1 = require("../../../helpers/jwtHelper");
+const uploadFileToS3_1 = require("../../middleware/uploadFileToS3");
 // create user
 const createUserToDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     //set role
@@ -190,7 +190,7 @@ const handleGoogleAuthentication = (payload) => __awaiter(void 0, void 0, void 0
 const getUserProfileFromDB = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = user;
     const isExistUser = yield user_model_1.User.isExistUserById(id);
-    if (!isExistUser) {
+    if (!isExistUser && isExistUser.isDeleted === true) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, "User doesn't exist!");
     }
     return isExistUser;
@@ -199,12 +199,12 @@ const getUserProfileFromDB = (user) => __awaiter(void 0, void 0, void 0, functio
 const updateProfileToDB = (user, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = user;
     const isExistUser = yield user_model_1.User.isExistUserById(id);
-    if (!isExistUser) {
+    if (!isExistUser && isExistUser.isDeleted === true) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, "User doesn't exist!");
     }
     //unlink file here
     if (payload.image) {
-        (0, unlinkFile_1.default)(isExistUser.image);
+        (0, uploadFileToS3_1.deleteFileFromS3)(isExistUser.image);
     }
     const updateDoc = yield user_model_1.User.findOneAndUpdate({ _id: id }, payload, {
         new: true,

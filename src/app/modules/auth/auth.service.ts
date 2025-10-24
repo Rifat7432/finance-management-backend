@@ -166,7 +166,7 @@ const verifyEmailToDB = async (payload: IVerifyEmail) => {
 const resetPasswordToDB = async (token: string, payload: IAuthResetPassword) => {
      const { newPassword, confirmPassword } = payload;
      //isExist token
-     const isExistToken = await ResetToken.isExistToken(token);
+     const isExistToken = await ResetToken.findOne({token});
      if (!isExistToken) {
           throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized');
      }

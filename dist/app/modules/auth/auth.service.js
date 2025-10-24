@@ -108,7 +108,7 @@ const forgetPasswordByUrlToDB = (email) => __awaiter(void 0, void 0, void 0, fun
     const jwtPayload = { id: isExistUser._id, email: isExistUser.email, role: isExistUser.role };
     const resetToken = (0, createToken_1.createToken)(jwtPayload, config_1.default.jwt.jwt_secret, config_1.default.reset_pass_expire_time);
     // Construct password reset URL
-    const resetUrl = `${config_1.default.frontend_url}/auth/login/set_password?email=${isExistUser.email}&token=${resetToken}`;
+    const resetUrl = `${config_1.default.frontend_url}/auth/reset-password?email=${isExistUser.email}&token=${resetToken}`;
     // Prepare email template
     const forgetPasswordEmail = emailTemplate_1.emailTemplate.resetPasswordByUrl({ email: isExistUser.email, resetUrl });
     // Send reset email
@@ -158,7 +158,7 @@ const resetPasswordToDB = (token, payload) => __awaiter(void 0, void 0, void 0, 
     var _a;
     const { newPassword, confirmPassword } = payload;
     //isExist token
-    const isExistToken = yield resetToken_model_1.ResetToken.isExistToken(token);
+    const isExistToken = yield resetToken_model_1.ResetToken.findOne({ token });
     if (!isExistToken) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.UNAUTHORIZED, 'You are not authorized');
     }
@@ -183,6 +183,7 @@ const resetPasswordToDB = (token, payload) => __awaiter(void 0, void 0, void 0, 
 // reset password by url
 const resetPasswordByUrl = (token, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { newPassword, confirmPassword } = payload;
+    console.log(newPassword);
     let decodedToken;
     try {
         decodedToken = yield (0, verifyToken_1.verifyToken)(token, config_1.default.jwt.jwt_secret);

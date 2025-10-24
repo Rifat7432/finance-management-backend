@@ -14,6 +14,8 @@ const ad_route_1 = require("../app/modules/ad/ad.route");
 const subscription_routes_1 = require("../app/modules/subscription/subscription.routes");
 const package_routes_1 = require("../app/modules/package/package.routes");
 const analytics_route_1 = require("../app/modules/analytics/analytics.route");
+const content_route_1 = require("../app/modules/content/content.route");
+const calculator_route_1 = require("../app/modules/calculator/calculator.route");
 const router = (0, express_1.Router)();
 const routes = [
     {
@@ -67,6 +69,14 @@ const routes = [
     {
         path: '/analytics',
         route: analytics_route_1.AnalyticsRouter,
+    },
+    {
+        path: '/contents',
+        route: content_route_1.ContentRouter,
+    },
+    {
+        path: '/calculator',
+        route: calculator_route_1.CalculatorRouter,
     },
 ];
 routes.forEach((element) => {

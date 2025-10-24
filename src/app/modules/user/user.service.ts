@@ -10,6 +10,7 @@ import AppError from '../../../errors/AppError';
 import generateOTP from '../../../utils/generateOTP';
 import config from '../../../config';
 import { jwtHelper } from '../../../helpers/jwtHelper';
+import { deleteFileFromS3 } from '../../middleware/uploadFileToS3';
 // create user
 const createUserToDB = async (payload: IUser): Promise<IUser> => {
      //set role
@@ -203,7 +204,7 @@ const handleGoogleAuthentication = async (payload: { email: string; googleId: st
 const getUserProfileFromDB = async (user: JwtPayload): Promise<Partial<IUser>> => {
      const { id } = user;
      const isExistUser = await User.isExistUserById(id);
-     if (!isExistUser) {
+     if (!isExistUser && isExistUser.isDeleted === true) {
           throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
      }
 
@@ -214,13 +215,13 @@ const getUserProfileFromDB = async (user: JwtPayload): Promise<Partial<IUser>> =
 const updateProfileToDB = async (user: JwtPayload, payload: Partial<IUser>): Promise<Partial<IUser | null>> => {
      const { id } = user;
      const isExistUser = await User.isExistUserById(id);
-     if (!isExistUser) {
+     if (!isExistUser && isExistUser.isDeleted === true) {
           throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
      }
 
      //unlink file here
      if (payload.image) {
-          unlinkFile(isExistUser.image);
+          deleteFileFromS3(isExistUser.image);
      }
 
      const updateDoc = await User.findOneAndUpdate({ _id: id }, payload, {

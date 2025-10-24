@@ -8,7 +8,7 @@ exports.createUserZodSchema = zod_1.z.object({
         email: zod_1.z.string({ required_error: 'Email is required' }).email('Invalid email address'),
         password: zod_1.z.string({ required_error: 'Password is required' }).min(8, 'Password must be at least 8 characters long'),
         phone: (0, zod_1.string)().default(''),
-        image: zod_1.z.string(),
+        image: zod_1.z.string().optional(),
     }),
 });
 const updateUserZodSchema = zod_1.z.object({

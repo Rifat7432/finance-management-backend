@@ -45,7 +45,7 @@ const auth = (...roles) => (req, res, next) => __awaiter(void 0, void 0, void 0,
                 throw new AppError_1.default(http_status_codes_1.StatusCodes.FORBIDDEN, 'This user is blocked !!');
             }
             if (user === null || user === void 0 ? void 0 : user.isDeleted) {
-                throw new AppError_1.default(http_status_codes_1.StatusCodes.FORBIDDEN, 'This user accaunt is deleted !!');
+                throw new AppError_1.default(http_status_codes_1.StatusCodes.FORBIDDEN, 'This user account is deleted !!');
             }
             //guard user
             if (roles.length && !roles.includes(verifyUser === null || verifyUser === void 0 ? void 0 : verifyUser.role)) {
@@ -54,6 +54,9 @@ const auth = (...roles) => (req, res, next) => __awaiter(void 0, void 0, void 0,
             //set user to header
             req.user = verifyUser;
             next();
+        }
+        else {
+            throw new AppError_1.default(http_status_codes_1.StatusCodes.UNAUTHORIZED, 'You are not authorized !!');
         }
     }
     catch (error) {

@@ -19,9 +19,8 @@ const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const appointment_service_1 = require("./appointment.service");
 const createAppointment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const { date, time } = req.body;
     const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
-    const result = yield appointment_service_1.AppointmentService.createAppointmentToDB(date, time, userId);
+    const result = yield appointment_service_1.AppointmentService.createAppointmentToDB(req.body, userId);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_codes_1.StatusCodes.OK,
@@ -41,9 +40,7 @@ const getUserAppointments = (0, catchAsync_1.default)((req, res) => __awaiter(vo
     });
 }));
 const getAllAppointments = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const userId = ((_a = req.user) === null || _a === void 0 ? void 0 : _a._id) || req.body.userId;
-    const result = yield appointment_service_1.AppointmentService.getAllAppointmentsFromDB();
+    const result = yield appointment_service_1.AppointmentService.getAllAppointmentsFromDB(req.query);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_codes_1.StatusCodes.OK,
