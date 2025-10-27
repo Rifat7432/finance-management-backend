@@ -7,16 +7,26 @@ import { SubscriptionController } from './subscription.controller';
 
 const router = express.Router();
 
-// 🟢 Create Subscription
-router.post('/', auth(USER_ROLES.USER), validateRequest(SubscriptionValidation.createSubscriptionZodSchema), SubscriptionController.createSubscription);
+// 🟢 Create subscription
+router.post(
+  '/',
+  auth(USER_ROLES.USER),
+  validateRequest(SubscriptionValidation.createSubscriptionZodSchema),
+  SubscriptionController.createSubscription
+);
 
-// 🟣 Get Subscription Status
-router.get('/', auth(USER_ROLES.USER), SubscriptionController.getSubscriptionStatus);
+// 🔵 Webhook (RevenueCat server only)
+router.post(
+  '/webhook',
+  validateRequest(SubscriptionValidation.webhookZodSchema),
+  SubscriptionController.handleWebhook
+);
 
-// // 🔵 Webhook (no auth - Adapty server only)
-// router.post('/webhook', validateRequest(SubscriptionValidation.webhookZodSchema), SubscriptionController.handleWebhook);
-
-// 🟠 Manual Verify
-router.post('/verify/:userId', validateRequest(SubscriptionValidation.verifySubscriptionZodSchema), SubscriptionController.verifySubscription);
+// 🟠 Manual verify
+router.post(
+  '/verify/:userId',
+  validateRequest(SubscriptionValidation.verifySubscriptionZodSchema),
+  SubscriptionController.verifySubscription
+);
 
 export const SubscriptionRouter = router;

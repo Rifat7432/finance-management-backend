@@ -3,7 +3,7 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { SubscriptionService } from './subscription.service';
 
-// 🟢 Create Subscription
+// 🟢 Create subscription
 const createSubscription = catchAsync(async (req, res) => {
   const user = req.user;
   const result = await SubscriptionService.createSubscriptionToDB(user.id, req.body);
@@ -15,21 +15,17 @@ const createSubscription = catchAsync(async (req, res) => {
   });
 });
 
-// 🟣 Get Subscription Status
-const getSubscriptionStatus = catchAsync(async (req, res) => {
-  const user = req.user;
-  const result = await SubscriptionService.getSubscriptionStatusFromDB(user.id);
+// 🔵 RevenueCat webhook
+const handleWebhook = catchAsync(async (req, res) => {
+  await SubscriptionService.handleWebhookEventToDB(req.body);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
-    message: 'Subscription status retrieved successfully',
-    data: result,
+    message: 'Webhook processed successfully',
   });
 });
 
-
-
-// 🟠 Manual Verify
+// 🟠 Manual verify (optional)
 const verifySubscription = catchAsync(async (req, res) => {
   const { userId } = req.params;
   const result = await SubscriptionService.verifySubscriptionToDB(userId);
@@ -43,6 +39,6 @@ const verifySubscription = catchAsync(async (req, res) => {
 
 export const SubscriptionController = {
   createSubscription,
-  getSubscriptionStatus,
+  handleWebhook,
   verifySubscription,
 };

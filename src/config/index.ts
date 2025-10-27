@@ -42,7 +42,7 @@ export default {
           authToken: process.env.TWILIO_AUTH_TOKEN || '',
           phoneNumber: process.env.TWILIO_PHONE_NUMBER || '',
      },
-     adapty_secret_key: process.env.ADAPTEE_SECRET_KYE,
+     revenuecat_secret_key: process.env.REVENUECAT_SECRET_KYE,
 
      super_admin: {
           email: process.env.SUPER_ADMIN_EMAIL,
