@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import stripe from '../../config/stripe';
+import stripe from '../../config/adapty';
 import AppError from '../../errors/AppError';
 
 export const updateSubscriptionProduct = async (subscriptionId: string, newPriceId: string) => {

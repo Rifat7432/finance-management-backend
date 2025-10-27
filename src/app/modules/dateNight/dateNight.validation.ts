@@ -8,7 +8,6 @@ const createDateNightZodSchema = z.object({
     date: z.string().optional(),
     time: z.string().optional(),
     location: z.string().optional(),
-    enableNotification: z.boolean().default(false),
   }),
 });
 
@@ -20,7 +19,6 @@ const updateDateNightZodSchema = z.object({
     date: z.string().optional(),
     time: z.string().optional(),
     location: z.string().optional(),
-    enableNotification: z.boolean().optional(),
   }),
 });
 

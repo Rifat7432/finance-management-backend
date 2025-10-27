@@ -1,108 +1,48 @@
-import catchAsync from '../../../shared/catchAsync';
-import { SubscriptionService } from './subscription.service';
-import sendResponse from '../../../shared/sendResponse';
 import { StatusCodes } from 'http-status-codes';
+import catchAsync from '../../../shared/catchAsync';
+import sendResponse from '../../../shared/sendResponse';
+import { SubscriptionService } from './subscription.service';
 
-const subscriptions = catchAsync(async (req, res) => {
-     const result = await SubscriptionService.subscriptionsFromDB(req.query);
-     sendResponse(res, {
-          statusCode: StatusCodes.OK,
-          success: true,
-          message: 'Subscription list retrieved successfully',
-          data: result,
-     });
-});
-
-const subscriptionDetails = catchAsync(async (req, res) => {
-     const { id }: any = req.user;
-     const result = await SubscriptionService.subscriptionDetailsFromDB(id);
-     sendResponse(res, {
-          statusCode: StatusCodes.OK,
-          success: true,
-          message: 'Subscription details retrieved successfully',
-          data: result.subscription,
-     });
-});
-
-const cancelSubscription = catchAsync(async (req, res) => {
-     const { id }: any = req.user;
-     const result = await SubscriptionService.cancelSubscriptionToDB(id);
-
-     sendResponse(res, {
-          statusCode: StatusCodes.OK,
-          success: true,
-          message: 'Cancel subscription successfully',
-          data: result,
-     });
-});
-// create subscription intents
-const createSubscriptionSetup = catchAsync(async (req, res) => {
-     const { id }: any = req.user;
-     const packageId = req.params.id;
-     const result = await SubscriptionService.createSubscriptionSetupIntoDB(id, packageId);
-
-     sendResponse(res, {
-          statusCode: StatusCodes.OK,
-          success: true,
-          message: 'Create Intent successfully',
-          data: {
-               customerId: result.customerId,
-               clientSecret: result.clientSecret,
-          },
-     });
-});
-//create subscription
+// 🟢 Create Subscription
 const createSubscription = catchAsync(async (req, res) => {
-     const { id }: any = req.user;
-     const packageId = req.params.id;
-     const result = await SubscriptionService.createSubscriptionIntoDB({
-          userId: id,
-          paymentMethodId: req.body.paymentMethodId,
-          packageId,
-     });
-
-     sendResponse(res, {
-          statusCode: StatusCodes.OK,
-          success: true,
-          message: 'Create checkout session successfully',
-          data: {
-               subscriptionId: result.subscriptionId,
-               clientSecret: result.clientSecret,
-          },
-     });
+  const user = req.user;
+  const result = await SubscriptionService.createSubscriptionToDB(user.id, req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.CREATED,
+    message: 'Subscription created successfully',
+    data: result,
+  });
 });
 
-// update subscriptions
-const updateSubscription = catchAsync(async (req, res) => {
-     const { id }: any = req.user;
-     const packageId = req.params.id;
-     const result = await SubscriptionService.upgradeSubscriptionToDB(id, packageId);
+// 🟣 Get Subscription Status
+const getSubscriptionStatus = catchAsync(async (req, res) => {
+  const user = req.user;
+  const result = await SubscriptionService.getSubscriptionStatusFromDB(user.id);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Subscription status retrieved successfully',
+    data: result,
+  });
+});
 
-     sendResponse(res, {
-          statusCode: StatusCodes.OK,
-          success: true,
-          message: 'Subscription upgraded successfully',
-          data: {
-               url: result.subscriptionId,
-          },
-     });
+
+
+// 🟠 Manual Verify
+const verifySubscription = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+  const result = await SubscriptionService.verifySubscriptionToDB(userId);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Subscription verified successfully',
+    data: result,
+  });
 });
-const orderSuccess = catchAsync(async (req, res) => {
-     const sessionId = req.query.session_id as string;
-     const session = await SubscriptionService.successMessage(sessionId);
-     res.render('success', { session });
-});
-// Assuming you have OrderServices imported properly
-const orderCancel = catchAsync(async (req, res) => {
-     res.render('cancel');
-});
+
 export const SubscriptionController = {
-     subscriptions,
-     subscriptionDetails,
-     updateSubscription,
-     cancelSubscription,
-     orderSuccess,
-     orderCancel,
-     createSubscription,
-     createSubscriptionSetup,
+  createSubscription,
+  getSubscriptionStatus,
+  verifySubscription,
 };

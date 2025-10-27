@@ -3,7 +3,7 @@ import { IPackage } from './package.interface';
 import { Package } from './package.model';
 import mongoose from 'mongoose';
 import { createSubscriptionProduct } from '../../../helpers/stripe/createSubscriptionProductHelper';
-import stripe from '../../../config/stripe';
+import stripe from '../../../config/adapty';
 import AppError from '../../../errors/AppError';
 import { updateSubscriptionInfo } from '../../../helpers/stripe/updateSubscriptionProductInfo';
 import QueryBuilder from '../../builder/QueryBuilder';

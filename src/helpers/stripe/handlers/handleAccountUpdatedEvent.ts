@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import Stripe from 'stripe';
-import stripe from '../../../config/stripe';
+import stripe from '../../../config/adapty';
 import AppError from '../../../errors/AppError';
 const User: any = '';
 

@@ -7,7 +7,7 @@ import { handleSubscriptionUpdated } from './handlers/handleSubscriptionUpdated'
 import { StatusCodes } from 'http-status-codes';
 import { logger } from '../../shared/logger';
 import config from '../../config';
-import stripe from '../../config/stripe';
+import stripe from '../../config/adapty';
 import AppError from '../../errors/AppError';
 import { User } from '../../app/modules/user/user.model';
 

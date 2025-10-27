@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
-import stripe from '../../config/stripe';
+import stripe from '../../config/adapty';
 import { IPackage } from '../../app/modules/package/package.interface';
 
 export const updateSubscriptionInfo = async (

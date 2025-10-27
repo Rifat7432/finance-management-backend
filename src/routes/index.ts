@@ -14,6 +14,7 @@ import { PackageRoutes } from '../app/modules/package/package.routes';
 import { AnalyticsRouter } from '../app/modules/analytics/analytics.route';
 import { ContentRouter } from '../app/modules/content/content.route';
 import { CalculatorRouter } from '../app/modules/calculator/calculator.route';
+import { DateNightRouter } from '../app/modules/dateNight/dateNight.route';
 
 const router = Router();
 const routes: { path: string; route: Router }[] = [
@@ -76,6 +77,10 @@ const routes: { path: string; route: Router }[] = [
      {
           path: '/calculator',
           route: CalculatorRouter,
+     },
+     {
+          path: '/date-nights',
+          route: DateNightRouter,
      },
 ];
 

@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import Stripe from 'stripe';
-import stripe from '../../../config/stripe';
+import stripe from '../../../config/adapty';
 import AppError from '../../../errors/AppError';
 import { Subscription } from '../../../app/modules/subscription/subscription.model';
 import { User } from '../../../app/modules/user/user.model';

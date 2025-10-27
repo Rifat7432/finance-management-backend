@@ -42,21 +42,16 @@ export default {
           authToken: process.env.TWILIO_AUTH_TOKEN || '',
           phoneNumber: process.env.TWILIO_PHONE_NUMBER || '',
      },
-     stripe: {
-          stripe_secret_key: process.env.STRIPE_SECRET_KYE,
-          paymentSuccess_url: process.env.STRIPE_PAYMENT_SUCCESS_URL,
-          stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
-          stripe_webhook_url: process.env.STRIPE_WEBHOOK_URL,
-          stripe_product_id: process.env.STRIPE_PRODUCT_ID,
-     },
+     adapty_secret_key: process.env.ADAPTEE_SECRET_KYE,
+
      super_admin: {
           email: process.env.SUPER_ADMIN_EMAIL,
           password: process.env.SUPER_ADMIN_PASSWORD,
      },
-     aws:{
+     aws: {
           AWS_REGION: process.env.AWS_REGION,
           AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
           AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
           AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME,
-     }
+     },
 };
