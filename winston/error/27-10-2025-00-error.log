@@ -1,6 +1,0 @@
-Mon Oct 27 2025 0:50:38 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/expenses/ 401 - 178.956 ms
-Mon Oct 27 2025 0:51:25 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/date-nights/ 401 - 1.471 ms
-Mon Oct 27 2025 0:51:41 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/date-nights/ 401 - 0.901 ms
-Mon Oct 27 2025 0:55:21 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/date-nights/ 401 - 2.320 ms
-Mon Oct 27 2025 0:56:4 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/analytics/ 401 - 0.870 ms
-Mon Oct 27 2025 0:56:25 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/analytics/user-last-update 401 - 0.910 ms

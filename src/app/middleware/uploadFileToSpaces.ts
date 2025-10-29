@@ -1,19 +1,22 @@
-import { PutObjectCommand, DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { v4 as uuidv4 } from 'uuid';
 import mime from 'mime-types';
 import fs from 'fs';
 import path from 'path';
 import config from '../../config';
 
-const s3 = new S3Client({
-     region: config.aws.AWS_REGION,
+// 🟦 DigitalOcean Spaces client setup
+const spacesClient = new S3Client({
+     region: 'us-east-1',
+     endpoint: `https://${config.spaces.SPACES_ENDPOINT}`,
      credentials: {
-          accessKeyId: config.aws.AWS_ACCESS_KEY_ID!,
-          secretAccessKey: config.aws.AWS_SECRET_ACCESS_KEY!,
+          accessKeyId: config.spaces.SPACES_KEY!,
+          secretAccessKey: config.spaces.SPACES_SECRET!,
      },
 });
-// 🔹 Upload local file → S3 → always remove local temp file (even on error)
-const uploadFileToS3 = async (localFilePath: string) => {
+
+// 🔹 Upload local file → DigitalOcean Spaces → always remove local temp file
+const uploadFileToSpaces = async (localFilePath: string) => {
      if (!fs.existsSync(localFilePath)) {
           throw new Error(`Local file not found: ${localFilePath}`);
      }
@@ -32,28 +35,20 @@ const uploadFileToS3 = async (localFilePath: string) => {
 
      const generatedId = uuidv4();
      const fileName = `${folderName}/${generatedId}${ext || '.bin'}`;
-
      try {
-          // Upload to S3
           const command = new PutObjectCommand({
-               Bucket: config.aws.AWS_S3_BUCKET_NAME!,
+               Bucket: config.spaces.SPACES_BUCKET!,
                Key: fileName,
                Body: fileStream,
                ContentType: contentType,
+               ACL: 'public-read', // Spaces files are private by default unless made public
           });
 
-          await s3.send(command);
+          await spacesClient.send(command);
 
-          // ✅ Wait for stream to close
-          await new Promise<void>((resolve, reject) => {
-               fileStream.on('close', resolve);
-               fileStream.on('error', reject);
-               fileStream.destroy();
-          });
+          console.log(`✅ Uploaded to Spaces: ${fileName}`);
 
-          console.log(`✅ Uploaded to S3: ${fileName}`);
-
-          const fileUrl = `https://${config.aws.AWS_S3_BUCKET_NAME}.s3.${config.aws.AWS_REGION}.amazonaws.com/${fileName}`;
+          const fileUrl = `https://${config.spaces.SPACES_BUCKET}.${config.spaces.SPACES_ENDPOINT}/${fileName}`;
 
           return {
                id: generatedId,
@@ -61,10 +56,9 @@ const uploadFileToS3 = async (localFilePath: string) => {
                url: fileUrl,
           };
      } catch (error) {
-          console.error('❌ Error uploading to S3:', error);
+          console.error('❌ Error uploading to Spaces:', error);
           throw error;
      } finally {
-          // ✅ Always try to delete the local file, success or fail
           try {
                fs.unlinkSync(localFilePath);
                console.log(`🧹 Temp file deleted: ${localFilePath}`);
@@ -74,13 +68,12 @@ const uploadFileToS3 = async (localFilePath: string) => {
      }
 };
 
-// 🔹 Delete file from S3 by its URL
-const deleteFileFromS3 = async (fileUrl: string) => {
+// 🔹 Delete file from DigitalOcean Spaces by URL
+const deleteFileFromSpaces = async (fileUrl: string) => {
      try {
           const url = new URL(fileUrl);
 
-          // Extract bucket and key
-          const bucketName = url.hostname.split('.s3.')[0];
+          const bucketName = url.hostname.split('.')[0]; // e.g., mybucket.nyc3.digitaloceanspaces.com
           const key = decodeURIComponent(url.pathname.slice(1));
 
           const command = new DeleteObjectCommand({
@@ -88,14 +81,14 @@ const deleteFileFromS3 = async (fileUrl: string) => {
                Key: key,
           });
 
-          await s3.send(command);
+          await spacesClient.send(command);
 
-          console.log(`✅ Deleted from S3: ${key}`);
+          console.log(`✅ Deleted from Spaces: ${key}`);
           return { success: true, key };
      } catch (error) {
-          console.error('❌ Error deleting S3 file:', error);
+          console.error('❌ Error deleting Spaces file:', error);
           return { success: false, error };
      }
 };
 
-export { uploadFileToS3, deleteFileFromS3 };
+export { uploadFileToSpaces, deleteFileFromSpaces };

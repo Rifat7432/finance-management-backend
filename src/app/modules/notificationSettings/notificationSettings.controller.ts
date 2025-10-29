@@ -3,15 +3,7 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { NotificationSettingsService } from './notificationSettings.service';
 
-const createNotificationSettings = catchAsync(async (req, res) => {
-  const result = await NotificationSettingsService.createNotificationSettingsToDB(req.body);
-  sendResponse(res, {
-    success: true,
-    statusCode: StatusCodes.CREATED,
-    message: 'Notification settings created successfully',
-    data: result,
-  });
-});
+
 
 const getNotificationSettings = catchAsync(async (req, res) => {
   const { userId } = req.params;
@@ -46,7 +38,7 @@ const deleteNotificationSettings = catchAsync(async (req, res) => {
 });
 
 export const NotificationSettingsController = {
-  createNotificationSettings,
+
   getNotificationSettings,
   updateNotificationSettings,
   deleteNotificationSettings,

@@ -1,7 +1,7 @@
-import { Model } from "mongoose";
+import mongoose, { Model } from "mongoose";
 
 export interface ISubscription {
-  userId: string;
+  userId: mongoose.Types.ObjectId;
   subscriptionId: string;
   productId: string;
   purchaseToken: string;

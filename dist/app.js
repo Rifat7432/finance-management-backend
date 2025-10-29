@@ -11,7 +11,6 @@ const morgen_1 = require("./shared/morgen");
 const globalErrorHandler_1 = __importDefault(require("./globalErrorHandler/globalErrorHandler"));
 const notFound_1 = require("./globalErrorHandler/notFound");
 const welcome_1 = require("./utils/welcome");
-const stripeWebhook_route_1 = require("./routes/stripeWebhook.route");
 // 👉 Import the cron job here
 require("./app/cronJobs/IncomeScheduler"); // ✅ This runs the job on app start
 require("./app/cronJobs/ExpensesScheduler"); // ✅ starts Expense scheduler on app start
@@ -34,10 +33,6 @@ app.use((0, cors_1.default)({
     origin: 'http://localhost:3000', // ✅ no trailing slash
     credentials: true,
 }));
-// ----------------------------
-// 📦 Webhook Route (before body-parser)
-// ----------------------------
-app.use('/api/v1', stripeWebhook_route_1.stripeWebhookRoute); // If this route needs raw body, make sure to configure raw parser in the route file
 // ----------------------------
 // 📦 Body Parsers
 // ----------------------------

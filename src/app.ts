@@ -7,7 +7,7 @@ import globalErrorHandler from './globalErrorHandler/globalErrorHandler';
 import { notFound } from './globalErrorHandler/notFound';
 import { welcome } from './utils/welcome';
 import config from './config';
-import { stripeWebhookRoute } from './routes/stripeWebhook.route';
+
 
 // 👉 Import the cron job here
 import './app/cronJobs/IncomeScheduler'; // ✅ This runs the job on app start
@@ -39,10 +39,6 @@ app.use(
      }),
 );
 
-// ----------------------------
-// 📦 Webhook Route (before body-parser)
-// ----------------------------
-app.use('/api/v1', stripeWebhookRoute); // If this route needs raw body, make sure to configure raw parser in the route file
 
 // ----------------------------
 // 📦 Body Parsers

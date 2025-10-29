@@ -27,7 +27,7 @@ const handleWebhook = catchAsync(async (req, res) => {
 
 // 🟠 Manual verify (optional)
 const verifySubscription = catchAsync(async (req, res) => {
-  const { userId } = req.params;
+  const { userId } = req.user.id;
   const result = await SubscriptionService.verifySubscriptionToDB(userId);
   sendResponse(res, {
     success: true,

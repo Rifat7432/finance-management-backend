@@ -18,15 +18,14 @@ router.post(
 // 🔵 Webhook (RevenueCat server only)
 router.post(
   '/webhook',
-  validateRequest(SubscriptionValidation.webhookZodSchema),
   SubscriptionController.handleWebhook
 );
 
 // 🟠 Manual verify
 router.post(
-  '/verify/:userId',
-  validateRequest(SubscriptionValidation.verifySubscriptionZodSchema),
+  '/verify',
+  auth(USER_ROLES.USER),
   SubscriptionController.verifySubscription
 );
 
-export const SubscriptionRouter = router;
+export const SubscriptionRoutes = router;

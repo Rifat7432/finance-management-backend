@@ -1,0 +1,31 @@
+Wed Oct 29 2025 3:53:0 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/contents/69012bfab0ace72ace7cae65 204 - 4.092 ms
+Wed Oct 29 2025 3:53:0 [SERVER-NAME] info: 127.0.0.1 - DELETE /api/v1/contents/69012bfab0ace72ace7cae65 200 - 208.043 ms
+Wed Oct 29 2025 3:53:0 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/contents/?page=1 204 - 0.049 ms
+Wed Oct 29 2025 3:53:0 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/contents/?page=1 200 - 165.813 ms
+Wed Oct 29 2025 3:53:56 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/appointments/all/appointment?searchTerm= 204 - 0.081 ms
+Wed Oct 29 2025 3:53:57 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/appointments/all/appointment?searchTerm= 304 - 161.298 ms
+Wed Oct 29 2025 3:56:34 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Wed Oct 29 2025 3:56:35 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Wed Oct 29 2025 3:56:35 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Wed Oct 29 2025 3:59:16 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Wed Oct 29 2025 3:59:17 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Wed Oct 29 2025 3:59:17 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Wed Oct 29 2025 3:59:21 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Wed Oct 29 2025 3:59:21 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Wed Oct 29 2025 3:59:21 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Wed Oct 29 2025 3:59:32 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Wed Oct 29 2025 3:59:32 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Wed Oct 29 2025 3:59:32 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Wed Oct 29 2025 3:59:38 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Wed Oct 29 2025 3:59:38 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Wed Oct 29 2025 3:59:38 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Wed Oct 29 2025 3:59:41 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Wed Oct 29 2025 3:59:42 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Wed Oct 29 2025 3:59:43 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Wed Oct 29 2025 3:59:43 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Wed Oct 29 2025 3:59:46 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Wed Oct 29 2025 3:59:46 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Wed Oct 29 2025 3:59:46 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Wed Oct 29 2025 3:59:51 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Wed Oct 29 2025 3:59:52 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Wed Oct 29 2025 3:59:52 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m

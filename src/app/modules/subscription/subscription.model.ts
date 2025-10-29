@@ -3,7 +3,7 @@ import { ISubscription, SubscriptionModel } from './subscription.interface';
 
 const subscriptionSchema = new Schema<ISubscription>(
      {
-          userId: { type: String, required: true },
+          userId: { type: Schema.ObjectId, required: true, ref: 'User' },
           subscriptionId: { type: String, required: true, unique: true },
           productId: { type: String, required: true },
           purchaseToken: { type: String, required: true },

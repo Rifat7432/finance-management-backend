@@ -13,6 +13,7 @@ import generateOTP from '../../../utils/generateOTP';
 import cryptoToken from '../../../utils/cryptoToken';
 import { verifyToken } from '../../../utils/verifyToken';
 import { createToken } from '../../../utils/createToken';
+import { NotificationSettings } from '../notificationSettings/notificationSettings.model';
 
 //login
 const loginUserFromDB = async (payload: ILoginData) => {
@@ -48,7 +49,19 @@ const loginUserFromDB = async (payload: ILoginData) => {
      if (!(await User.isMatchPassword(password, isExistUser.password))) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Password is incorrect!');
      }
-
+     if (payload.deviceToken) {
+          const notificationSettings = await NotificationSettings.findOne({ userId: isExistUser._id });
+          if (notificationSettings) {
+               const deviceTokens = notificationSettings?.deviceTokenList || [];
+               if (deviceTokens.includes(payload.deviceToken) === false) {
+                    deviceTokens.push(payload.deviceToken);
+                    notificationSettings.deviceTokenList = deviceTokens;
+                    await notificationSettings.save();
+               }
+          } else {
+               await NotificationSettings.create({ userId: isExistUser._id, deviceTokens: [payload.deviceToken] });
+          }
+     }
      const jwtData = { id: isExistUser._id, role: isExistUser.role, email: isExistUser.email };
      //create token
      const accessToken = jwtHelper.createToken(jwtData, config.jwt.jwt_secret as Secret, config.jwt.jwt_expire_in as string);
@@ -166,7 +179,7 @@ const verifyEmailToDB = async (payload: IVerifyEmail) => {
 const resetPasswordToDB = async (token: string, payload: IAuthResetPassword) => {
      const { newPassword, confirmPassword } = payload;
      //isExist token
-     const isExistToken = await ResetToken.findOne({token});
+     const isExistToken = await ResetToken.findOne({ token });
      if (!isExistToken) {
           throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized');
      }
@@ -197,7 +210,7 @@ const resetPasswordToDB = async (token: string, payload: IAuthResetPassword) => 
 // reset password by url
 const resetPasswordByUrl = async (token: string, payload: IAuthResetPassword) => {
      const { newPassword, confirmPassword } = payload;
-     console.log(newPassword)
+     console.log(newPassword);
      let decodedToken;
      try {
           decodedToken = await verifyToken(token, config.jwt.jwt_secret as Secret);

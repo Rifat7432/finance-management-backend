@@ -50,7 +50,7 @@ const userSchema = new Schema<IUser, UserModel>(
                type: Boolean,
                default: false,
           },
-          stripeCustomerId: {
+          customerId: {
                type: String,
                default: '',
           },

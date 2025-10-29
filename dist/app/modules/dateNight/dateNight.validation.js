@@ -10,7 +10,6 @@ const createDateNightZodSchema = zod_1.z.object({
         date: zod_1.z.string().optional(),
         time: zod_1.z.string().optional(),
         location: zod_1.z.string().optional(),
-        enableNotification: zod_1.z.boolean().default(false),
     }),
 });
 const updateDateNightZodSchema = zod_1.z.object({
@@ -21,7 +20,6 @@ const updateDateNightZodSchema = zod_1.z.object({
         date: zod_1.z.string().optional(),
         time: zod_1.z.string().optional(),
         location: zod_1.z.string().optional(),
-        enableNotification: zod_1.z.boolean().optional(),
     }),
 });
 exports.DateNightValidation = {

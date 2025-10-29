@@ -4,13 +4,16 @@ import { USER_ROLES } from '../../../enums/user';
 import { emailHelper } from '../../../helpers/emailHelper';
 import { emailTemplate } from '../../../shared/emailTemplate';
 import unlinkFile from '../../../shared/unlinkFile';
-import { IUser } from './user.interface';
+import { IUser, UserSubscriptionDTO } from './user.interface';
 import { User } from './user.model';
 import AppError from '../../../errors/AppError';
 import generateOTP from '../../../utils/generateOTP';
 import config from '../../../config';
 import { jwtHelper } from '../../../helpers/jwtHelper';
-import { deleteFileFromS3 } from '../../middleware/uploadFileToS3';
+import { deleteFileFromSpaces } from '../../middleware/uploadFileToSpaces';
+import { Subscription } from '../subscription/subscription.model';
+import QueryBuilder from '../../builder/QueryBuilder';
+import { NotificationSettings } from '../notificationSettings/notificationSettings.model';
 // create user
 const createUserToDB = async (payload: IUser): Promise<IUser> => {
      //set role
@@ -41,6 +44,8 @@ const createUserToDB = async (payload: IUser): Promise<IUser> => {
      };
      await User.findOneAndUpdate({ _id: createUser._id }, { $set: { authentication } });
 
+     await NotificationSettings.create({ userId: createUser._id });
+
      return createUser;
 };
 
@@ -51,6 +56,7 @@ const handleAppleAuthentication = async (payload: {
           givenName: string;
           familyName: string;
      };
+     deviceToken?: string;
 }): Promise<any> => {
      const { email, appleId, fullName } = payload;
      // Check if the user already exists by Apple ID or email
@@ -73,6 +79,19 @@ const handleAppleAuthentication = async (payload: {
           });
           if (!newUser) {
                throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create user');
+          }
+          if (payload.deviceToken) {
+               const notificationSettings = await NotificationSettings.findOne({ userId: newUser._id });
+               if (notificationSettings) {
+                    const deviceTokens = notificationSettings?.deviceTokenList || [];
+                    if (deviceTokens.includes(payload.deviceToken) === false) {
+                         deviceTokens.push(payload.deviceToken);
+                         notificationSettings.deviceTokenList = deviceTokens;
+                         await notificationSettings.save();
+                    }
+               } else {
+                    await NotificationSettings.create({ userId: newUser._id, deviceTokens: [payload.deviceToken] });
+               }
           }
           // Send OTP for email verification
           const otp = generateOTP(4);
@@ -121,7 +140,7 @@ const handleAppleAuthentication = async (payload: {
      throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, 'An unknown error occurred');
 };
 
-const handleGoogleAuthentication = async (payload: { email: string; googleId: string; name: string; email_verified: boolean; picture?: string }): Promise<any> => {
+const handleGoogleAuthentication = async (payload: { email: string; googleId: string; name: string; email_verified: boolean; picture?: string; deviceToken?: string }): Promise<any> => {
      const { email, googleId, email_verified, name } = payload;
 
      // Check if the user already exists by Google ID or email
@@ -147,6 +166,19 @@ const handleGoogleAuthentication = async (payload: { email: string; googleId: st
           });
           if (!newUser) {
                throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create user');
+          }
+          if (payload.deviceToken) {
+               const notificationSettings = await NotificationSettings.findOne({ userId: newUser._id });
+               if (notificationSettings) {
+                    const deviceTokens = notificationSettings?.deviceTokenList || [];
+                    if (deviceTokens.includes(payload.deviceToken) === false) {
+                         deviceTokens.push(payload.deviceToken);
+                         notificationSettings.deviceTokenList = deviceTokens;
+                         await notificationSettings.save();
+                    }
+               } else {
+                    await NotificationSettings.create({ userId: newUser._id, deviceTokens: [payload.deviceToken] });
+               }
           }
           // Send OTP for email verification
           const otp = generateOTP(4);
@@ -211,6 +243,107 @@ const getUserProfileFromDB = async (user: JwtPayload): Promise<Partial<IUser>> =
      return isExistUser;
 };
 
+export const getUsersWithSubscriptionsFromDB = async (query: any): Promise<UserSubscriptionDTO[]> => {
+     const { searchTerm: search, status: filterStatus } = query;
+     // Build search filter (by name or email)
+     const searchFilter = search
+          ? {
+                 $or: [{ name: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }],
+            }
+          : {};
+
+     // Build user status filter (active & not deleted)
+     const userFilter = {
+          status: 'active',
+          isDeleted: false,
+          ...searchFilter,
+     };
+
+     const pipeline: any[] = [
+          {
+               $match: userFilter,
+          },
+          {
+               // Join with subscriptions
+               $lookup: {
+                    from: 'subscriptions', // Mongo collection name (lowercase + plural)
+                    localField: '_id',
+                    foreignField: 'userId',
+                    as: 'subscriptions',
+               },
+          },
+          {
+               // Take the most recent subscription if exists
+               $addFields: {
+                    latestSubscription: { $arrayElemAt: ['$subscriptions', 0] },
+               },
+          },
+          {
+               // Filter subscription by status if specified
+               $match: filterStatus
+                    ? {
+                           $or: [
+                                { 'latestSubscription.status': filterStatus },
+                                {
+                                     $and: [{ latestSubscription: { $exists: false } }, { status: 'active' }, { isDeleted: false }],
+                                },
+                           ],
+                      }
+                    : {},
+          },
+          {
+               // Project only needed fields
+               $project: {
+                    image: 1,
+                    Name: '$name',
+                    Email: '$email',
+                    PhoneNumber: '$phone',
+                    Subscriptions: {
+                         $ifNull: [
+                              {
+                                   $cond: {
+                                        if: { $ifNull: ['$latestSubscription.status', false] },
+                                        then: {
+                                             $concat: [
+                                                  {
+                                                       $toUpper: {
+                                                            $substrCP: ['$latestSubscription.status', 0, 1],
+                                                       },
+                                                  },
+                                                  {
+                                                       $substrCP: ['$latestSubscription.status', 1, { $strLenCP: '$latestSubscription.status' }],
+                                                  },
+                                             ],
+                                        },
+                                        else: 'Inactive',
+                                   },
+                              },
+                              'Inactive',
+                         ],
+                    },
+                    StartDate: {
+                         $ifNull: ['$latestSubscription.createdAt', null],
+                    },
+                    EndDate: {
+                         $ifNull: ['$latestSubscription.expiryDate', null],
+                    },
+               },
+          },
+          {
+               $sort: { createdAt: -1 },
+          },
+     ];
+
+     const users = await User.aggregate(pipeline);
+     console.log(users);
+     // Format dates for UI (optional)
+     return users.map((u) => ({
+          ...u,
+          StartDate: u.StartDate ? new Date(u.StartDate).toDateString() : null,
+          EndDate: u.EndDate ? new Date(u.EndDate).toDateString() : null,
+     }));
+};
+
 // update user profile
 const updateProfileToDB = async (user: JwtPayload, payload: Partial<IUser>): Promise<Partial<IUser | null>> => {
      const { id } = user;
@@ -221,7 +354,7 @@ const updateProfileToDB = async (user: JwtPayload, payload: Partial<IUser>): Pro
 
      //unlink file here
      if (payload.image) {
-          deleteFileFromS3(isExistUser.image);
+          deleteFileFromSpaces(isExistUser.image);
      }
 
      const updateDoc = await User.findOneAndUpdate({ _id: id }, payload, {
@@ -259,4 +392,5 @@ export const UserService = {
      verifyUserPassword,
      handleAppleAuthentication,
      handleGoogleAuthentication,
+     getUsersWithSubscriptionsFromDB,
 };

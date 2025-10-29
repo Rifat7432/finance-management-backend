@@ -35,6 +35,7 @@ router
           UserController.updateProfile,
      );
 
+router.route('/').get(UserController.getAllUsers);
 router.route('/').post(validateRequest(UserValidation.createUserZodSchema), UserController.createUser);
 router.post('/google', validateRequest(UserValidation.googleAuthZodSchema), UserController.createUserByGoogle);
 router.post('/apple', validateRequest(UserValidation.appleAuthZodSchema), UserController.createUserByApple);

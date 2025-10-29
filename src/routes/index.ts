@@ -10,7 +10,6 @@ import { IncomeRouter } from '../app/modules/income/income.route';
 import { AdminRoutes } from '../app/modules/admin/admin.route';
 import { AdRouter } from '../app/modules/ad/ad.route';
 import { SubscriptionRoutes } from '../app/modules/subscription/subscription.routes';
-import { PackageRoutes } from '../app/modules/package/package.routes';
 import { AnalyticsRouter } from '../app/modules/analytics/analytics.route';
 import { ContentRouter } from '../app/modules/content/content.route';
 import { CalculatorRouter } from '../app/modules/calculator/calculator.route';
@@ -61,10 +60,6 @@ const routes: { path: string; route: Router }[] = [
      {
           path: '/subscriptions',
           route: SubscriptionRoutes,
-     },
-     {
-          path: '/packages',
-          route: PackageRoutes,
      },
      {
           path: '/analytics',

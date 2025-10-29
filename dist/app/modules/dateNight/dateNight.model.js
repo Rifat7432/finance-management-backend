@@ -29,10 +29,6 @@ const dateNightSchema = new mongoose_1.Schema({
         type: String,
         trim: true,
     },
-    enableNotification: {
-        type: Boolean,
-        default: false,
-    },
     isDeleted: {
         type: Boolean,
         default: false,

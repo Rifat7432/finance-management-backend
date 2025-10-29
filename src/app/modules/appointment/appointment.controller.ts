@@ -16,7 +16,7 @@ const createAppointment = catchAsync(async (req, res) => {
 });
 
 const getUserAppointments = catchAsync(async (req, res) => {
-  const userId = req.user?._id || req.body.userId;
+  const userId = req.user?.id || req.body.userId;
   const result = await AppointmentService.getUserAppointmentsFromDB(userId);
   sendResponse(res, {
     success: true,

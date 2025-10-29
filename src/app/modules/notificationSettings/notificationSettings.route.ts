@@ -5,26 +5,10 @@ import { NotificationSettingsValidation } from './notificationSettings.validatio
 
 const router = express.Router();
 
-router.post(
-  '/',
-  validateRequest(NotificationSettingsValidation.createNotificationSettingsZodSchema),
-  NotificationSettingsController.createNotificationSettings
-);
+router.get('/:userId', NotificationSettingsController.getNotificationSettings);
 
-router.get(
-  '/:userId',
-  NotificationSettingsController.getNotificationSettings
-);
+router.patch('/:userId', validateRequest(NotificationSettingsValidation.updateNotificationSettingsZodSchema), NotificationSettingsController.updateNotificationSettings);
 
-router.patch(
-  '/:userId',
-  validateRequest(NotificationSettingsValidation.updateNotificationSettingsZodSchema),
-  NotificationSettingsController.updateNotificationSettings
-);
-
-router.delete(
-  '/:userId',
-  NotificationSettingsController.deleteNotificationSettings
-);
+router.delete('/:userId', NotificationSettingsController.deleteNotificationSettings);
 
 export const NotificationSettingsRouter = router;

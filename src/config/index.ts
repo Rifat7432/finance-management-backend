@@ -48,10 +48,10 @@ export default {
           email: process.env.SUPER_ADMIN_EMAIL,
           password: process.env.SUPER_ADMIN_PASSWORD,
      },
-     aws: {
-          AWS_REGION: process.env.AWS_REGION,
-          AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-          AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-          AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME,
+     spaces: {
+          SPACES_KEY: process.env.SPACES_KEY,
+          SPACES_SECRET: process.env.SPACES_SECRET,
+          SPACES_ENDPOINT: process.env.SPACES_ENDPOINT,
+          SPACES_BUCKET: process.env.SPACES_BUCKET,
      },
 };
