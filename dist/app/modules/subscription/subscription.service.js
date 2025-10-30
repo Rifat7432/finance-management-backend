@@ -22,7 +22,7 @@ const config_1 = __importDefault(require("../../../config"));
 const verifyWithRevenueCat = (appUserId) => __awaiter(void 0, void 0, void 0, function* () {
     const res = yield (0, node_fetch_1.default)(`https://api.revenuecat.com/v1/subscribers/${appUserId}`, {
         headers: {
-            Authorization: `Bearer ${config_1.default.revenuecat_secret_key}`,
+            'Authorization': `Bearer ${config_1.default.revenuecat_secret_key}`,
             'Content-Type': 'application/json',
         },
     });
@@ -32,6 +32,11 @@ const verifyWithRevenueCat = (appUserId) => __awaiter(void 0, void 0, void 0, fu
 });
 // 🟢 Create subscription (initial data from app)
 const createSubscriptionToDB = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const revenueCatData = yield verifyWithRevenueCat(payload.subscriptionId);
+    const isUserSubscribed = yield subscription_model_1.Subscription.findOne({ userId });
+    if (isUserSubscribed) {
+        throw new AppError_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, 'User already has a subscription');
+    }
     const subscription = yield subscription_model_1.Subscription.create(Object.assign(Object.assign({}, payload), { userId, status: payload.status || 'active', lastVerified: new Date() }));
     if (!subscription) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, 'Failed to create subscription');
@@ -41,7 +46,7 @@ const createSubscriptionToDB = (userId, payload) => __awaiter(void 0, void 0, vo
 // 🔵 Handle RevenueCat webhook
 const handleWebhookEventToDB = (webhookData) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { event, app_user_id, product_id, purchase_token, event_type, expiration_at_ms, period_type, } = webhookData;
+        const { event, app_user_id, product_id, purchase_token, event_type, expiration_at_ms, period_type } = webhookData;
         const updateData = {
             status: event_type === 'CANCELLATION' ? 'canceled' : 'active',
             productId: product_id,

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserService = void 0;
+exports.UserService = exports.getUsersWithSubscriptionsFromDB = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const user_1 = require("../../../enums/user");
 const emailHelper_1 = require("../../../helpers/emailHelper");
@@ -22,7 +22,8 @@ const AppError_1 = __importDefault(require("../../../errors/AppError"));
 const generateOTP_1 = __importDefault(require("../../../utils/generateOTP"));
 const config_1 = __importDefault(require("../../../config"));
 const jwtHelper_1 = require("../../../helpers/jwtHelper");
-const uploadFileToS3_1 = require("../../middleware/uploadFileToS3");
+const uploadFileToSpaces_1 = require("../../middleware/uploadFileToSpaces");
+const notificationSettings_model_1 = require("../notificationSettings/notificationSettings.model");
 // create user
 const createUserToDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     //set role
@@ -50,6 +51,7 @@ const createUserToDB = (payload) => __awaiter(void 0, void 0, void 0, function* 
         expireAt: new Date(Date.now() + 3 * 60000),
     };
     yield user_model_1.User.findOneAndUpdate({ _id: createUser._id }, { $set: { authentication } });
+    yield notificationSettings_model_1.NotificationSettings.create({ userId: createUser._id });
     return createUser;
 });
 const handleAppleAuthentication = (payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -74,6 +76,20 @@ const handleAppleAuthentication = (payload) => __awaiter(void 0, void 0, void 0,
         });
         if (!newUser) {
             throw new AppError_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, 'Failed to create user');
+        }
+        if (payload.deviceToken) {
+            const notificationSettings = yield notificationSettings_model_1.NotificationSettings.findOne({ userId: newUser._id });
+            if (notificationSettings) {
+                const deviceTokens = (notificationSettings === null || notificationSettings === void 0 ? void 0 : notificationSettings.deviceTokenList) || [];
+                if (deviceTokens.includes(payload.deviceToken) === false) {
+                    deviceTokens.push(payload.deviceToken);
+                    notificationSettings.deviceTokenList = deviceTokens;
+                    yield notificationSettings.save();
+                }
+            }
+            else {
+                yield notificationSettings_model_1.NotificationSettings.create({ userId: newUser._id, deviceTokens: [payload.deviceToken] });
+            }
         }
         // Send OTP for email verification
         const otp = (0, generateOTP_1.default)(4);
@@ -143,6 +159,20 @@ const handleGoogleAuthentication = (payload) => __awaiter(void 0, void 0, void 0
         if (!newUser) {
             throw new AppError_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, 'Failed to create user');
         }
+        if (payload.deviceToken) {
+            const notificationSettings = yield notificationSettings_model_1.NotificationSettings.findOne({ userId: newUser._id });
+            if (notificationSettings) {
+                const deviceTokens = (notificationSettings === null || notificationSettings === void 0 ? void 0 : notificationSettings.deviceTokenList) || [];
+                if (deviceTokens.includes(payload.deviceToken) === false) {
+                    deviceTokens.push(payload.deviceToken);
+                    notificationSettings.deviceTokenList = deviceTokens;
+                    yield notificationSettings.save();
+                }
+            }
+            else {
+                yield notificationSettings_model_1.NotificationSettings.create({ userId: newUser._id, deviceTokens: [payload.deviceToken] });
+            }
+        }
         // Send OTP for email verification
         const otp = (0, generateOTP_1.default)(4);
         const values = {
@@ -195,6 +225,96 @@ const getUserProfileFromDB = (user) => __awaiter(void 0, void 0, void 0, functio
     }
     return isExistUser;
 });
+const getUsersWithSubscriptionsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const { searchTerm: search, status: filterStatus } = query;
+    // Build search filter (by name or email)
+    const searchFilter = search
+        ? {
+            $or: [{ name: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }],
+        }
+        : {};
+    // Build user status filter (active & not deleted)
+    const userFilter = Object.assign({ status: 'active', isDeleted: false }, searchFilter);
+    const pipeline = [
+        {
+            $match: userFilter,
+        },
+        {
+            // Join with subscriptions
+            $lookup: {
+                from: 'subscriptions', // Mongo collection name (lowercase + plural)
+                localField: '_id',
+                foreignField: 'userId',
+                as: 'subscriptions',
+            },
+        },
+        {
+            // Take the most recent subscription if exists
+            $addFields: {
+                latestSubscription: { $arrayElemAt: ['$subscriptions', 0] },
+            },
+        },
+        {
+            // Filter subscription by status if specified
+            $match: filterStatus
+                ? {
+                    $or: [
+                        { 'latestSubscription.status': filterStatus },
+                        {
+                            $and: [{ latestSubscription: { $exists: false } }, { status: 'active' }, { isDeleted: false }],
+                        },
+                    ],
+                }
+                : {},
+        },
+        {
+            // Project only needed fields
+            $project: {
+                image: 1,
+                Name: '$name',
+                Email: '$email',
+                PhoneNumber: '$phone',
+                Subscriptions: {
+                    $ifNull: [
+                        {
+                            $cond: {
+                                if: { $ifNull: ['$latestSubscription.status', false] },
+                                then: {
+                                    $concat: [
+                                        {
+                                            $toUpper: {
+                                                $substrCP: ['$latestSubscription.status', 0, 1],
+                                            },
+                                        },
+                                        {
+                                            $substrCP: ['$latestSubscription.status', 1, { $strLenCP: '$latestSubscription.status' }],
+                                        },
+                                    ],
+                                },
+                                else: 'Inactive',
+                            },
+                        },
+                        'Inactive',
+                    ],
+                },
+                StartDate: {
+                    $ifNull: ['$latestSubscription.createdAt', null],
+                },
+                EndDate: {
+                    $ifNull: ['$latestSubscription.expiryDate', null],
+                },
+            },
+        },
+        {
+            $sort: { createdAt: -1 },
+        },
+    ];
+    const users = yield user_model_1.User.aggregate(pipeline);
+    console.log(users);
+    // Format dates for UI (optional)
+    return users.map((u) => (Object.assign(Object.assign({}, u), { StartDate: u.StartDate ? new Date(u.StartDate).toDateString() : null, EndDate: u.EndDate ? new Date(u.EndDate).toDateString() : null })));
+});
+exports.getUsersWithSubscriptionsFromDB = getUsersWithSubscriptionsFromDB;
 // update user profile
 const updateProfileToDB = (user, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = user;
@@ -204,7 +324,7 @@ const updateProfileToDB = (user, payload) => __awaiter(void 0, void 0, void 0, f
     }
     //unlink file here
     if (payload.image) {
-        (0, uploadFileToS3_1.deleteFileFromS3)(isExistUser.image);
+        (0, uploadFileToSpaces_1.deleteFileFromSpaces)(isExistUser.image);
     }
     const updateDoc = yield user_model_1.User.findOneAndUpdate({ _id: id }, payload, {
         new: true,
@@ -237,4 +357,5 @@ exports.UserService = {
     verifyUserPassword,
     handleAppleAuthentication,
     handleGoogleAuthentication,
+    getUsersWithSubscriptionsFromDB: exports.getUsersWithSubscriptionsFromDB,
 };

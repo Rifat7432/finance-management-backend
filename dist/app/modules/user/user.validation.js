@@ -26,6 +26,7 @@ const googleAuthZodSchema = zod_1.z.object({
         name: zod_1.z.string({ required_error: 'Name is required' }),
         email_verified: zod_1.z.boolean(),
         picture: zod_1.z.string().optional(),
+        deviceToken: zod_1.z.string().optional(),
     }),
 });
 const appleAuthZodSchema = zod_1.z.object({
@@ -36,6 +37,7 @@ const appleAuthZodSchema = zod_1.z.object({
             givenName: zod_1.z.string({ required_error: 'Name is required' }),
             familyName: zod_1.z.string({ required_error: 'Name is required' }),
         }),
+        deviceToken: zod_1.z.string().optional(),
     }),
 });
 exports.UserValidation = {

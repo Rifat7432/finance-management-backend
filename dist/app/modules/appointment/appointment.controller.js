@@ -30,7 +30,7 @@ const createAppointment = (0, catchAsync_1.default)((req, res) => __awaiter(void
 }));
 const getUserAppointments = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const userId = ((_a = req.user) === null || _a === void 0 ? void 0 : _a._id) || req.body.userId;
+    const userId = ((_a = req.user) === null || _a === void 0 ? void 0 : _a.id) || req.body.userId;
     const result = yield appointment_service_1.AppointmentService.getUserAppointmentsFromDB(userId);
     (0, sendResponse_1.default)(res, {
         success: true,

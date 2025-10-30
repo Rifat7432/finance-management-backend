@@ -9,18 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const uploadFileToS3_1 = require("./uploadFileToS3");
+const uploadFileToSpaces_1 = require("./uploadFileToSpaces");
 const moveImagesVideosToS3 = (files) => __awaiter(void 0, void 0, void 0, function* () {
     const s3Paths = {};
     for (const field of ['image', 'video']) {
         const fileField = files === null || files === void 0 ? void 0 : files[field];
         if (fileField && Array.isArray(fileField) && fileField.length > 0) {
             if (fileField.length === 1) {
-                const uploaded = yield (0, uploadFileToS3_1.uploadFileToS3)(fileField[0].path);
+                const uploaded = yield (0, uploadFileToSpaces_1.uploadFileToSpaces)(fileField[0].path);
                 s3Paths[field] = uploaded;
             }
             else {
-                s3Paths[field] = yield Promise.all(fileField.map((f) => (0, uploadFileToS3_1.uploadFileToS3)(f.path)));
+                s3Paths[field] = yield Promise.all(fileField.map((f) => (0, uploadFileToSpaces_1.uploadFileToSpaces)(f.path)));
             }
         }
     }

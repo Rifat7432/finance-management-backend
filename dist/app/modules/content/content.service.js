@@ -20,7 +20,7 @@ const notificationSettings_model_1 = require("../notificationSettings/notificati
 const notification_model_1 = require("../notification/notification.model");
 const firebaseHelper_1 = require("../../../helpers/firebaseHelper");
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
-const uploadFileToS3_1 = require("../../middleware/uploadFileToS3");
+const uploadFileToSpaces_1 = require("../../middleware/uploadFileToSpaces");
 const createContentToDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const newContent = yield content_model_1.Content.create(payload);
     if (!newContent) {
@@ -71,7 +71,7 @@ const updateContentToDB = (id, payload) => __awaiter(void 0, void 0, void 0, fun
     }
     //unlink file here
     if (payload.videoUrl) {
-        (0, uploadFileToS3_1.deleteFileFromS3)(content.videoUrl);
+        (0, uploadFileToSpaces_1.deleteFileFromSpaces)(content.videoUrl);
     }
     const updated = yield content_model_1.Content.findByIdAndUpdate(id, payload, { new: true });
     if (!updated) {
@@ -87,6 +87,9 @@ const deleteContentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* 
     const deleted = yield content_model_1.Content.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
     if (!deleted) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'Content not found');
+    }
+    if (content.videoUrl) {
+        (0, uploadFileToSpaces_1.deleteFileFromSpaces)(content.videoUrl);
     }
     return true;
 });

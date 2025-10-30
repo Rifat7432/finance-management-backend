@@ -26,6 +26,7 @@ const generateOTP_1 = __importDefault(require("../../../utils/generateOTP"));
 const cryptoToken_1 = __importDefault(require("../../../utils/cryptoToken"));
 const verifyToken_1 = require("../../../utils/verifyToken");
 const createToken_1 = require("../../../utils/createToken");
+const notificationSettings_model_1 = require("../notificationSettings/notificationSettings.model");
 //login
 const loginUserFromDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = payload;
@@ -55,6 +56,20 @@ const loginUserFromDB = (payload) => __awaiter(void 0, void 0, void 0, function*
     //check match password
     if (!(yield user_model_1.User.isMatchPassword(password, isExistUser.password))) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, 'Password is incorrect!');
+    }
+    if (payload.deviceToken) {
+        const notificationSettings = yield notificationSettings_model_1.NotificationSettings.findOne({ userId: isExistUser._id });
+        if (notificationSettings) {
+            const deviceTokens = (notificationSettings === null || notificationSettings === void 0 ? void 0 : notificationSettings.deviceTokenList) || [];
+            if (deviceTokens.includes(payload.deviceToken) === false) {
+                deviceTokens.push(payload.deviceToken);
+                notificationSettings.deviceTokenList = deviceTokens;
+                yield notificationSettings.save();
+            }
+        }
+        else {
+            yield notificationSettings_model_1.NotificationSettings.create({ userId: isExistUser._id, deviceTokens: [payload.deviceToken] });
+        }
     }
     const jwtData = { id: isExistUser._id, role: isExistUser.role, email: isExistUser.email };
     //create token

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Subscription = void 0;
 const mongoose_1 = require("mongoose");
 const subscriptionSchema = new mongoose_1.Schema({
-    userId: { type: String, required: true },
+    userId: { type: mongoose_1.Schema.ObjectId, required: true, ref: 'User' },
     subscriptionId: { type: String, required: true, unique: true },
     productId: { type: String, required: true },
     purchaseToken: { type: String, required: true },

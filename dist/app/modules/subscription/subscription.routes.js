@@ -14,7 +14,7 @@ const router = express_1.default.Router();
 // 🟢 Create subscription
 router.post('/', (0, auth_1.default)(user_1.USER_ROLES.USER), (0, validateRequest_1.default)(subscription_validation_1.SubscriptionValidation.createSubscriptionZodSchema), subscription_controller_1.SubscriptionController.createSubscription);
 // 🔵 Webhook (RevenueCat server only)
-router.post('/webhook', (0, validateRequest_1.default)(subscription_validation_1.SubscriptionValidation.webhookZodSchema), subscription_controller_1.SubscriptionController.handleWebhook);
+router.post('/webhook', subscription_controller_1.SubscriptionController.handleWebhook);
 // 🟠 Manual verify
-router.post('/verify/:userId', (0, validateRequest_1.default)(subscription_validation_1.SubscriptionValidation.verifySubscriptionZodSchema), subscription_controller_1.SubscriptionController.verifySubscription);
+router.post('/verify', (0, auth_1.default)(user_1.USER_ROLES.USER), subscription_controller_1.SubscriptionController.verifySubscription);
 exports.SubscriptionRoutes = router;

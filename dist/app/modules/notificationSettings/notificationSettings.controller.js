@@ -17,15 +17,6 @@ const http_status_codes_1 = require("http-status-codes");
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const notificationSettings_service_1 = require("./notificationSettings.service");
-const createNotificationSettings = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield notificationSettings_service_1.NotificationSettingsService.createNotificationSettingsToDB(req.body);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: http_status_codes_1.StatusCodes.CREATED,
-        message: 'Notification settings created successfully',
-        data: result,
-    });
-}));
 const getNotificationSettings = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     const result = yield notificationSettings_service_1.NotificationSettingsService.getNotificationSettingsFromDB(userId);
@@ -56,7 +47,6 @@ const deleteNotificationSettings = (0, catchAsync_1.default)((req, res) => __awa
     });
 }));
 exports.NotificationSettingsController = {
-    createNotificationSettings,
     getNotificationSettings,
     updateNotificationSettings,
     deleteNotificationSettings,

@@ -41,6 +41,7 @@ router
         next(error);
     }
 }), (0, validateRequest_1.default)(user_validation_1.UserValidation.updateUserZodSchema), user_controller_1.UserController.updateProfile);
+router.route('/').get(user_controller_1.UserController.getAllUsers);
 router.route('/').post((0, validateRequest_1.default)(user_validation_1.UserValidation.createUserZodSchema), user_controller_1.UserController.createUser);
 router.post('/google', (0, validateRequest_1.default)(user_validation_1.UserValidation.googleAuthZodSchema), user_controller_1.UserController.createUserByGoogle);
 router.post('/apple', (0, validateRequest_1.default)(user_validation_1.UserValidation.appleAuthZodSchema), user_controller_1.UserController.createUserByApple);

@@ -39,7 +39,7 @@ const handleWebhook = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
 }));
 // 🟠 Manual verify (optional)
 const verifySubscription = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId } = req.params;
+    const { userId } = req.user.id;
     const result = yield subscription_service_1.SubscriptionService.verifySubscriptionToDB(userId);
     (0, sendResponse_1.default)(res, {
         success: true,
