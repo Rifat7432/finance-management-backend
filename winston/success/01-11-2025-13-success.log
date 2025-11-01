@@ -1,0 +1,8 @@
+Sat Nov 01 2025 13:39:16 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 13:39:17 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 13:39:17 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 13:44:8 [SERVER-NAME] info: 127.0.0.1 - GET / 200 - 6.326 ms
+Sat Nov 01 2025 13:44:34 [SERVER-NAME] info: 127.0.0.1 - GET / 200 - 0.891 ms
+Sat Nov 01 2025 13:46:3 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 13:46:4 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 13:46:4 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
