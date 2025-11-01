@@ -19,16 +19,8 @@ const updateNotificationSettingsToDB = async (userId: string, payload: Partial<I
   return updated;
 };
 
-const deleteNotificationSettingsFromDB = async (userId: string): Promise<boolean> => {
-  const deleted = await NotificationSettings.findOneAndDelete({ userId });
-  if (!deleted) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'Notification settings not found');
-  }
-  return true;
-};
 
 export const NotificationSettingsService = {
   getNotificationSettingsFromDB,
   updateNotificationSettingsToDB,
-  deleteNotificationSettingsFromDB,
 };

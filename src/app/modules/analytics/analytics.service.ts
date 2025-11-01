@@ -26,6 +26,7 @@ const getAnalyticsFromDB = async (userId: string) => {
                $match: {
                     userId: new mongoose.Types.ObjectId(userId),
                     createdAt: { $gte: start, $lte: end },
+                    isDeleted: false,
                },
           },
           {
@@ -44,6 +45,7 @@ const getAnalyticsFromDB = async (userId: string) => {
                                    $expr: {
                                         $and: [{ $eq: ['$userId', '$$userId'] }, { $gte: ['$createdAt', start] }, { $lte: ['$createdAt', end] }],
                                    },
+                                   isDeleted: false,
                               },
                          },
                          {
@@ -66,6 +68,7 @@ const getAnalyticsFromDB = async (userId: string) => {
                                    $expr: {
                                         $and: [{ $eq: ['$userId', '$$userId'] }, { $gte: ['$createdAt', start] }, { $lte: ['$createdAt', end] }],
                                    },
+                                   isDeleted: false,
                               },
                          },
                          {
@@ -93,6 +96,7 @@ const getAnalyticsFromDB = async (userId: string) => {
                                              { $gt: [{ $toDate: '$completeDate' }, new Date()] }, // convert string to date here
                                         ],
                                    },
+                                   isDeleted: false,
                               },
                          },
 
@@ -141,7 +145,7 @@ const getAnalyticsFromDB = async (userId: string) => {
      ]);
 
      const savingGoalCompletionRate = await SavingGoal.aggregate([
-          { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+          { $match: { userId: new mongoose.Types.ObjectId(userId), isDeleted: false } },
 
           // Convert string dates to dates
           {
@@ -211,24 +215,23 @@ const getAnalyticsFromDB = async (userId: string) => {
      return { user, analytics: result.length > 0 ? result[0] : {}, savingGoalCompletionRate: savingGoalCompletionRate.length > 0 ? savingGoalCompletionRate[0].percentComplete : 0 };
 };
 const getLatestUpdateFromDB = async (userId: string) => {
-    const user = await User.isExistUserById(userId);
-    if (!user) {
-        throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
-    }
+     const user = await User.isExistUserById(userId);
+     if (!user) {
+          throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
+     }
 
-    const appointments = await Appointment.find({ userId }).sort({ createdAt: -1 });
-    const dateNights = await DateNight.find({ userId }).sort({ createdAt: -1 }).limit(2);
-    const expenses = await Expense.find({ userId }).sort({ createdAt: -1 }).limit(2);
+     const appointments = await Appointment.find({ userId, isDeleted: false }).sort({ createdAt: -1 });
+     const dateNights = await DateNight.find({ userId, isDeleted: false }).sort({ createdAt: -1 }).limit(2);
+     const expenses = await Expense.find({ userId, isDeleted: false }).sort({ createdAt: -1 }).limit(2);
 
-    console.log(appointments, dateNights, expenses);
+     console.log(appointments, dateNights, expenses);
 
-    return {
-        appointments,
-        dateNights,
-        expenses,
-    };
+     return {
+          appointments,
+          dateNights,
+          expenses,
+     };
 };
-
 
 export const AnalyticsService = {
      getAnalyticsFromDB,

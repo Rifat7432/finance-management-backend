@@ -45,10 +45,12 @@ cron.schedule('0 0 * * *', async () => {
                     {
                          frequency: 'monthly',
                          receiveDate: { $gte: lastMonthStart, $lte: lastMonthEnd },
+                         isDeleted: false,
                     },
                     {
                          frequency: 'yearly',
                          receiveDate: { $gte: lastYearStart, $lte: lastYearEnd },
+                         isDeleted: false,
                     },
                ],
           });
@@ -60,6 +62,7 @@ cron.schedule('0 0 * * *', async () => {
                const alreadyExists = await Income.exists({
                     name: salary.name,
                     userId: salary.userId,
+                    isDeleted: false,
                     receiveDate: {
                          $gte: new Date(nextReceiveDate.setHours(0, 0, 0, 0)),
                          $lt: new Date(nextReceiveDate.setHours(23, 59, 59, 999)),

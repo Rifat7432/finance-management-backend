@@ -1,0 +1,10 @@
+Sat Nov 01 2025 6:0:29 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/admin/notification-settings/68d82751768749cb2cafd69b 404 - 117.270 ms
+Sat Nov 01 2025 6:0:39 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/admin/notification-settings/68d82751768749cb2cafd69b 404 - 92.538 ms
+Sat Nov 01 2025 6:1:8 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/admin/notification-settings/68d82751768749cb2cafd69b 404 - 98.432 ms
+Sat Nov 01 2025 6:2:37 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/admin/notification-settings/68d82751768749cb2cafd69b 404 - 97.099 ms
+Sat Nov 01 2025 6:2:51 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/admin/notification-settings/68d82751768749cb2cafd69b 404 - 90.310 ms
+Sat Nov 01 2025 6:3:5 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/admin/notification-settings/68d82751768749cb2cafd69b 404 - 100.968 ms
+Sat Nov 01 2025 6:3:15 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/admin/notification-settings/68d82751768749cb2cafd69b 404 - 86.894 ms
+Sat Nov 01 2025 6:26:37 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/admin/notification-settings/[object%20Object] 400 - 65.324 ms
+Sat Nov 01 2025 6:29:50 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/admin/notification-settings/[object%20Object] 400 - 45.252 ms
+Sat Nov 01 2025 6:30:23 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/admin/notification-settings/[object%20Object] 400 - 44.432 ms

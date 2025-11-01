@@ -1,0 +1,205 @@
+Sat Nov 01 2025 3:0:17 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=2 204 - 0.081 ms
+Sat Nov 01 2025 3:0:17 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=2 304 - 155.210 ms
+Sat Nov 01 2025 3:0:26 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.054 ms
+Sat Nov 01 2025 3:0:26 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/contents/?page=1 204 - 0.052 ms
+Sat Nov 01 2025 3:0:26 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 103.744 ms
+Sat Nov 01 2025 3:0:27 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/contents/?page=1 304 - 155.155 ms
+Sat Nov 01 2025 3:0:28 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 103.132 ms
+Sat Nov 01 2025 3:0:28 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/contents/?page=1 304 - 152.639 ms
+Sat Nov 01 2025 3:3:29 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.088 ms
+Sat Nov 01 2025 3:3:29 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/contents/?page=1 204 - 0.079 ms
+Sat Nov 01 2025 3:3:30 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 96.831 ms
+Sat Nov 01 2025 3:3:30 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/contents/?page=1 304 - 145.516 ms
+Sat Nov 01 2025 3:3:31 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.228 ms
+Sat Nov 01 2025 3:3:31 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 156.308 ms
+Sat Nov 01 2025 3:3:33 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 104.879 ms
+Sat Nov 01 2025 3:3:33 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 143.958 ms
+Sat Nov 01 2025 3:3:37 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/appointments/all/appointment?searchTerm= 204 - 0.266 ms
+Sat Nov 01 2025 3:3:37 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/appointments/all/appointment?searchTerm= 304 - 150.535 ms
+Sat Nov 01 2025 3:3:38 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/contents/?page=1 204 - 0.251 ms
+Sat Nov 01 2025 3:3:38 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/contents/?page=1 304 - 146.104 ms
+Sat Nov 01 2025 3:3:39 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track? 204 - 0.116 ms
+Sat Nov 01 2025 3:3:40 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track? 304 - 352.516 ms
+Sat Nov 01 2025 3:3:43 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track? 304 - 320.255 ms
+Sat Nov 01 2025 3:3:44 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.075 ms
+Sat Nov 01 2025 3:3:44 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 92.157 ms
+Sat Nov 01 2025 3:6:31 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.285 ms
+Sat Nov 01 2025 3:6:31 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track? 204 - 0.089 ms
+Sat Nov 01 2025 3:6:32 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 89.269 ms
+Sat Nov 01 2025 3:6:32 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track? 304 - 320.108 ms
+Sat Nov 01 2025 3:6:36 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.270 ms
+Sat Nov 01 2025 3:6:36 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track? 204 - 0.112 ms
+Sat Nov 01 2025 3:6:37 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 94.806 ms
+Sat Nov 01 2025 3:6:37 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track? 304 - 320.231 ms
+Sat Nov 01 2025 3:7:35 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.095 ms
+Sat Nov 01 2025 3:7:35 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track? 204 - 0.082 ms
+Sat Nov 01 2025 3:7:35 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 89.888 ms
+Sat Nov 01 2025 3:7:35 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track? 304 - 312.243 ms
+Sat Nov 01 2025 3:8:6 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.069 ms
+Sat Nov 01 2025 3:8:6 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track? 204 - 0.089 ms
+Sat Nov 01 2025 3:8:6 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 84.103 ms
+Sat Nov 01 2025 3:8:7 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track? 304 - 296.296 ms
+Sat Nov 01 2025 3:8:26 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTarm= 204 - 0.069 ms
+Sat Nov 01 2025 3:8:26 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTarm= 200 - 291.700 ms
+Sat Nov 01 2025 3:8:43 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.214 ms
+Sat Nov 01 2025 3:8:43 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTurm= 204 - 0.056 ms
+Sat Nov 01 2025 3:8:43 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 84.581 ms
+Sat Nov 01 2025 3:8:43 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTurm= 200 - 292.395 ms
+Sat Nov 01 2025 3:8:54 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm= 204 - 0.118 ms
+Sat Nov 01 2025 3:8:55 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= - - - ms
+Sat Nov 01 2025 3:8:55 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.116 ms
+Sat Nov 01 2025 3:8:55 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 84.129 ms
+Sat Nov 01 2025 3:8:55 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 200 - 305.301 ms
+Sat Nov 01 2025 3:10:20 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=a 204 - 0.217 ms
+Sat Nov 01 2025 3:10:21 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=a 200 - 312.661 ms
+Sat Nov 01 2025 3:10:23 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=as 204 - 0.069 ms
+Sat Nov 01 2025 3:10:23 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=as 200 - 124.968 ms
+Sat Nov 01 2025 3:10:26 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=f 204 - 0.082 ms
+Sat Nov 01 2025 3:10:26 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=f 200 - 253.380 ms
+Sat Nov 01 2025 3:10:27 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=fa 204 - 0.067 ms
+Sat Nov 01 2025 3:10:28 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=fa 200 - 220.005 ms
+Sat Nov 01 2025 3:10:29 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=fae 204 - 0.097 ms
+Sat Nov 01 2025 3:10:29 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=fae 200 - 126.628 ms
+Sat Nov 01 2025 3:10:30 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=faed 204 - 0.176 ms
+Sat Nov 01 2025 3:10:30 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=faed 200 - 125.571 ms
+Sat Nov 01 2025 3:10:30 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=faedi 204 - 0.056 ms
+Sat Nov 01 2025 3:10:30 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=faedi 200 - 127.331 ms
+Sat Nov 01 2025 3:10:30 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=faedin 204 - 0.048 ms
+Sat Nov 01 2025 3:10:31 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=faedin 200 - 126.740 ms
+Sat Nov 01 2025 3:10:37 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=far 204 - 0.044 ms
+Sat Nov 01 2025 3:10:37 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=far 200 - 221.401 ms
+Sat Nov 01 2025 3:10:38 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=fard 204 - 0.071 ms
+Sat Nov 01 2025 3:10:38 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=fardi 204 - 0.076 ms
+Sat Nov 01 2025 3:10:38 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=fard 200 - 215.511 ms
+Sat Nov 01 2025 3:10:38 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=fardi 200 - 221.478 ms
+Sat Nov 01 2025 3:10:38 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm=fardin 204 - 0.095 ms
+Sat Nov 01 2025 3:10:38 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm=fardin 200 - 214.864 ms
+Sat Nov 01 2025 3:10:47 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/user/expenses-details/68e160cd5784828eceb596a6 204 - 0.231 ms
+Sat Nov 01 2025 3:10:47 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/user/expenses-details/68e160cd5784828eceb596a6 304 - 130.508 ms
+Sat Nov 01 2025 3:11:54 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 3:11:55 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 3:11:55 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 3:11:56 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 3:11:57 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 3:11:57 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 3:12:27 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 3:12:28 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 3:12:28 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 3:12:40 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 3:12:41 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 3:12:41 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 3:12:52 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 3:12:52 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 3:12:52 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 3:12:58 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 3:12:59 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 3:12:59 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 3:13:0 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 3:13:1 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 3:13:1 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 3:13:41 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 3:13:41 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 3:13:41 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 3:14:10 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 3:14:10 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 3:14:10 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 3:14:15 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.869 ms
+Sat Nov 01 2025 3:14:15 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm= 204 - 0.090 ms
+Sat Nov 01 2025 3:14:15 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 95.792 ms
+Sat Nov 01 2025 3:14:16 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 200 - 471.742 ms
+Sat Nov 01 2025 3:14:23 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.368 ms
+Sat Nov 01 2025 3:14:23 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm= 204 - 0.275 ms
+Sat Nov 01 2025 3:14:23 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 89.469 ms
+Sat Nov 01 2025 3:14:23 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 304 - 465.115 ms
+Sat Nov 01 2025 3:15:58 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.076 ms
+Sat Nov 01 2025 3:15:58 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm= 204 - 0.059 ms
+Sat Nov 01 2025 3:15:59 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 95.081 ms
+Sat Nov 01 2025 3:15:59 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 304 - 288.328 ms
+Sat Nov 01 2025 3:16:57 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.179 ms
+Sat Nov 01 2025 3:16:57 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm= 204 - 0.257 ms
+Sat Nov 01 2025 3:16:57 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 95.102 ms
+Sat Nov 01 2025 3:16:58 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 304 - 294.439 ms
+Sat Nov 01 2025 3:17:2 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 106.030 ms
+Sat Nov 01 2025 3:17:2 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 304 - 349.942 ms
+Sat Nov 01 2025 3:17:4 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.278 ms
+Sat Nov 01 2025 3:17:4 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm= 204 - 0.137 ms
+Sat Nov 01 2025 3:17:4 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 90.945 ms
+Sat Nov 01 2025 3:17:4 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 304 - 326.246 ms
+Sat Nov 01 2025 3:17:12 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.134 ms
+Sat Nov 01 2025 3:17:12 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm= 204 - 0.083 ms
+Sat Nov 01 2025 3:17:12 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 88.345 ms
+Sat Nov 01 2025 3:17:13 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 304 - 296.817 ms
+Sat Nov 01 2025 3:22:23 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.186 ms
+Sat Nov 01 2025 3:22:23 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm= 204 - 0.062 ms
+Sat Nov 01 2025 3:22:23 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 80.474 ms
+Sat Nov 01 2025 3:22:23 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 304 - 293.558 ms
+Sat Nov 01 2025 3:22:43 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.166 ms
+Sat Nov 01 2025 3:22:43 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm= 204 - 0.115 ms
+Sat Nov 01 2025 3:22:43 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 89.827 ms
+Sat Nov 01 2025 3:22:44 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 304 - 296.413 ms
+Sat Nov 01 2025 3:25:16 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.060 ms
+Sat Nov 01 2025 3:25:16 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm= 204 - 0.059 ms
+Sat Nov 01 2025 3:25:17 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 88.381 ms
+Sat Nov 01 2025 3:25:17 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 304 - 295.431 ms
+Sat Nov 01 2025 3:25:58 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/user/expenses-details/68d82751768749cb2cafd69b 204 - 0.618 ms
+Sat Nov 01 2025 3:25:58 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/user/expenses-details/68d82751768749cb2cafd69b 304 - 132.847 ms
+Sat Nov 01 2025 3:27:6 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.206 ms
+Sat Nov 01 2025 3:27:6 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/admin/users/finance-track?searchTerm= 204 - 0.208 ms
+Sat Nov 01 2025 3:27:6 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 83.887 ms
+Sat Nov 01 2025 3:27:6 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/admin/users/finance-track?searchTerm= 304 - 287.194 ms
+Sat Nov 01 2025 3:27:15 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users?searchTerm=&status=all&page=1&limit=10 204 - 0.110 ms
+Sat Nov 01 2025 3:27:15 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users?searchTerm=&status=all&page=1&limit=10 304 - 85.754 ms
+Sat Nov 01 2025 3:27:36 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/contents/?page=1 204 - 0.060 ms
+Sat Nov 01 2025 3:27:37 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/contents/?page=1 304 - 131.977 ms
+Sat Nov 01 2025 3:28:57 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.093 ms
+Sat Nov 01 2025 3:28:57 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/contents/?page=1 204 - 0.048 ms
+Sat Nov 01 2025 3:28:57 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 83.184 ms
+Sat Nov 01 2025 3:28:57 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/contents/?page=1 304 - 121.672 ms
+Sat Nov 01 2025 3:29:17 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.115 ms
+Sat Nov 01 2025 3:29:17 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/contents/?page=1 204 - 0.064 ms
+Sat Nov 01 2025 3:29:17 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 87.480 ms
+Sat Nov 01 2025 3:29:17 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/contents/?page=1 304 - 129.222 ms
+Sat Nov 01 2025 3:29:45 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.088 ms
+Sat Nov 01 2025 3:29:45 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 130.758 ms
+Sat Nov 01 2025 3:32:16 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.138 ms
+Sat Nov 01 2025 3:32:16 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.135 ms
+Sat Nov 01 2025 3:32:16 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 87.247 ms
+Sat Nov 01 2025 3:32:16 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 127.356 ms
+Sat Nov 01 2025 3:33:33 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.105 ms
+Sat Nov 01 2025 3:33:33 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.076 ms
+Sat Nov 01 2025 3:33:33 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 84.406 ms
+Sat Nov 01 2025 3:33:33 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 120.109 ms
+Sat Nov 01 2025 3:33:53 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.063 ms
+Sat Nov 01 2025 3:33:53 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.045 ms
+Sat Nov 01 2025 3:33:53 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 85.954 ms
+Sat Nov 01 2025 3:33:53 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 122.656 ms
+Sat Nov 01 2025 3:34:0 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=2 204 - 0.078 ms
+Sat Nov 01 2025 3:34:0 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=2 304 - 121.110 ms
+Sat Nov 01 2025 3:34:2 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/undefined 204 - 0.077 ms
+Sat Nov 01 2025 3:34:2 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=2 304 - 120.586 ms
+Sat Nov 01 2025 3:35:6 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/undefined 204 - 0.096 ms
+Sat Nov 01 2025 3:35:6 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=2 204 - 0.070 ms
+Sat Nov 01 2025 3:35:6 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=2 304 - 120.083 ms
+Sat Nov 01 2025 3:35:29 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.169 ms
+Sat Nov 01 2025 3:35:29 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.084 ms
+Sat Nov 01 2025 3:35:29 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 84.450 ms
+Sat Nov 01 2025 3:35:29 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 124.696 ms
+Sat Nov 01 2025 3:35:32 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 83.790 ms
+Sat Nov 01 2025 3:35:32 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 125.907 ms
+Sat Nov 01 2025 3:35:35 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=2 204 - 0.112 ms
+Sat Nov 01 2025 3:35:35 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=2 304 - 122.999 ms
+Sat Nov 01 2025 3:35:37 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/69051261509e893c5944d11f 204 - 0.081 ms
+Sat Nov 01 2025 3:35:37 [SERVER-NAME] info: 127.0.0.1 - DELETE /api/v1/ad/69051261509e893c5944d11f 200 - 150.698 ms
+Sat Nov 01 2025 3:35:37 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=2 200 - 119.420 ms
+Sat Nov 01 2025 3:36:25 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/appointments/all/appointment?searchTerm= 204 - 0.256 ms
+Sat Nov 01 2025 3:36:26 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/appointments/all/appointment?searchTerm= 304 - 144.466 ms
+Sat Nov 01 2025 3:36:29 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.049 ms
+Sat Nov 01 2025 3:36:29 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.089 ms
+Sat Nov 01 2025 3:36:29 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 82.008 ms
+Sat Nov 01 2025 3:36:29 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 200 - 123.399 ms
+Sat Nov 01 2025 3:36:31 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/contents/?page=1 204 - 0.140 ms
+Sat Nov 01 2025 3:36:31 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/contents/?page=1 304 - 123.412 ms
+Sat Nov 01 2025 3:36:34 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/appointments/all/appointment?searchTerm= 204 - 0.233 ms
+Sat Nov 01 2025 3:36:34 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/appointments/all/appointment?searchTerm= 304 - 122.548 ms
+Sat Nov 01 2025 3:36:46 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users?searchTerm=&status=all&page=1&limit=10 204 - 0.081 ms
+Sat Nov 01 2025 3:36:47 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users?searchTerm=&status=all&page=1&limit=10 304 - 82.101 ms

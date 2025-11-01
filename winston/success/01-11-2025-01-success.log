@@ -1,0 +1,99 @@
+Sat Nov 01 2025 1:6:35 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.336 ms
+Sat Nov 01 2025 1:6:36 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 104.965 ms
+Sat Nov 01 2025 1:23:2 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/auth/login 204 - 0.351 ms
+Sat Nov 01 2025 1:23:25 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/auth/login 204 - 0.125 ms
+Sat Nov 01 2025 1:23:25 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/auth/login 200 - 271.461 ms
+Sat Nov 01 2025 1:23:25 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.139 ms
+Sat Nov 01 2025 1:23:26 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 109.811 ms
+Sat Nov 01 2025 1:23:31 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.242 ms
+Sat Nov 01 2025 1:24:10 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.078 ms
+Sat Nov 01 2025 1:24:11 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.094 ms
+Sat Nov 01 2025 1:24:11 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 101.740 ms
+Sat Nov 01 2025 1:24:19 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.273 ms
+Sat Nov 01 2025 1:24:19 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.080 ms
+Sat Nov 01 2025 1:24:19 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 99.082 ms
+Sat Nov 01 2025 1:26:2 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:26:3 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 1:26:3 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 1:26:11 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.793 ms
+Sat Nov 01 2025 1:26:11 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.087 ms
+Sat Nov 01 2025 1:26:11 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 101.091 ms
+Sat Nov 01 2025 1:26:11 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 200 - 94.348 ms
+Sat Nov 01 2025 1:26:53 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/ 204 - 0.080 ms
+Sat Nov 01 2025 1:26:53 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.068 ms
+Sat Nov 01 2025 1:26:53 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 85.267 ms
+Sat Nov 01 2025 1:27:4 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/ 204 - 0.145 ms
+Sat Nov 01 2025 1:27:4 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.119 ms
+Sat Nov 01 2025 1:27:4 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 89.671 ms
+Sat Nov 01 2025 1:27:19 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/ 204 - 0.113 ms
+Sat Nov 01 2025 1:27:19 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.064 ms
+Sat Nov 01 2025 1:27:19 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 85.819 ms
+Sat Nov 01 2025 1:27:55 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/ 204 - 0.063 ms
+Sat Nov 01 2025 1:27:57 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.207 ms
+Sat Nov 01 2025 1:27:57 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 85.854 ms
+Sat Nov 01 2025 1:33:2 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/expenses/analytics 200 - 82.978 ms
+Sat Nov 01 2025 1:33:20 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/expenses/frequency 200 - 363.065 ms
+Sat Nov 01 2025 1:36:16 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/budgets/ 200 - 84.389 ms
+Sat Nov 01 2025 1:36:46 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/budgets/type 200 - 81.739 ms
+Sat Nov 01 2025 1:37:5 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/budgets/analytics 200 - 81.808 ms
+Sat Nov 01 2025 1:47:44 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/ 204 - 0.439 ms
+Sat Nov 01 2025 1:47:45 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/ad/ 201 - 1231.926 ms
+Sat Nov 01 2025 1:47:45 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.081 ms
+Sat Nov 01 2025 1:47:45 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 200 - 82.123 ms
+Sat Nov 01 2025 1:47:55 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.057 ms
+Sat Nov 01 2025 1:47:55 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.078 ms
+Sat Nov 01 2025 1:47:55 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 84.611 ms
+Sat Nov 01 2025 1:47:55 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 81.219 ms
+Sat Nov 01 2025 1:48:1 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.259 ms
+Sat Nov 01 2025 1:48:1 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.074 ms
+Sat Nov 01 2025 1:48:1 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 89.254 ms
+Sat Nov 01 2025 1:48:1 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 95.514 ms
+Sat Nov 01 2025 1:49:32 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.074 ms
+Sat Nov 01 2025 1:49:32 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.053 ms
+Sat Nov 01 2025 1:49:32 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 81.146 ms
+Sat Nov 01 2025 1:49:32 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 86.273 ms
+Sat Nov 01 2025 1:51:46 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.061 ms
+Sat Nov 01 2025 1:51:46 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.041 ms
+Sat Nov 01 2025 1:51:47 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 80.947 ms
+Sat Nov 01 2025 1:51:47 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 85.619 ms
+Sat Nov 01 2025 1:55:6 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.193 ms
+Sat Nov 01 2025 1:55:6 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.092 ms
+Sat Nov 01 2025 1:55:7 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 81.900 ms
+Sat Nov 01 2025 1:55:7 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 87.184 ms
+Sat Nov 01 2025 1:56:23 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:56:25 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 1:56:25 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 1:56:28 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:56:28 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 1:56:28 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 1:56:34 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:56:35 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 1:56:35 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 1:56:42 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:56:43 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 1:56:43 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 1:57:2 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:57:3 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 1:57:3 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 1:57:8 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:57:9 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:57:10 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 1:57:10 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 1:57:20 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:57:21 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:57:21 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 1:57:21 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 1:57:32 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:57:33 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 1:57:33 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 1:57:35 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Sat Nov 01 2025 1:57:36 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
+Sat Nov 01 2025 1:57:36 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5000 or http://localhost:5000 in development mode[39m
+Sat Nov 01 2025 1:57:38 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.729 ms
+Sat Nov 01 2025 1:57:38 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.102 ms
+Sat Nov 01 2025 1:57:38 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 95.700 ms
+Sat Nov 01 2025 1:57:38 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 200 - 135.791 ms
+Sat Nov 01 2025 1:57:57 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/users/profile 204 - 0.093 ms
+Sat Nov 01 2025 1:57:57 [SERVER-NAME] info: 127.0.0.1 - OPTIONS /api/v1/ad/?page=1 204 - 0.060 ms
+Sat Nov 01 2025 1:57:57 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 304 - 91.535 ms
+Sat Nov 01 2025 1:57:57 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/ad/?page=1 304 - 393.450 ms

@@ -1,0 +1,9 @@
+Sat Nov 01 2025 4:14:52 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/appointments/undefined 400 - 61.584 ms
+Sat Nov 01 2025 4:15:20 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/appointments/undefined 400 - 43.516 ms
+Sat Nov 01 2025 4:15:29 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/appointments/undefined 400 - 46.967 ms
+Sat Nov 01 2025 4:15:41 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/admin//appointments/undefined 404 - 1.347 ms
+Sat Nov 01 2025 4:16:8 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/admin//appointments/undefined 404 - 0.476 ms
+Sat Nov 01 2025 4:16:30 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/admin//appointments/undefined 404 - 0.236 ms
+Sat Nov 01 2025 4:16:39 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/admin//appointments/68ec395ed799a22235adb7c8 404 - 0.280 ms
+Sat Nov 01 2025 4:18:23 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/admin//appointments/68ec358a8d71891fba985ce4 404 - 0.286 ms
+Sat Nov 01 2025 4:19:10 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/admin//appointments/68ec358a8d71891fba985ce4 404 - 0.591 ms

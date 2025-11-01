@@ -1,17 +1,18 @@
 import express from 'express';
 import { USER_ROLES } from '../../../enums/user';
 import { AdminController } from './admin.controller';
-import { AdminValidation } from './admin.validation';
 import auth from '../../middleware/auth';
 import validateRequest from '../../middleware/validateRequest';
+import { NotificationSettingsValidation } from '../notificationSettings/notificationSettings.validation';
 const router = express.Router();
 
-router.post('/create-admin', auth(USER_ROLES.ADMIN), validateRequest(AdminValidation.createAdminZodSchema), AdminController.createAdmin);
+router.get('/users/finance-track', auth(USER_ROLES.ADMIN), AdminController.getUserFinancialOverview);
+router.get('/user/expenses-details/:userId', auth(USER_ROLES.ADMIN), AdminController.getMonthlyExpenseAnalytics);
 
-router.get('/get-admin', auth(USER_ROLES.ADMIN), AdminController.getAdmin);
-router.get('/subscription', auth(USER_ROLES.ADMIN), AdminController.getUserSubscriptions);
+router.patch('/appointments/:userId', auth(USER_ROLES.ADMIN), AdminController.updateAppointmentStatus);
 
-router.delete('/:id', auth(USER_ROLES.ADMIN), AdminController.deleteAdmin);
+router.get('/notification-settings/:userId', auth(USER_ROLES.ADMIN), AdminController.getNotificationSettings);
 
+router.patch('/notification-settings/:userId', auth(USER_ROLES.ADMIN), validateRequest(NotificationSettingsValidation.updateNotificationSettingsZodSchema), AdminController.updateNotificationSettings);
 
 export const AdminRoutes = router;

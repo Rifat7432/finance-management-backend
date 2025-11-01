@@ -56,6 +56,18 @@ const getUserProfile = catchAsync(async (req, res) => {
           data: result,
      });
 });
+const getUser = catchAsync(async (req, res) => {
+     const id: string = req.params.id;
+
+     const result = await UserService.getUserFromDB(id);
+
+     sendResponse(res, {
+          success: true,
+          statusCode: StatusCodes.OK,
+          message: 'Profile data retrieved successfully',
+          data: result,
+     });
+});
 
 //update profile
 const updateProfile = catchAsync(async (req, res) => {
@@ -99,6 +111,17 @@ const deleteProfile = catchAsync(async (req, res) => {
           data: result,
      });
 });
+//delete profile
+const blockUser = catchAsync(async (req, res) => {
+     const id: string = req.params.id;
+     const result = await UserService.blockUserToDB(id);
+     sendResponse(res, {
+          success: true,
+          statusCode: StatusCodes.OK,
+          message: 'User blocked successfully',
+          data: result,
+     });
+});
 
 export const UserController = {
      createUser,
@@ -108,4 +131,6 @@ export const UserController = {
      createUserByGoogle,
      createUserByApple,
      getAllUsers,
+     getUser,
+     blockUser,
 };

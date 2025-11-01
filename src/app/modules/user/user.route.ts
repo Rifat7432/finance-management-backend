@@ -35,7 +35,9 @@ router
           UserController.updateProfile,
      );
 
-router.route('/').get(UserController.getAllUsers);
+router.route('/').get(auth(USER_ROLES.ADMIN), UserController.getAllUsers);
+router.route('/user/:id').get(auth(USER_ROLES.ADMIN), UserController.getUser);
+router.route('/block/:id').delete(auth(USER_ROLES.ADMIN), UserController.blockUser);
 router.route('/').post(validateRequest(UserValidation.createUserZodSchema), UserController.createUser);
 router.post('/google', validateRequest(UserValidation.googleAuthZodSchema), UserController.createUserByGoogle);
 router.post('/apple', validateRequest(UserValidation.appleAuthZodSchema), UserController.createUserByApple);

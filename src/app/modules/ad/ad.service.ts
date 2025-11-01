@@ -3,6 +3,7 @@ import { Ad } from './ad.model';
 import AppError from '../../../errors/AppError';
 import { IAd } from './ad.interface';
 import { deleteFileFromSpaces } from '../../middleware/uploadFileToSpaces';
+import QueryBuilder from '../../builder/QueryBuilder';
 
 const createAdToDB = async (payload: IAd): Promise<IAd> => {
      const newAd = await Ad.create(payload);
@@ -12,12 +13,12 @@ const createAdToDB = async (payload: IAd): Promise<IAd> => {
      return newAd;
 };
 
-const getAdsFromDB = async (): Promise<IAd[]> => {
-     const ads = await Ad.find({ isDeleted: false });
-     if (!ads.length) {
-          throw new AppError(StatusCodes.NOT_FOUND, 'No ads found');
-     }
-     return ads;
+const getAdsFromDB = async (query: any) => {
+     const ads = new QueryBuilder(Ad.find(), { ...query, isDeleted: false }).filter().sort().paginate().fields();
+     const result = await ads.modelQuery;
+     const meta = await ads.countTotal();
+
+     return { meta, result };
 };
 
 const getSingleAdFromDB = async (): Promise<IAd | null> => {

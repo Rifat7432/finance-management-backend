@@ -242,77 +242,85 @@ const getUserProfileFromDB = async (user: JwtPayload): Promise<Partial<IUser>> =
 
      return isExistUser;
 };
+const getUserFromDB = async (id: string): Promise<Partial<IUser>> => {
+     const isExistUser = await User.isExistUserById(id);
+     if (!isExistUser && isExistUser.isDeleted === true) {
+          throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
+     }
+
+     return isExistUser;
+};
 
 export const getUsersWithSubscriptionsFromDB = async (query: any): Promise<UserSubscriptionDTO[]> => {
-     const { searchTerm: search, status: filterStatus } = query;
-     // Build search filter (by name or email)
+     const { searchTerm: search, status: filterStatus = 'all', page = 1, limit = 10 } = query;
+
+     const skip = (page - 1) * limit;
+
      const searchFilter = search
           ? {
                  $or: [{ name: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }],
             }
           : {};
 
-     // Build user status filter (active & not deleted)
      const userFilter = {
-          status: 'active',
-          isDeleted: false,
+          role: USER_ROLES.USER,
+          status: 'active', // Exclude inactive users
+          isDeleted: false, // Exclude deleted users
           ...searchFilter,
      };
 
      const pipeline: any[] = [
+          // Step 1: Filter users
+          { $match: userFilter },
+
+          // Step 2: Join with subscriptions
           {
-               $match: userFilter,
-          },
-          {
-               // Join with subscriptions
                $lookup: {
-                    from: 'subscriptions', // Mongo collection name (lowercase + plural)
+                    from: 'subscriptions',
                     localField: '_id',
                     foreignField: 'userId',
                     as: 'subscriptions',
                },
           },
+
+          // Step 3: Sort subscriptions by createdAt descending
           {
-               // Take the most recent subscription if exists
                $addFields: {
+                    subscriptions: { $sortArray: { input: '$subscriptions', sortBy: { createdAt: -1 } } },
                     latestSubscription: { $arrayElemAt: ['$subscriptions', 0] },
                },
           },
+
+          // Step 4: Filter by subscription status
           {
-               // Filter subscription by status if specified
-               $match: filterStatus
-                    ? {
-                           $or: [
-                                { 'latestSubscription.status': filterStatus },
-                                {
-                                     $and: [{ latestSubscription: { $exists: false } }, { status: 'active' }, { isDeleted: false }],
-                                },
-                           ],
-                      }
-                    : {},
+               $match:
+                    filterStatus === 'all'
+                         ? {} // no extra filtering
+                         : filterStatus === 'active'
+                           ? { 'latestSubscription.status': 'active' }
+                           : filterStatus === 'expired'
+                             ? { 'latestSubscription.expiryDate': { $lt: new Date() }, 'latestSubscription.status': 'expired' }
+                             : filterStatus === 'inactive'
+                               ? { latestSubscription: { $exists: false } }
+                               : {},
           },
+
+          // Step 5: Project fields
           {
-               // Project only needed fields
                $project: {
                     image: 1,
-                    Name: '$name',
-                    Email: '$email',
-                    PhoneNumber: '$phone',
-                    Subscriptions: {
+                    name: 1,
+                    email: 1,
+                    phoneNumber: '$phone',
+                    subscriptions: {
                          $ifNull: [
                               {
                                    $cond: {
                                         if: { $ifNull: ['$latestSubscription.status', false] },
                                         then: {
                                              $concat: [
-                                                  {
-                                                       $toUpper: {
-                                                            $substrCP: ['$latestSubscription.status', 0, 1],
-                                                       },
-                                                  },
-                                                  {
-                                                       $substrCP: ['$latestSubscription.status', 1, { $strLenCP: '$latestSubscription.status' }],
-                                                  },
+                                                  { $toUpper: { $substrCP: ['$latestSubscription.status', 0, 1] } },
+                                                  { $substrCP: ['$latestSubscription.status', 1, { $strLenCP: '$latestSubscription.status' }] },
                                              ],
                                         },
                                         else: 'Inactive',
@@ -321,22 +329,21 @@ export const getUsersWithSubscriptionsFromDB = async (query: any): Promise<UserS
                               'Inactive',
                          ],
                     },
-                    StartDate: {
-                         $ifNull: ['$latestSubscription.createdAt', null],
-                    },
-                    EndDate: {
-                         $ifNull: ['$latestSubscription.expiryDate', null],
-                    },
+                    StartDate: { $ifNull: ['$latestSubscription.createdAt', null] },
+                    EndDate: { $ifNull: ['$latestSubscription.expiryDate', null] },
                },
           },
-          {
-               $sort: { createdAt: -1 },
-          },
+
+          // Step 6: Sort users by creation date
+          { $sort: { createdAt: -1 } },
+
+          // Step 7: Pagination
+          { $skip: skip },
+          { $limit: parseInt(limit) },
      ];
 
      const users = await User.aggregate(pipeline);
-     console.log(users);
-     // Format dates for UI (optional)
+
      return users.map((u) => ({
           ...u,
           StartDate: u.StartDate ? new Date(u.StartDate).toDateString() : null,
@@ -372,12 +379,28 @@ const verifyUserPassword = async (userId: string, password: string) => {
      const isPasswordValid = await User.isMatchPassword(password, user.password);
      return isPasswordValid;
 };
+const blockUserToDB = async (id: string) => {
+     const isExistUser = await User.isExistUserById(id);
+     if (!isExistUser) {
+          throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
+     }
+     if (isExistUser.role === USER_ROLES.ADMIN) {
+          throw new AppError(StatusCodes.BAD_REQUEST, "You don't have permission to delete this user!");
+     }
+     await User.findByIdAndUpdate(id, {
+          $set: { status: 'blocked' },
+     });
+
+     return true;
+};
 const deleteUser = async (id: string) => {
      const isExistUser = await User.isExistUserById(id);
      if (!isExistUser) {
           throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
      }
-
+     if (isExistUser.role === USER_ROLES.ADMIN) {
+          throw new AppError(StatusCodes.BAD_REQUEST, "You don't have permission to block this user!");
+     }
      await User.findByIdAndUpdate(id, {
           $set: { isDeleted: true },
      });
@@ -393,4 +416,6 @@ export const UserService = {
      handleAppleAuthentication,
      handleGoogleAuthentication,
      getUsersWithSubscriptionsFromDB,
+     getUserFromDB,
+     blockUserToDB,
 };
