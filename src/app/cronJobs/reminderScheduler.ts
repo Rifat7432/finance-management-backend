@@ -5,6 +5,7 @@ import { NotificationSettings } from '../modules/notificationSettings/notificati
 import { Notification } from '../modules/notification/notification.model';
 import { DateNight } from '../modules/dateNight/dateNight.model';
 import { Appointment } from '../modules/appointment/appointment.model';
+import { User } from '../modules/user/user.model';
 
 /**
  * Convert a date + time + timezone to UTC Date
@@ -24,7 +25,21 @@ function getAppointmentUTC(date: Date, time: string, timeZone?: string): Date {
 /**
  * Helper: Sends both Firebase + DB notification safely
  */
-async function sendNotificationAndSave({ userSetting, userId, title, message, meta }: { userSetting: any; userId: Types.ObjectId; title: string; message: string; meta: Record<string, any> }) {
+async function sendNotificationAndSave({
+     userSetting,
+     userId,
+     title,
+     message,
+     meta,
+     type,
+}: {
+     userSetting: any;
+     userId: Types.ObjectId;
+     title: string;
+     message: string;
+     meta: Record<string, any>;
+     type?: string;
+}) {
      if (userSetting.deviceTokenList?.length > 0) {
           await firebaseHelper.sendNotification([{ id: String(userId), deviceToken: userSetting.deviceTokenList[0] }], { title, body: message }, userSetting.deviceTokenList, 'multiple', meta);
      }
@@ -33,7 +48,7 @@ async function sendNotificationAndSave({ userSetting, userId, title, message, me
           title,
           message,
           receiver: userId,
-          type: 'APPOINTMENT',
+          type: type === 'Appointment' ? 'APPOINTMENT' : 'ALERT',
           read: false,
           meta,
      });
@@ -84,7 +99,20 @@ async function processReminders(collectionName: 'Appointment' | 'DateNight', Mod
                     message,
                     meta: { [identifierKey]: event._id },
                });
+               if (collectionName === 'DateNight') {
+                    const user = await User.findById(event.userId);
+                    const partnerId = user?.partnerId;
 
+                    const partnerSetting: any = await NotificationSettings.findOne({ userId: partnerId }).lean();
+                    if (!partnerSetting && !partnerSetting.dateNightNotification) continue;
+                    await sendNotificationAndSave({
+                         userSetting: partnerSetting,
+                         userId: partnerId!,
+                         title,
+                         message,
+                         meta: { [identifierKey]: event._id },
+                    });
+               }
                console.log(`✅ Notification sent for ${collectionName}: ${event._id}`);
           }
      }

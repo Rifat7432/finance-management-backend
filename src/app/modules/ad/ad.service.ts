@@ -60,6 +60,9 @@ const deleteAdFromDB = async (id: string): Promise<boolean> => {
      if (!deleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Ad not found');
      }
+     if (ad.url) {
+          deleteFileFromSpaces(ad.url);
+     }
      return true;
 };
 

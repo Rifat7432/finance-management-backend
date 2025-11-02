@@ -43,10 +43,9 @@ export default {
           phoneNumber: process.env.TWILIO_PHONE_NUMBER || '',
      },
      revenuecat_secret_key: process.env.REVENUECAT_SECRET_KYE,
-
-     super_admin: {
-          email: process.env.SUPER_ADMIN_EMAIL,
-          password: process.env.SUPER_ADMIN_PASSWORD,
+     admin: {
+          email: process.env.ADMIN_EMAIL,
+          password: process.env.ADMIN_PASSWORD,
      },
      spaces: {
           SPACES_KEY: process.env.SPACES_KEY,
@@ -54,4 +53,5 @@ export default {
           SPACES_ENDPOINT: process.env.SPACES_ENDPOINT,
           SPACES_BUCKET: process.env.SPACES_BUCKET,
      },
+
 };
