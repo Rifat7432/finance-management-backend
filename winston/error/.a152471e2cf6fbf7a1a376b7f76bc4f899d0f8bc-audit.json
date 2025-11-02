@@ -39,6 +39,40 @@
             "date": 1762038046747,
             "name": "C:\\Users\\mdrif\\Desktop\\projects\\finance-management-backend\\winston\\error\\02-11-2025-05-error.log",
             "hash": "aa8433fb1bf84c4a838ae0ec0f0631433c701e39b0f2aa7515c82b7580b05553"
+=======
+            "date": 1761936493221,
+            "name": "C:\\Users\\mdrif\\Desktop\\projects\\finance-management-backend\\winston\\error\\01-11-2025-00-error.log",
+            "hash": "5590b08f15e9d13dbc16c5ba205425ed7b662813e59f0aa2dfdc4f4f10ab4b23"
+        },
+        {
+            "date": 1761938583158,
+            "name": "C:\\Users\\mdrif\\Desktop\\projects\\finance-management-backend\\winston\\error\\01-11-2025-01-error.log",
+            "hash": "85b65422dedaf212b599dd38e5dd7a391db48c1dbcab8851b23dc6d857cad3b4"
+        },
+        {
+            "date": 1761941869595,
+            "name": "C:\\Users\\mdrif\\Desktop\\projects\\finance-management-backend\\winston\\error\\01-11-2025-02-error.log",
+            "hash": "5c9ba4ab3f56bcea7e9d7139c368482b7004ee9ec60b81b27cec2268b0dea1de"
+        },
+        {
+            "date": 1761945105509,
+            "name": "C:\\Users\\mdrif\\Desktop\\projects\\finance-management-backend\\winston\\error\\01-11-2025-03-error.log",
+            "hash": "e7e93c17967a995f262bdcda78a183e065fe50390d4cfede9f6540f80be9ac02"
+        },
+        {
+            "date": 1761948080446,
+            "name": "C:\\Users\\mdrif\\Desktop\\projects\\finance-management-backend\\winston\\error\\01-11-2025-04-error.log",
+            "hash": "ae40464b2e793b48703f09d2e2c7f573f21fe626e0ca70a7963bf2210e42a602"
+        },
+        {
+            "date": 1761954363899,
+            "name": "C:\\Users\\mdrif\\Desktop\\projects\\finance-management-backend\\winston\\error\\01-11-2025-05-error.log",
+            "hash": "5350b12dbf20036fca186afaea6ff05210967a1d51bf5c7c5080c417b40ec3f6"
+        },
+        {
+            "date": 1761955229031,
+            "name": "C:\\Users\\mdrif\\Desktop\\projects\\finance-management-backend\\winston\\error\\01-11-2025-06-error.log",
+            "hash": "ccf4cc05e8c6c54481b0f3756b2a080e0eb44ad3c5295f719be32e29bc2684ee"
         }
     ],
     "hashType": "sha256"

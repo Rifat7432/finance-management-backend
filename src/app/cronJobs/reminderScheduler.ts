@@ -113,7 +113,6 @@ async function processReminders(collectionName: 'Appointment' | 'DateNight', Mod
                          meta: { [identifierKey]: event._id },
                     });
                }
-
                console.log(`✅ Notification sent for ${collectionName}: ${event._id}`);
           }
      }
