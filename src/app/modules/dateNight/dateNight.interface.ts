@@ -8,6 +8,5 @@ export interface IDateNight extends Document {
      date?: Date;
      time?: string;
      location?: string;
-     enableNotification: boolean;
      isDeleted:boolean
 }

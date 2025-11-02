@@ -2,6 +2,8 @@ import { StatusCodes } from 'http-status-codes';
 import { Ad } from './ad.model';
 import AppError from '../../../errors/AppError';
 import { IAd } from './ad.interface';
+import { deleteFileFromSpaces } from '../../middleware/uploadFileToSpaces';
+import QueryBuilder from '../../builder/QueryBuilder';
 
 const createAdToDB = async (payload: IAd): Promise<IAd> => {
      const newAd = await Ad.create(payload);
@@ -11,12 +13,12 @@ const createAdToDB = async (payload: IAd): Promise<IAd> => {
      return newAd;
 };
 
-const getAdsFromDB = async (): Promise<IAd[]> => {
-     const ads = await Ad.find({ isDeleted: false });
-     if (!ads.length) {
-          throw new AppError(StatusCodes.NOT_FOUND, 'No ads found');
-     }
-     return ads;
+const getAdsFromDB = async (query: any) => {
+     const ads = new QueryBuilder(Ad.find(), { ...query, isDeleted: false }).filter().sort().paginate().fields();
+     const result = await ads.modelQuery;
+     const meta = await ads.countTotal();
+
+     return { meta, result };
 };
 
 const getSingleAdFromDB = async (): Promise<IAd | null> => {
@@ -39,6 +41,9 @@ const updateAdToDB = async (id: string, payload: Partial<IAd>): Promise<IAd | nu
      if (!ad || ad.isDeleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Ad not found or deleted');
      }
+     if (payload.url) {
+          deleteFileFromSpaces(ad.url);
+     }
      const updated = await Ad.findByIdAndUpdate(id, payload, { new: true });
      if (!updated) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to update ad');
@@ -54,6 +59,9 @@ const deleteAdFromDB = async (id: string): Promise<boolean> => {
      const deleted = await Ad.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
      if (!deleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Ad not found');
+     }
+     if (ad.url) {
+          deleteFileFromSpaces(ad.url);
      }
      return true;
 };

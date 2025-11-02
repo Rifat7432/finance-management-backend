@@ -1,17 +1,31 @@
 import express from 'express';
-import { USER_ROLES } from '../../../enums/user';
-import { SubscriptionController } from './subscription.controller';
 import auth from '../../middleware/auth';
+import { USER_ROLES } from '../../../enums/user';
+import validateRequest from '../../middleware/validateRequest';
+import { SubscriptionValidation } from './subscription.validation';
+import { SubscriptionController } from './subscription.controller';
+
 const router = express.Router();
 
-router.get('/', auth(USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN), SubscriptionController.subscriptions);
+// 🟢 Create subscription
+router.post(
+  '/',
+  auth(USER_ROLES.USER),
+  validateRequest(SubscriptionValidation.createSubscriptionZodSchema),
+  SubscriptionController.createSubscription
+);
 
-router.get('/details', auth(USER_ROLES.USER), SubscriptionController.subscriptionDetails);
-router.get('/success', SubscriptionController.orderSuccess);
-router.get('/cancel', SubscriptionController.orderCancel);
-router.post('/create-intents/:id', auth(USER_ROLES.USER), SubscriptionController.createSubscriptionSetup);
-router.post('/create-subscription/:id', auth(USER_ROLES.USER), SubscriptionController.createSubscription);
-router.patch('/update/:id', auth(USER_ROLES.USER), SubscriptionController.updateSubscription);
-router.delete('/cancel/:id', auth(USER_ROLES.USER), SubscriptionController.cancelSubscription);
+// 🔵 Webhook (RevenueCat server only)
+router.post(
+  '/webhook',
+  SubscriptionController.handleWebhook
+);
+
+// 🟠 Manual verify
+router.post(
+  '/verify',
+  auth(USER_ROLES.USER),
+  SubscriptionController.verifySubscription
+);
 
 export const SubscriptionRoutes = router;

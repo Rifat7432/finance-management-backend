@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CalculatorService = void 0;
+const node_fetch_1 = __importDefault(require("node-fetch"));
 function getSavingCalculatorFromDB(payload) {
     return __awaiter(this, void 0, void 0, function* () {
         const { amount, frequency, returnRate, years, inflationRate, taxRate } = payload;
@@ -57,77 +61,49 @@ const inflationCalculatorFromDB = (payload) => {
         futureValue: Math.round(futureValue * 100) / 100,
     };
 };
-// import fetch from 'node-fetch';
-// type InflationPayload = {
-//   fromYear: number;
-//   toYear: number;
-//   amount: number;
-// };
-// type InflationData = Record<number, number>;
-// const FRED_API_KEY = 'YOUR_FRED_API_KEY_HERE'; // Replace with your actual key
-// const SERIES_ID = 'CPIAUCSL'; // CPI for All Urban Consumers: All Items (US)
-// async function fetchCPIData(): Promise<InflationData> {
-//   const url = `https://api.stlouisfed.org/fred/series/observations?series_id=${SERIES_ID}&observation_start=1900-01-01&observation_end=2100-01-01&api_key=${FRED_API_KEY}&file_type=json`;
-//   const response = await fetch(url);
-//   if (!response.ok) {
-//     throw new Error('Failed to fetch CPI data from FRED');
-//   }
-//   const data = await response.json();
-//   const cpiData: InflationData = {};
-//   for (const obs of data.observations) {
-//     const date = obs.date as string; // format YYYY-MM-DD
-//     const year = parseInt(date.slice(0, 4));
-//     const value = parseFloat(obs.value);
-//     if (!isNaN(value)) {
-//       // Store annual CPI as the average of monthly values (sum all months then average)
-//       if (!cpiData[year]) {
-//         cpiData[year] = 0;
-//       }
-//       cpiData[year] += value;
-//     }
-//   }
-//   // Now average the CPI per year (12 months)
-//   for (const year in cpiData) {
-//     cpiData[parseInt(year)] = +(cpiData[parseInt(year)] / 12).toFixed(4);
-//   }
-//   return cpiData;
-// }
-// async function historicalInflationCalculator(payload: InflationPayload) {
-//   const { fromYear, toYear, amount } = payload;
-//   if (fromYear >= toYear) {
-//     throw new Error('From year must be less than To year');
-//   }
-//   const cpiData = await fetchCPIData();
-//   if (!cpiData[fromYear] || !cpiData[toYear]) {
-//     throw new Error(`CPI data missing for requested years: ${fromYear} or ${toYear}`);
-//   }
-//   // Inflation factor = CPI_toYear / CPI_fromYear
-//   const inflationFactor = cpiData[toYear] / cpiData[fromYear];
-//   // Value in fromYear = current amount divided by inflation factor
-//   const valueInFromYear = amount / inflationFactor;
-//   // Total inflation in percentage
-//   const totalInflationPercent = (inflationFactor - 1) * 100;
-//   return {
-//     valueInFromYear: Math.round(valueInFromYear * 100) / 100,
-//     totalInflation: Math.round(totalInflationPercent * 100) / 100,
-//   };
-// }
-// // Example usage:
-// (async () => {
-//   try {
-//     const result = await inflationCalculator({
-//       fromYear: 2010,
-//       toYear: 2020,
-//       amount: 1000,
-//     });
-//     console.log(`Value in 2010: $${result.valueInFromYear}`);
-//     console.log(`Total Inflation: ${result.totalInflation}%`);
-//   } catch (err) {
-//     console.error(err);
-//   }
-// })();
+const inflationCalculatorFromAPI = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { fromYear, toYear, amount } = payload;
+    const url = `https://api.worldbank.org/v2/country/GB/indicator/FP.CPI.TOTL.ZG?format=json&per_page=1000`;
+    const response = yield (0, node_fetch_1.default)(url);
+    if (!response.ok)
+        throw new Error('Failed to fetch inflation data from World Bank');
+    const data = yield response.json();
+    if (!Array.isArray(data) || !data[1])
+        throw new Error('Invalid API response format');
+    // Extract annual inflation rates (%)
+    const inflationRates = {};
+    for (const entry of data[1]) {
+        const year = parseInt(entry.date);
+        const value = parseFloat(entry.value);
+        if (!isNaN(year) && !isNaN(value))
+            inflationRates[year] = value;
+    }
+    // Ensure valid years
+    if (fromYear >= toYear)
+        throw new Error('From year must be less than To year');
+    const relevantYears = Object.keys(inflationRates)
+        .map(Number)
+        .filter((y) => y > fromYear && y <= toYear)
+        .sort((a, b) => a - b);
+    if (relevantYears.length === 0)
+        throw new Error(`No inflation data found between ${fromYear} and ${toYear}`);
+    // Compound inflation across all years
+    let inflationFactor = 1;
+    for (const year of relevantYears) {
+        const rate = inflationRates[year];
+        inflationFactor *= 1 + rate / 100;
+    }
+    // Calculate adjusted value
+    const valueInFromYear = amount / inflationFactor;
+    const totalInflationPercent = (inflationFactor - 1) * 100;
+    return {
+        valueInFromYear: Math.round(valueInFromYear * 100) / 100,
+        totalInflation: Math.round(totalInflationPercent * 100) / 100,
+    };
+});
 exports.CalculatorService = {
     getSavingCalculatorFromDB,
     loanRepaymentCalculatorFromDB,
     inflationCalculatorFromDB,
+    inflationCalculatorFromAPI,
 };

@@ -20,11 +20,11 @@ const income_model_1 = require("../income/income.model");
 const date_fns_1 = require("date-fns");
 const mongoose_1 = __importDefault(require("mongoose"));
 const savingGoal_model_1 = require("../savingGoal/savingGoal.model");
-const budget_model_1 = require("../budget/budget.model");
 const expense_model_1 = require("../expense/expense.model");
+const appointment_model_1 = require("../appointment/appointment.model");
+const dateNight_model_1 = require("../dateNight/dateNight.model");
 // create user
 const getAnalyticsFromDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('userId', userId);
     const user = yield user_model_1.User.isExistUserById(userId);
     if (!user) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'User not found');
@@ -212,70 +212,19 @@ const getAnalyticsFromDB = (userId) => __awaiter(void 0, void 0, void 0, functio
     return { user, analytics: result.length > 0 ? result[0] : {}, savingGoalCompletionRate: savingGoalCompletionRate.length > 0 ? savingGoalCompletionRate[0].percentComplete : 0 };
 });
 const getLatestUpdateFromDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const latestFive = yield budget_model_1.Budget.aggregate([
-        {
-            $match: { userId: new mongoose_1.default.Types.ObjectId(userId) },
-        },
-        {
-            $project: {
-                name: 1,
-                amount: 1,
-                type: { $literal: 'Budget' },
-                createdAt: 1,
-            },
-        },
-        {
-            $unionWith: {
-                coll: expense_model_1.Expense.collection.name,
-                pipeline: [
-                    { $match: { userId: new mongoose_1.default.Types.ObjectId(userId) } },
-                    {
-                        $project: {
-                            name: 1,
-                            amount: 1,
-                            type: { $literal: 'Expense' },
-                            createdAt: 1,
-                        },
-                    },
-                ],
-            },
-        },
-        {
-            $unionWith: {
-                coll: income_model_1.Income.collection.name,
-                pipeline: [
-                    { $match: { userId: new mongoose_1.default.Types.ObjectId(userId) } },
-                    {
-                        $project: {
-                            name: 1,
-                            amount: 1,
-                            type: { $literal: 'Income' },
-                            createdAt: 1,
-                        },
-                    },
-                ],
-            },
-        },
-        {
-            $unionWith: {
-                coll: savingGoal_model_1.SavingGoal.collection.name,
-                pipeline: [
-                    { $match: { userId: new mongoose_1.default.Types.ObjectId(userId) } },
-                    {
-                        $project: {
-                            name: 1,
-                            amount: '$totalAmount', // Map totalAmount to amount for consistency
-                            type: { $literal: 'SavingGoal' },
-                            createdAt: 1,
-                        },
-                    },
-                ],
-            },
-        },
-        { $sort: { createdAt: -1 } },
-        { $limit: 5 },
-    ]);
-    return latestFive;
+    const user = yield user_model_1.User.isExistUserById(userId);
+    if (!user) {
+        throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'User not found');
+    }
+    const appointments = yield appointment_model_1.Appointment.find({ userId }).sort({ createdAt: -1 });
+    const dateNights = yield dateNight_model_1.DateNight.find({ userId }).sort({ createdAt: -1 }).limit(2);
+    const expenses = yield expense_model_1.Expense.find({ userId }).sort({ createdAt: -1 }).limit(2);
+    console.log(appointments, dateNights, expenses);
+    return {
+        appointments,
+        dateNights,
+        expenses,
+    };
 });
 exports.AnalyticsService = {
     getAnalyticsFromDB,

@@ -26,6 +26,7 @@ const generateOTP_1 = __importDefault(require("../../../utils/generateOTP"));
 const cryptoToken_1 = __importDefault(require("../../../utils/cryptoToken"));
 const verifyToken_1 = require("../../../utils/verifyToken");
 const createToken_1 = require("../../../utils/createToken");
+const notificationSettings_model_1 = require("../notificationSettings/notificationSettings.model");
 //login
 const loginUserFromDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = payload;
@@ -55,6 +56,20 @@ const loginUserFromDB = (payload) => __awaiter(void 0, void 0, void 0, function*
     //check match password
     if (!(yield user_model_1.User.isMatchPassword(password, isExistUser.password))) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, 'Password is incorrect!');
+    }
+    if (payload.deviceToken) {
+        const notificationSettings = yield notificationSettings_model_1.NotificationSettings.findOne({ userId: isExistUser._id });
+        if (notificationSettings) {
+            const deviceTokens = (notificationSettings === null || notificationSettings === void 0 ? void 0 : notificationSettings.deviceTokenList) || [];
+            if (deviceTokens.includes(payload.deviceToken) === false) {
+                deviceTokens.push(payload.deviceToken);
+                notificationSettings.deviceTokenList = deviceTokens;
+                yield notificationSettings.save();
+            }
+        }
+        else {
+            yield notificationSettings_model_1.NotificationSettings.create({ userId: isExistUser._id, deviceTokens: [payload.deviceToken] });
+        }
     }
     const jwtData = { id: isExistUser._id, role: isExistUser.role, email: isExistUser.email };
     //create token
@@ -108,7 +123,7 @@ const forgetPasswordByUrlToDB = (email) => __awaiter(void 0, void 0, void 0, fun
     const jwtPayload = { id: isExistUser._id, email: isExistUser.email, role: isExistUser.role };
     const resetToken = (0, createToken_1.createToken)(jwtPayload, config_1.default.jwt.jwt_secret, config_1.default.reset_pass_expire_time);
     // Construct password reset URL
-    const resetUrl = `${config_1.default.frontend_url}/auth/login/set_password?email=${isExistUser.email}&token=${resetToken}`;
+    const resetUrl = `${config_1.default.frontend_url}/auth/reset-password?email=${isExistUser.email}&token=${resetToken}`;
     // Prepare email template
     const forgetPasswordEmail = emailTemplate_1.emailTemplate.resetPasswordByUrl({ email: isExistUser.email, resetUrl });
     // Send reset email
@@ -158,7 +173,7 @@ const resetPasswordToDB = (token, payload) => __awaiter(void 0, void 0, void 0, 
     var _a;
     const { newPassword, confirmPassword } = payload;
     //isExist token
-    const isExistToken = yield resetToken_model_1.ResetToken.isExistToken(token);
+    const isExistToken = yield resetToken_model_1.ResetToken.findOne({ token });
     if (!isExistToken) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.UNAUTHORIZED, 'You are not authorized');
     }
@@ -183,6 +198,7 @@ const resetPasswordToDB = (token, payload) => __awaiter(void 0, void 0, void 0, 
 // reset password by url
 const resetPasswordByUrl = (token, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { newPassword, confirmPassword } = payload;
+    console.log(newPassword);
     let decodedToken;
     try {
         decodedToken = yield (0, verifyToken_1.verifyToken)(token, config_1.default.jwt.jwt_secret);

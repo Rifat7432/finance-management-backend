@@ -16,6 +16,7 @@ exports.AdminService = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const AppError_1 = __importDefault(require("../../../errors/AppError"));
 const user_model_1 = require("../user/user.model");
+const subscription_model_1 = require("../subscription/subscription.model");
 const createAdminToDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const createAdmin = yield user_model_1.User.create(payload);
     if (!createAdmin) {
@@ -25,6 +26,45 @@ const createAdminToDB = (payload) => __awaiter(void 0, void 0, void 0, function*
         yield user_model_1.User.findByIdAndUpdate({ _id: createAdmin === null || createAdmin === void 0 ? void 0 : createAdmin._id }, { verified: true }, { new: true });
     }
     return createAdmin;
+});
+const getUserSubscriptionsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield subscription_model_1.Subscription.aggregate([
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'user',
+            },
+        },
+        { $unwind: '$user' },
+        {
+            $project: {
+                _id: 0,
+                name: '$user.name',
+                email: '$user.email',
+                phone: { $ifNull: ['$user.phone', '(319) 555-0115'] },
+                image: '$user.image',
+                status: {
+                    $switch: {
+                        branches: [
+                            { case: { $eq: ['$status', 'active'] }, then: 'Active' },
+                            { case: { $eq: ['$status', 'expired'] }, then: 'Expired' },
+                            { case: { $eq: ['$status', 'cancel'] }, then: 'Inactive' },
+                            { case: { $eq: ['$status', 'deactivated'] }, then: 'Inactive' },
+                        ],
+                        default: 'Unknown',
+                    },
+                },
+                startDate: '$currentPeriodStart',
+                endDate: '$currentPeriodEnd',
+            },
+        },
+        {
+            $sort: { startDate: -1 },
+        },
+    ]);
+    return result;
 });
 const deleteAdminFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const isExistAdmin = yield user_model_1.User.findByIdAndDelete(id);
@@ -41,4 +81,5 @@ exports.AdminService = {
     createAdminToDB,
     deleteAdminFromDB,
     getAdminFromDB,
+    getUserSubscriptionsFromDB
 };

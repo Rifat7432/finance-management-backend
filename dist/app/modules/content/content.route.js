@@ -22,7 +22,9 @@ const user_1 = require("../../../enums/user");
 const fileUploadHandler_1 = __importDefault(require("../../middleware/fileUploadHandler"));
 const moveImagesVideosToS3_1 = __importDefault(require("../../middleware/moveImagesVideosToS3"));
 const router = express_1.default.Router();
-router.post('/', (0, auth_1.default)(user_1.USER_ROLES.ADMIN), (0, fileUploadHandler_1.default)(), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/', 
+// auth(USER_ROLES.ADMIN),
+(0, fileUploadHandler_1.default)(), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         // 🔹 Upload image/video files from local → S3
@@ -39,7 +41,9 @@ router.post('/', (0, auth_1.default)(user_1.USER_ROLES.ADMIN), (0, fileUploadHan
 }), (0, validateRequest_1.default)(content_validation_1.ContentValidation.createContentZodSchema), content_controller_1.ContentController.createContent);
 router.get('/', (0, auth_1.default)(user_1.USER_ROLES.ADMIN, user_1.USER_ROLES.USER), content_controller_1.ContentController.getContents);
 router.get('/:id', (0, auth_1.default)(user_1.USER_ROLES.ADMIN), content_controller_1.ContentController.getSingleContent);
-router.patch('/:id', (0, auth_1.default)(user_1.USER_ROLES.ADMIN), (0, fileUploadHandler_1.default)(), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.patch('/:id', 
+// auth(USER_ROLES.ADMIN),
+(0, fileUploadHandler_1.default)(), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         // 🔹 Upload image/video files from local → S3
@@ -54,5 +58,7 @@ router.patch('/:id', (0, auth_1.default)(user_1.USER_ROLES.ADMIN), (0, fileUploa
         next(error);
     }
 }), (0, validateRequest_1.default)(content_validation_1.ContentValidation.updateContentZodSchema), content_controller_1.ContentController.updateContent);
-router.delete('/:id', (0, auth_1.default)(user_1.USER_ROLES.ADMIN), content_controller_1.ContentController.deleteContent);
+router.delete('/:id', 
+//  auth(USER_ROLES.ADMIN),
+content_controller_1.ContentController.deleteContent);
 exports.ContentRouter = router;

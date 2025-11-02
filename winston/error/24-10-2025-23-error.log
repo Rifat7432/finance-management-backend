@@ -1,0 +1,10 @@
+Fri Oct 24 2025 23:4:46 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1 404 - 0.953 ms
+Fri Oct 24 2025 23:4:54 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/docs 404 - 0.662 ms
+Fri Oct 24 2025 23:5:4 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1 404 - 1.239 ms
+Fri Oct 24 2025 23:5:50 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/auth/reset-password 401 - 42.461 ms
+Fri Oct 24 2025 23:5:55 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/auth/reset-password 401 - 45.830 ms
+Fri Oct 24 2025 23:5:57 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/auth/reset-password 401 - 46.157 ms
+Fri Oct 24 2025 23:6:31 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1 404 - 0.291 ms
+Fri Oct 24 2025 23:46:49 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/auth/reset-password 401 - 48.948 ms
+Fri Oct 24 2025 23:52:16 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/auth/reset-password 401 - 55.663 ms
+Fri Oct 24 2025 23:57:36 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/auth/reset-password 401 - 48.987 ms

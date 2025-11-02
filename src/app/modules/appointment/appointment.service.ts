@@ -2,7 +2,6 @@ import { StatusCodes } from 'http-status-codes';
 import { Appointment } from './appointment.model';
 import AppError from '../../../errors/AppError';
 import { IAppointment } from './appointment.interface';
-
 import { NotificationSettings } from '../notificationSettings/notificationSettings.model';
 import { Notification } from '../notification/notification.model';
 import { firebaseHelper } from '../../../helpers/firebaseHelper';

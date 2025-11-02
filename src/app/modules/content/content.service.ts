@@ -6,6 +6,7 @@ import { NotificationSettings } from '../notificationSettings/notificationSettin
 import { Notification } from '../notification/notification.model';
 import { firebaseHelper } from '../../../helpers/firebaseHelper';
 import QueryBuilder from '../../builder/QueryBuilder';
+import { deleteFileFromSpaces } from '../../middleware/uploadFileToSpaces';
 
 const createContentToDB = async (payload: any) => {
      const newContent = await Content.create(payload);
@@ -52,7 +53,7 @@ const createContentToDB = async (payload: any) => {
 };
 
 const getContentsFromDB = async (query: any) => {
-     const contents = new QueryBuilder(Content.find(), {...query, isDeleted: false}).filter().sort().paginate().fields();
+     const contents = new QueryBuilder(Content.find(), { ...query, isDeleted: false }).filter().sort().paginate().fields();
      const result = await contents.modelQuery;
      const meta = await contents.countTotal();
 
@@ -72,6 +73,10 @@ const updateContentToDB = async (id: string, payload: any) => {
      if (!content || content.isDeleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Content not found or deleted');
      }
+     //unlink file here
+     if (payload.videoUrl) {
+          deleteFileFromSpaces(content.videoUrl);
+     }
      const updated = await Content.findByIdAndUpdate(id, payload, { new: true });
      if (!updated) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to update content');
@@ -84,9 +89,13 @@ const deleteContentFromDB = async (id: string) => {
      if (!content || content.isDeleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Content not found or deleted');
      }
+
      const deleted = await Content.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
      if (!deleted) {
           throw new AppError(StatusCodes.NOT_FOUND, 'Content not found');
+     }
+     if (content.videoUrl) {
+          deleteFileFromSpaces(content.videoUrl);
      }
      return true;
 };

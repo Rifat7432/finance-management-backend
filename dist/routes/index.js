@@ -12,8 +12,10 @@ const income_route_1 = require("../app/modules/income/income.route");
 const admin_route_1 = require("../app/modules/admin/admin.route");
 const ad_route_1 = require("../app/modules/ad/ad.route");
 const subscription_routes_1 = require("../app/modules/subscription/subscription.routes");
-const package_routes_1 = require("../app/modules/package/package.routes");
 const analytics_route_1 = require("../app/modules/analytics/analytics.route");
+const content_route_1 = require("../app/modules/content/content.route");
+const calculator_route_1 = require("../app/modules/calculator/calculator.route");
+const dateNight_route_1 = require("../app/modules/dateNight/dateNight.route");
 const router = (0, express_1.Router)();
 const routes = [
     {
@@ -61,12 +63,20 @@ const routes = [
         route: subscription_routes_1.SubscriptionRoutes,
     },
     {
-        path: '/packages',
-        route: package_routes_1.PackageRoutes,
-    },
-    {
         path: '/analytics',
         route: analytics_route_1.AnalyticsRouter,
+    },
+    {
+        path: '/contents',
+        route: content_route_1.ContentRouter,
+    },
+    {
+        path: '/calculator',
+        route: calculator_route_1.CalculatorRouter,
+    },
+    {
+        path: '/date-nights',
+        route: dateNight_route_1.DateNightRouter,
     },
 ];
 routes.forEach((element) => {

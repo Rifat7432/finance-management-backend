@@ -1,0 +1,13 @@
+Sat Oct 25 2025 1:42:27 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/budgets/ 404 - 119.543 ms
+Sat Oct 25 2025 1:43:48 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/budgets/ 404 - 110.093 ms
+Sat Oct 25 2025 1:44:20 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/budgets/ 400 - 61.349 ms
+Sat Oct 25 2025 1:44:50 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/analytics/ 401 - 3.125 ms
+Sat Oct 25 2025 1:45:49 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/analytics/ 401 - 3.848 ms
+Sat Oct 25 2025 1:45:53 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/analytics/ 401 - 2.625 ms
+Sat Oct 25 2025 1:47:10 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/budgets/ 404 - 111.536 ms
+Sat Oct 25 2025 1:47:44 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/appointments/ 400 - 58.620 ms
+Sat Oct 25 2025 1:49:35 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/appointments/ 400 - 55.527 ms
+Sat Oct 25 2025 1:49:47 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/appointments/ 400 - 53.548 ms
+Sat Oct 25 2025 1:51:14 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/packages 401 - 3.829 ms
+Sat Oct 25 2025 1:51:22 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/packages 403 - 53.780 ms
+Sat Oct 25 2025 1:51:47 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/analytics/ 401 - 3.648 ms

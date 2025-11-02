@@ -24,6 +24,7 @@ const getAnalyticsFromDB = async (userId: string) => {
                $match: {
                     userId: new mongoose.Types.ObjectId(userId),
                     createdAt: { $gte: start, $lte: end },
+                    isDeleted: false,
                },
           },
           {
@@ -37,12 +38,9 @@ const getAnalyticsFromDB = async (userId: string) => {
                          {
                               $match: {
                                    $expr: {
-                                        $and: [
-                                             { $eq: ['$userId', '$$userId'] },
-                                             { $gte: ['$createdAt', start] },
-                                             { $lte: ['$createdAt', end] },
-                                        ],
+                                        $and: [{ $eq: ['$userId', '$$userId'] }, { $gte: ['$createdAt', start] }, { $lte: ['$createdAt', end] }],
                                    },
+                                   isDeleted: false,
                               },
                          },
                          {
@@ -60,12 +58,9 @@ const getAnalyticsFromDB = async (userId: string) => {
                          {
                               $match: {
                                    $expr: {
-                                        $and: [
-                                             { $eq: ['$userId', '$$userId'] },
-                                             { $gte: ['$createdAt', start] },
-                                             { $lte: ['$createdAt', end] },
-                                        ],
+                                        $and: [{ $eq: ['$userId', '$$userId'] }, { $gte: ['$createdAt', start] }, { $lte: ['$createdAt', end] }],
                                    },
+                                   isDeleted: false,
                               },
                          },
                          {
@@ -83,13 +78,9 @@ const getAnalyticsFromDB = async (userId: string) => {
                          {
                               $match: {
                                    $expr: {
-                                        $and: [
-                                             { $eq: ['$userId', '$$userId'] },
-                                             { $gte: ['$createdAt', start] },
-                                             { $lte: ['$createdAt', end] },
-                                             { $gt: [{ $toDate: '$completeDate' }, new Date()] },
-                                        ],
+                                        $and: [{ $eq: ['$userId', '$$userId'] }, { $gte: ['$createdAt', start] }, { $lte: ['$createdAt', end] }, { $gt: [{ $toDate: '$completeDate' }, new Date()] }],
                                    },
+                                   isDeleted: false,
                               },
                          },
                          {
@@ -115,16 +106,10 @@ const getAnalyticsFromDB = async (userId: string) => {
           {
                $addFields: {
                     totalBudget: {
-                         $add: [
-                              { $ifNull: ['$budgetOnly', 0] },
-                              { $ifNull: ['$savingGoalMonthly', 0] },
-                         ],
+                         $add: [{ $ifNull: ['$budgetOnly', 0] }, { $ifNull: ['$savingGoalMonthly', 0] }],
                     },
                     disposal: {
-                         $subtract: [
-                              { $ifNull: ['$totalIncome', 0] },
-                              { $ifNull: ['$totalExpenses', 0] },
-                         ],
+                         $subtract: [{ $ifNull: ['$totalIncome', 0] }, { $ifNull: ['$totalExpenses', 0] }],
                     },
                },
           },
@@ -140,7 +125,7 @@ const getAnalyticsFromDB = async (userId: string) => {
      ]);
 
      const savingGoalCompletionRate = await SavingGoal.aggregate([
-          { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+          { $match: { userId: new mongoose.Types.ObjectId(userId), isDeleted: false } },
           {
                $addFields: {
                     startDate: { $toDate: '$date' },
@@ -151,11 +136,7 @@ const getAnalyticsFromDB = async (userId: string) => {
           {
                $addFields: {
                     endDate: {
-                         $cond: [
-                              { $lt: ['$nowDate', '$completeDateConv'] },
-                              '$nowDate',
-                              '$completeDateConv',
-                         ],
+                         $cond: [{ $lt: ['$nowDate', '$completeDateConv'] }, '$nowDate', '$completeDateConv'],
                     },
                },
           },
@@ -164,10 +145,7 @@ const getAnalyticsFromDB = async (userId: string) => {
                     monthsElapsed: {
                          $add: [
                               {
-                                   $multiply: [
-                                        { $subtract: [{ $year: '$endDate' }, { $year: '$startDate' }] },
-                                        12,
-                                   ],
+                                   $multiply: [{ $subtract: [{ $year: '$endDate' }, { $year: '$startDate' }] }, 12],
                               },
                               { $subtract: [{ $month: '$endDate' }, { $month: '$startDate' }] },
                          ],
@@ -184,10 +162,7 @@ const getAnalyticsFromDB = async (userId: string) => {
           {
                $addFields: {
                     savedSoFar: {
-                         $min: [
-                              { $multiply: ['$monthsElapsed', '$monthlyTarget'] },
-                              '$totalAmount',
-                         ],
+                         $min: [{ $multiply: ['$monthsElapsed', '$monthlyTarget'] }, '$totalAmount'],
                     },
                },
           },
@@ -206,10 +181,7 @@ const getAnalyticsFromDB = async (userId: string) => {
                               { $eq: ['$totalGoalAmount', 0] },
                               0,
                               {
-                                   $multiply: [
-                                        { $divide: ['$totalSavedSoFar', '$totalGoalAmount'] },
-                                        100,
-                                   ],
+                                   $multiply: [{ $divide: ['$totalSavedSoFar', '$totalGoalAmount'] }, 100],
                               },
                          ],
                     },
@@ -220,10 +192,7 @@ const getAnalyticsFromDB = async (userId: string) => {
      return {
           user,
           analytics: result.length > 0 ? result[0] : {},
-          savingGoalCompletionRate:
-               savingGoalCompletionRate.length > 0
-                    ? savingGoalCompletionRate[0].percentComplete
-                    : 0,
+          savingGoalCompletionRate: savingGoalCompletionRate.length > 0 ? savingGoalCompletionRate[0].percentComplete : 0,
      };
 };
 
@@ -258,16 +227,10 @@ export const scheduleMonthlyAnalyticsJob = () => {
                          isCompleted: false,
                     });
 
-                    const totalTarget = savingGoals.reduce(
-                         (acc, g) => acc + g.monthlyTarget,
-                         0,
-                    );
+                    const totalTarget = savingGoals.reduce((acc, g) => acc + g.monthlyTarget, 0);
 
                     for (const goal of savingGoals) {
-                         const share =
-                              totalTarget > 0
-                                   ? (goal.monthlyTarget / totalTarget) * disposal
-                                   : 0;
+                         const share = totalTarget > 0 ? (goal.monthlyTarget / totalTarget) * disposal : 0;
 
                          // Add this month's saved portion
                          goal.savedMoney += share;
@@ -276,10 +239,7 @@ export const scheduleMonthlyAnalyticsJob = () => {
                          const monthlyPercent = (share / goal.totalAmount) * 100;
 
                          // Add this month's percent to existing completion
-                         goal.completionRation = Math.min(
-                              goal.completionRation + monthlyPercent,
-                              100,
-                         );
+                         goal.completionRation = Math.min(goal.completionRation + monthlyPercent, 100);
 
                          // Mark goal complete if it reaches 100%
                          if (goal.completionRation >= 100) {

@@ -16,17 +16,6 @@ exports.NotificationSettingsService = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const notificationSettings_model_1 = require("./notificationSettings.model");
 const AppError_1 = __importDefault(require("../../../errors/AppError"));
-const createNotificationSettingsToDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const exists = yield notificationSettings_model_1.NotificationSettings.findOne({ userId: payload.userId });
-    if (exists) {
-        throw new AppError_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, 'Notification settings already exist for this user');
-    }
-    const newSettings = yield notificationSettings_model_1.NotificationSettings.create(payload);
-    if (!newSettings) {
-        throw new AppError_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, 'Failed to create notification settings');
-    }
-    return newSettings;
-});
 const getNotificationSettingsFromDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const settings = yield notificationSettings_model_1.NotificationSettings.findOne({ userId });
     if (!settings) {
@@ -49,7 +38,6 @@ const deleteNotificationSettingsFromDB = (userId) => __awaiter(void 0, void 0, v
     return true;
 });
 exports.NotificationSettingsService = {
-    createNotificationSettingsToDB,
     getNotificationSettingsFromDB,
     updateNotificationSettingsToDB,
     deleteNotificationSettingsFromDB,

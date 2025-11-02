@@ -16,6 +16,7 @@ exports.AdService = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const ad_model_1 = require("./ad.model");
 const AppError_1 = __importDefault(require("../../../errors/AppError"));
+const uploadFileToSpaces_1 = require("../../middleware/uploadFileToSpaces");
 const createAdToDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const newAd = yield ad_model_1.Ad.create(payload);
     if (!newAd) {
@@ -48,6 +49,9 @@ const updateAdToDB = (id, payload) => __awaiter(void 0, void 0, void 0, function
     const ad = yield ad_model_1.Ad.findById(id);
     if (!ad || ad.isDeleted) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_FOUND, 'Ad not found or deleted');
+    }
+    if (payload.url) {
+        (0, uploadFileToSpaces_1.deleteFileFromSpaces)(ad.url);
     }
     const updated = yield ad_model_1.Ad.findByIdAndUpdate(id, payload, { new: true });
     if (!updated) {

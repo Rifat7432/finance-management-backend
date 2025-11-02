@@ -8,7 +8,7 @@ export type IUser = {
      phone?: string;
      image?: string;
      isDeleted: boolean;
-     stripeCustomerId: string;
+     customerId: string;
      status: 'active' | 'blocked';
      verified: boolean;
      socialId?: string;
@@ -21,6 +21,17 @@ export type IUser = {
      };
      notifications?: {};
 };
+export interface UserSubscriptionDTO {
+  image: string;
+  Name: string;
+  Email: string;
+  Subscriptions: string;
+  StartDate: string | null;
+  EndDate: string | null;
+  PhoneNumber: string;
+}
+
+
 
 export type UserModel = {
      isExistUserById(id: string): any;

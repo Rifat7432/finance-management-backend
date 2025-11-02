@@ -1,0 +1,15 @@
+Sat Oct 25 2025 1:6:1 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/auth/login 200 - 255.902 ms
+Sat Oct 25 2025 1:6:46 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 200 - 111.919 ms
+Sat Oct 25 2025 1:45:14 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 200 - 106.658 ms
+Sat Oct 25 2025 1:45:18 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 200 - 110.328 ms
+Sat Oct 25 2025 1:45:43 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/users/profile 200 - 109.060 ms
+Sat Oct 25 2025 1:46:29 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/analytics/ 200 - 228.551 ms
+Sat Oct 25 2025 1:46:50 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/analytics/user-last-update 200 - 280.307 ms
+Sat Oct 25 2025 1:48:44 [SERVER-NAME] info: 127.0.0.1 - POST /api/v1/auth/login 200 - 256.645 ms
+Sat Oct 25 2025 1:49:17 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/budgets/ 200 - 103.752 ms
+Sat Oct 25 2025 1:50:5 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/incomes/frequency/ 200 - 109.812 ms
+Sat Oct 25 2025 1:50:27 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/debts/ 200 - 108.555 ms
+Sat Oct 25 2025 1:50:45 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/expenses/analytics 200 - 106.549 ms
+Sat Oct 25 2025 1:51:3 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/saving-goals/ 200 - 103.982 ms
+Sat Oct 25 2025 1:51:33 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/packages/users 200 - 162.201 ms
+Sat Oct 25 2025 1:52:0 [SERVER-NAME] info: 127.0.0.1 - GET /api/v1/analytics/ 200 - 207.754 ms

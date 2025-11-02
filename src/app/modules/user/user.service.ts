@@ -4,12 +4,16 @@ import { USER_ROLES } from '../../../enums/user';
 import { emailHelper } from '../../../helpers/emailHelper';
 import { emailTemplate } from '../../../shared/emailTemplate';
 import unlinkFile from '../../../shared/unlinkFile';
-import { IUser } from './user.interface';
+import { IUser, UserSubscriptionDTO } from './user.interface';
 import { User } from './user.model';
 import AppError from '../../../errors/AppError';
 import generateOTP from '../../../utils/generateOTP';
 import config from '../../../config';
 import { jwtHelper } from '../../../helpers/jwtHelper';
+import { deleteFileFromSpaces } from '../../middleware/uploadFileToSpaces';
+import { Subscription } from '../subscription/subscription.model';
+import QueryBuilder from '../../builder/QueryBuilder';
+import { NotificationSettings } from '../notificationSettings/notificationSettings.model';
 // create user
 const createUserToDB = async (payload: IUser): Promise<IUser> => {
      //set role
@@ -40,6 +44,8 @@ const createUserToDB = async (payload: IUser): Promise<IUser> => {
      };
      await User.findOneAndUpdate({ _id: createUser._id }, { $set: { authentication } });
 
+     await NotificationSettings.create({ userId: createUser._id });
+
      return createUser;
 };
 
@@ -50,6 +56,7 @@ const handleAppleAuthentication = async (payload: {
           givenName: string;
           familyName: string;
      };
+     deviceToken?: string;
 }): Promise<any> => {
      const { email, appleId, fullName } = payload;
      // Check if the user already exists by Apple ID or email
@@ -72,6 +79,19 @@ const handleAppleAuthentication = async (payload: {
           });
           if (!newUser) {
                throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create user');
+          }
+          if (payload.deviceToken) {
+               const notificationSettings = await NotificationSettings.findOne({ userId: newUser._id });
+               if (notificationSettings) {
+                    const deviceTokens = notificationSettings?.deviceTokenList || [];
+                    if (deviceTokens.includes(payload.deviceToken) === false) {
+                         deviceTokens.push(payload.deviceToken);
+                         notificationSettings.deviceTokenList = deviceTokens;
+                         await notificationSettings.save();
+                    }
+               } else {
+                    await NotificationSettings.create({ userId: newUser._id, deviceTokens: [payload.deviceToken] });
+               }
           }
           // Send OTP for email verification
           const otp = generateOTP(4);
@@ -120,7 +140,7 @@ const handleAppleAuthentication = async (payload: {
      throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, 'An unknown error occurred');
 };
 
-const handleGoogleAuthentication = async (payload: { email: string; googleId: string; name: string; email_verified: boolean; picture?: string }): Promise<any> => {
+const handleGoogleAuthentication = async (payload: { email: string; googleId: string; name: string; email_verified: boolean; picture?: string; deviceToken?: string }): Promise<any> => {
      const { email, googleId, email_verified, name } = payload;
 
      // Check if the user already exists by Google ID or email
@@ -146,6 +166,19 @@ const handleGoogleAuthentication = async (payload: { email: string; googleId: st
           });
           if (!newUser) {
                throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create user');
+          }
+          if (payload.deviceToken) {
+               const notificationSettings = await NotificationSettings.findOne({ userId: newUser._id });
+               if (notificationSettings) {
+                    const deviceTokens = notificationSettings?.deviceTokenList || [];
+                    if (deviceTokens.includes(payload.deviceToken) === false) {
+                         deviceTokens.push(payload.deviceToken);
+                         notificationSettings.deviceTokenList = deviceTokens;
+                         await notificationSettings.save();
+                    }
+               } else {
+                    await NotificationSettings.create({ userId: newUser._id, deviceTokens: [payload.deviceToken] });
+               }
           }
           // Send OTP for email verification
           const otp = generateOTP(4);
@@ -203,24 +236,132 @@ const handleGoogleAuthentication = async (payload: { email: string; googleId: st
 const getUserProfileFromDB = async (user: JwtPayload): Promise<Partial<IUser>> => {
      const { id } = user;
      const isExistUser = await User.isExistUserById(id);
-     if (!isExistUser) {
+     if (!isExistUser && isExistUser.isDeleted === true) {
+          throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
+     }
+
+     return isExistUser;
+};
+const getUserFromDB = async (id: string): Promise<Partial<IUser>> => {
+     const isExistUser = await User.isExistUserById(id);
+     if (!isExistUser && isExistUser.isDeleted === true) {
           throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
      }
 
      return isExistUser;
 };
 
+export const getUsersWithSubscriptionsFromDB = async (query: any): Promise<UserSubscriptionDTO[]> => {
+     const { searchTerm: search, status: filterStatus = 'all', page = 1, limit = 10 } = query;
+
+     const skip = (page - 1) * limit;
+
+     const searchFilter = search
+          ? {
+                 $or: [{ name: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }],
+            }
+          : {};
+
+     const userFilter = {
+          role: USER_ROLES.USER,
+          status: 'active', // Exclude inactive users
+          isDeleted: false, // Exclude deleted users
+          ...searchFilter,
+     };
+
+     const pipeline: any[] = [
+          // Step 1: Filter users
+          { $match: userFilter },
+
+          // Step 2: Join with subscriptions
+          {
+               $lookup: {
+                    from: 'subscriptions',
+                    localField: '_id',
+                    foreignField: 'userId',
+                    as: 'subscriptions',
+               },
+          },
+
+          // Step 3: Sort subscriptions by createdAt descending
+          {
+               $addFields: {
+                    subscriptions: { $sortArray: { input: '$subscriptions', sortBy: { createdAt: -1 } } },
+                    latestSubscription: { $arrayElemAt: ['$subscriptions', 0] },
+               },
+          },
+
+          // Step 4: Filter by subscription status
+          {
+               $match:
+                    filterStatus === 'all'
+                         ? {} // no extra filtering
+                         : filterStatus === 'active'
+                           ? { 'latestSubscription.status': 'active' }
+                           : filterStatus === 'expired'
+                             ? { 'latestSubscription.expiryDate': { $lt: new Date() }, 'latestSubscription.status': 'expired' }
+                             : filterStatus === 'inactive'
+                               ? { latestSubscription: { $exists: false } }
+                               : {},
+          },
+
+          // Step 5: Project fields
+          {
+               $project: {
+                    image: 1,
+                    name: 1,
+                    email: 1,
+                    phoneNumber: '$phone',
+                    subscriptions: {
+                         $ifNull: [
+                              {
+                                   $cond: {
+                                        if: { $ifNull: ['$latestSubscription.status', false] },
+                                        then: {
+                                             $concat: [
+                                                  { $toUpper: { $substrCP: ['$latestSubscription.status', 0, 1] } },
+                                                  { $substrCP: ['$latestSubscription.status', 1, { $strLenCP: '$latestSubscription.status' }] },
+                                             ],
+                                        },
+                                        else: 'Inactive',
+                                   },
+                              },
+                              'Inactive',
+                         ],
+                    },
+                    StartDate: { $ifNull: ['$latestSubscription.createdAt', null] },
+                    EndDate: { $ifNull: ['$latestSubscription.expiryDate', null] },
+               },
+          },
+
+          // Step 6: Sort users by creation date
+          { $sort: { createdAt: -1 } },
+
+          // Step 7: Pagination
+          { $skip: skip },
+          { $limit: parseInt(limit) },
+     ];
+
+     const users = await User.aggregate(pipeline);
+
+     return users.map((u) => ({
+          ...u,
+          StartDate: u.StartDate ? new Date(u.StartDate).toDateString() : null,
+          EndDate: u.EndDate ? new Date(u.EndDate).toDateString() : null,
+     }));
+};
+
 // update user profile
 const updateProfileToDB = async (user: JwtPayload, payload: Partial<IUser>): Promise<Partial<IUser | null>> => {
      const { id } = user;
      const isExistUser = await User.isExistUserById(id);
-     if (!isExistUser) {
+     if (!isExistUser && isExistUser.isDeleted === true) {
           throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
      }
 
      //unlink file here
      if (payload.image) {
-          unlinkFile(isExistUser.image);
+          deleteFileFromSpaces(isExistUser.image);
      }
 
      const updateDoc = await User.findOneAndUpdate({ _id: id }, payload, {
@@ -238,12 +379,28 @@ const verifyUserPassword = async (userId: string, password: string) => {
      const isPasswordValid = await User.isMatchPassword(password, user.password);
      return isPasswordValid;
 };
+const blockUserToDB = async (id: string) => {
+     const isExistUser = await User.isExistUserById(id);
+     if (!isExistUser) {
+          throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
+     }
+     if (isExistUser.role === USER_ROLES.ADMIN) {
+          throw new AppError(StatusCodes.BAD_REQUEST, "You don't have permission to delete this user!");
+     }
+     await User.findByIdAndUpdate(id, {
+          $set: { status: 'blocked' },
+     });
+
+     return true;
+};
 const deleteUser = async (id: string) => {
      const isExistUser = await User.isExistUserById(id);
      if (!isExistUser) {
           throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
      }
-
+     if (isExistUser.role === USER_ROLES.ADMIN) {
+          throw new AppError(StatusCodes.BAD_REQUEST, "You don't have permission to block this user!");
+     }
      await User.findByIdAndUpdate(id, {
           $set: { isDeleted: true },
      });
@@ -258,4 +415,7 @@ export const UserService = {
      verifyUserPassword,
      handleAppleAuthentication,
      handleGoogleAuthentication,
+     getUsersWithSubscriptionsFromDB,
+     getUserFromDB,
+     blockUserToDB,
 };

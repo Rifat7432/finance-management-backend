@@ -1,0 +1,30 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 1
+    },
+    "auditLog": "C:\\Users\\mdrif\\OneDrive\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\.6f370430c5efbf297167efd650e860feb4ee7823-audit.json",
+    "files": [
+        {
+            "date": 1761322248919,
+            "name": "C:\\Users\\mdrif\\OneDrive\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\24-10-2025-22-error.log",
+            "hash": "b2c991922cdd44accab063f98271b4c0c475cd6a350eec2d0db1af693b940ef7"
+        },
+        {
+            "date": 1761325486333,
+            "name": "C:\\Users\\mdrif\\OneDrive\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\24-10-2025-23-error.log",
+            "hash": "49f1e80a2f94104567eae49f120f68f24ba0689d4d5d9c1ccb34773dda4962ef"
+        },
+        {
+            "date": 1761330359153,
+            "name": "C:\\Users\\mdrif\\OneDrive\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\25-10-2025-00-error.log",
+            "hash": "97860d200bcd9f313af3b6fa4759545ccfc57029e10ac972b6ca9624c555aae9"
+        },
+        {
+            "date": 1761334947559,
+            "name": "C:\\Users\\mdrif\\OneDrive\\Desktop\\project\\finance-management-backend-mongoose\\winston\\error\\25-10-2025-01-error.log",
+            "hash": "2d9a5cfc5f41c3168f82e28e8c8a9f17c42aec38ee5bdbffc94b2f4a6e9508db"
+        }
+    ],
+    "hashType": "sha256"
+}

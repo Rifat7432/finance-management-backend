@@ -8,7 +8,7 @@ exports.createUserZodSchema = zod_1.z.object({
         email: zod_1.z.string({ required_error: 'Email is required' }).email('Invalid email address'),
         password: zod_1.z.string({ required_error: 'Password is required' }).min(8, 'Password must be at least 8 characters long'),
         phone: (0, zod_1.string)().default(''),
-        image: zod_1.z.string(),
+        image: zod_1.z.string().optional(),
     }),
 });
 const updateUserZodSchema = zod_1.z.object({
@@ -26,6 +26,7 @@ const googleAuthZodSchema = zod_1.z.object({
         name: zod_1.z.string({ required_error: 'Name is required' }),
         email_verified: zod_1.z.boolean(),
         picture: zod_1.z.string().optional(),
+        deviceToken: zod_1.z.string().optional(),
     }),
 });
 const appleAuthZodSchema = zod_1.z.object({
@@ -36,6 +37,7 @@ const appleAuthZodSchema = zod_1.z.object({
             givenName: zod_1.z.string({ required_error: 'Name is required' }),
             familyName: zod_1.z.string({ required_error: 'Name is required' }),
         }),
+        deviceToken: zod_1.z.string().optional(),
     }),
 });
 exports.UserValidation = {

@@ -3,54 +3,60 @@ import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { AdminService } from './admin.service';
-
-const createAdmin = catchAsync(async (req: Request, res: Response) => {
-     const payload = req.body;
-     const result = await AdminService.createAdminToDB(payload);
+const getUserFinancialOverview = catchAsync(async (req: Request, res: Response) => {
+     const result = await AdminService.getUserFinancialOverviewFromDB(req.query.searchTerm as string, req.query.page ? Number(req.query.page) : 1, req.query.limit ? Number(req.query.limit) : 10);
 
      sendResponse(res, {
           statusCode: StatusCodes.OK,
           success: true,
-          message: 'Admin created Successfully',
+          message: 'User Financial Retrieved Successfully',
           data: result,
      });
 });
-const getUserSubscriptions = catchAsync(async (req: Request, res: Response) => {
-     const result = await AdminService.getUserSubscriptionsFromDB();
+const getMonthlyExpenseAnalytics = catchAsync(async (req: Request, res: Response) => {
+     const result = await AdminService.getMonthlyExpenseAnalyticsFromDB(req.params.userId);
 
      sendResponse(res, {
           statusCode: StatusCodes.OK,
           success: true,
-          message: 'User Subscription Retrieved Successfully',
+          message: 'User Monthly Expenses Details Retrieved Successfully',
           data: result,
      });
 });
-
-const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
-     const payload = req.params.id;
-     const result = await AdminService.deleteAdminFromDB(payload);
+const updateAppointmentStatus = catchAsync(async (req: Request, res: Response) => {
+     const result = await AdminService.updateAppointmentStatusIntoDB(req.params.userId);
 
      sendResponse(res, {
           statusCode: StatusCodes.OK,
           success: true,
-          message: 'Admin Deleted Successfully',
+          message: 'Appointment Completed Successfully',
           data: result,
      });
 });
+const getNotificationSettings = catchAsync(async (req: Request, res: Response) => {
+     const result = await AdminService.getNotificationSettingsFromDB(req.params.userId);
 
-const getAdmin = catchAsync(async (req: Request, res: Response) => {
-     const result = await AdminService.getAdminFromDB();
      sendResponse(res, {
           statusCode: StatusCodes.OK,
           success: true,
-          message: 'Admin Retrieved Successfully',
+          message: 'Notification Settings Retrieved Successfully',
           data: result,
      });
 });
+const updateNotificationSettings = catchAsync(async (req: Request, res: Response) => {
+     const result = await AdminService.updateNotificationSettingsToDB(req.params.userId,req.body);
 
+     sendResponse(res, {
+          statusCode: StatusCodes.OK,
+          success: true,
+          message: 'Settings Updated Successfully',
+          data: result,
+     });
+});
 export const AdminController = {
-     getUserSubscriptions,
-     deleteAdmin,
-     createAdmin,
-     getAdmin,
+     getUserFinancialOverview,
+     getMonthlyExpenseAnalytics,
+     updateAppointmentStatus,
+     getNotificationSettings,
+     updateNotificationSettings,
 };

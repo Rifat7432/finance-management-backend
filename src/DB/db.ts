@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import colors from 'colors';
 import { errorLogger, logger } from '../shared/logger';
 import config from '../config';
+import { seedAdmin } from '../seed/admin';
 
 // Set up MongoDB connection listeners
 export function setupMongooseListeners(): void {
@@ -45,6 +46,7 @@ export async function connectToDatabase(): Promise<void> {
           });
           logger.info(colors.bgCyan('🚀 Database connected successfully'));
           setupMongooseListeners();
+          await seedAdmin();
      } catch (error) {
           errorLogger.error(colors.red('Database connection error'), error);
           process.exit(1);

@@ -39,7 +39,6 @@ const forgetPasswordByUrl = catchAsync(async (req, res) => {
 
 const resetPasswordByUrl = catchAsync(async (req, res) => {
      let token = req?.headers?.authorization?.split(' ')[1];
-     console.log(token)
      const { ...resetData } = req.body;
  console.log(resetData)
      const result = await AuthService.resetPasswordByUrl(token!, resetData);
@@ -47,7 +46,7 @@ const resetPasswordByUrl = catchAsync(async (req, res) => {
      sendResponse(res, { success: true, statusCode: StatusCodes.OK, message: 'Your password has been successfully reset.', data: result });
 });
 const resetPassword = catchAsync(async (req, res) => {
-     const token: any = req.headers.resetToken;
+     const token: any = req.headers.resettoken;
      const { ...resetData } = req.body;
      const result = await AuthService.resetPasswordToDB(token!, resetData);
 
@@ -71,7 +70,7 @@ const resendOtp = catchAsync(async (req, res) => {
 
 // refresh token
 const refreshToken = catchAsync(async (req, res) => {
-     const refreshToken = req.headers?.refreshtoken as string;
+     const refreshToken = req.headers?.refreshToken as string;
      const result = await AuthService.refreshToken(refreshToken);
 
      sendResponse(res, { statusCode: StatusCodes.OK, success: true, message: 'Access token retrieved successfully', data: result });

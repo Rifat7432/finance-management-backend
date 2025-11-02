@@ -62,7 +62,7 @@ const userSchema = new mongoose_1.Schema({
         type: Boolean,
         default: false,
     },
-    stripeCustomerId: {
+    customerId: {
         type: String,
         default: '',
     },

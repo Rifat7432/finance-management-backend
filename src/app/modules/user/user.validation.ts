@@ -6,7 +6,7 @@ export const createUserZodSchema = z.object({
           email: z.string({ required_error: 'Email is required' }).email('Invalid email address'),
           password: z.string({ required_error: 'Password is required' }).min(8, 'Password must be at least 8 characters long'),
           phone: string().default(''),
-          image: z.string(),
+          image: z.string().optional(),
      }),
 });
 
@@ -25,6 +25,7 @@ const googleAuthZodSchema = z.object({
           name: z.string({ required_error: 'Name is required' }),
           email_verified: z.boolean(),
           picture: z.string().optional(),
+          deviceToken: z.string().optional(),
      }),
 });
 const appleAuthZodSchema = z.object({
@@ -35,6 +36,7 @@ const appleAuthZodSchema = z.object({
                givenName: z.string({ required_error: 'Name is required' }),
                familyName: z.string({ required_error: 'Name is required' }),
           }),
+          deviceToken: z.string().optional(),
      }),
 });
 

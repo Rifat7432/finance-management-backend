@@ -10,10 +10,10 @@ import { IncomeRouter } from '../app/modules/income/income.route';
 import { AdminRoutes } from '../app/modules/admin/admin.route';
 import { AdRouter } from '../app/modules/ad/ad.route';
 import { SubscriptionRoutes } from '../app/modules/subscription/subscription.routes';
-import { PackageRoutes } from '../app/modules/package/package.routes';
 import { AnalyticsRouter } from '../app/modules/analytics/analytics.route';
 import { ContentRouter } from '../app/modules/content/content.route';
 import { CalculatorRouter } from '../app/modules/calculator/calculator.route';
+import { DateNightRouter } from '../app/modules/dateNight/dateNight.route';
 
 const router = Router();
 const routes: { path: string; route: Router }[] = [
@@ -62,10 +62,6 @@ const routes: { path: string; route: Router }[] = [
           route: SubscriptionRoutes,
      },
      {
-          path: '/packages',
-          route: PackageRoutes,
-     },
-     {
           path: '/analytics',
           route: AnalyticsRouter,
      },
@@ -76,6 +72,10 @@ const routes: { path: string; route: Router }[] = [
      {
           path: '/calculator',
           route: CalculatorRouter,
+     },
+     {
+          path: '/date-nights',
+          route: DateNightRouter,
      },
 ];
 

@@ -35,11 +35,31 @@ const createUserByGoogle = catchAsync(async (req, res) => {
           data: result,
      });
 });
-
+const getAllUsers = catchAsync(async (req, res) => {
+     const result = await UserService.getUsersWithSubscriptionsFromDB(req.query);
+     sendResponse(res, {
+          success: true,
+          statusCode: StatusCodes.OK,
+          message: 'User with Subscriptions retrieved successfully',
+          data: result,
+     });
+});
 const getUserProfile = catchAsync(async (req, res) => {
      const user: any = req.user;
 
      const result = await UserService.getUserProfileFromDB(user);
+
+     sendResponse(res, {
+          success: true,
+          statusCode: StatusCodes.OK,
+          message: 'Profile data retrieved successfully',
+          data: result,
+     });
+});
+const getUser = catchAsync(async (req, res) => {
+     const id: string = req.params.id;
+
+     const result = await UserService.getUserFromDB(id);
 
      sendResponse(res, {
           success: true,
@@ -91,6 +111,17 @@ const deleteProfile = catchAsync(async (req, res) => {
           data: result,
      });
 });
+//delete profile
+const blockUser = catchAsync(async (req, res) => {
+     const id: string = req.params.id;
+     const result = await UserService.blockUserToDB(id);
+     sendResponse(res, {
+          success: true,
+          statusCode: StatusCodes.OK,
+          message: 'User blocked successfully',
+          data: result,
+     });
+});
 
 export const UserController = {
      createUser,
@@ -99,4 +130,7 @@ export const UserController = {
      deleteProfile,
      createUserByGoogle,
      createUserByApple,
+     getAllUsers,
+     getUser,
+     blockUser,
 };

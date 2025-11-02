@@ -1,4 +1,5 @@
-import uploadFileToS3 from './uploadFileToS3';
+import {  uploadFileToSpaces } from "./uploadFileToSpaces";
+
 
 const moveImagesVideosToS3 = async (files: any) => {
      const s3Paths: Record<string, any> = {};
@@ -7,10 +8,10 @@ const moveImagesVideosToS3 = async (files: any) => {
           const fileField = files?.[field];
           if (fileField && Array.isArray(fileField) && fileField.length > 0) {
                if (fileField.length === 1) {
-                    const uploaded = await uploadFileToS3(fileField[0].path);
+                    const uploaded = await uploadFileToSpaces(fileField[0].path);
                     s3Paths[field] = uploaded;
                } else {
-                    s3Paths[field] = await Promise.all(fileField.map((f) => uploadFileToS3(f.path)));
+                    s3Paths[field] = await Promise.all(fileField.map((f) => uploadFileToSpaces(f.path)));
                }
           }
      }

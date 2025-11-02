@@ -60,6 +60,15 @@ const createUserByGoogle = (0, catchAsync_1.default)((req, res) => __awaiter(voi
         data: result,
     });
 }));
+const getAllUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_service_1.UserService.getUsersWithSubscriptionsFromDB(req.query);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        message: 'User with Subscriptions retrieved successfully',
+        data: result,
+    });
+}));
 const getUserProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
     const result = yield user_service_1.UserService.getUserProfileFromDB(user);
@@ -115,4 +124,5 @@ exports.UserController = {
     deleteProfile,
     createUserByGoogle,
     createUserByApple,
+    getAllUsers,
 };
