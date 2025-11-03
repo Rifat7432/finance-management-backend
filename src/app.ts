@@ -15,6 +15,7 @@ import './app/cronJobs/debtReminderScheduler'; // ✅ This runs the job on app s
 import './app/cronJobs/IncomeScheduler'; // ✅ This runs the job on app start
 import './app/cronJobs/ExpensesScheduler'; // ✅ starts Expense scheduler on app start
 import './app/cronJobs/AutoSavingGoalUpdateScheduler'; // ✅ starts Auto Saving Goal Update scheduler on app start
+import './app/cronJobs/MonthlyFinanceRemainder'; // ✅ starts Auto Saving Goal Update scheduler on app start
 
 const app: Application = express();
 
