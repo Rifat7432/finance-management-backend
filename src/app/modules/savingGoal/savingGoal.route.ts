@@ -9,33 +9,33 @@ const router = express.Router();
 
 router.post(
   '/',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   validateRequest(SavingGoalValidation.createSavingGoalZodSchema),
   SavingGoalController.createSavingGoal
 );
 
 router.get(
   '/',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   SavingGoalController.getUserSavingGoals
 );
 
 router.get(
   '/:id',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   SavingGoalController.getSingleSavingGoal
 );
 
 router.patch(
   '/:id',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   validateRequest(SavingGoalValidation.updateSavingGoalZodSchema),
   SavingGoalController.updateSavingGoal
 );
 
 router.delete(
   '/:id',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   SavingGoalController.deleteSavingGoal
 );
 

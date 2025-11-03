@@ -1,8 +1,0 @@
-Sat Nov 01 2025 1:23:3 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/auth/login 400 - 506.945 ms
-Sat Nov 01 2025 1:23:31 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/ad/?page=1 404 - 113.579 ms
-Sat Nov 01 2025 1:24:11 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/ad/?page=1 404 - 100.268 ms
-Sat Nov 01 2025 1:24:19 [SERVER-NAME] error: 127.0.0.1 - GET /api/v1/ad/?page=1 404 - 94.719 ms
-Sat Nov 01 2025 1:26:53 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/ad/ 400 - 51.363 ms
-Sat Nov 01 2025 1:27:4 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/ad/ 400 - 46.460 ms
-Sat Nov 01 2025 1:27:19 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/ad/ 400 - 43.992 ms
-Sat Nov 01 2025 1:27:57 [SERVER-NAME] error: 127.0.0.1 - POST /api/v1/ad/ 400 - 1311.095 ms

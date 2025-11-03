@@ -1,8 +1,0 @@
-Thu Oct 16 2025 0:38:14 [SERVER-NAME] info: [32mConfig validation successful.[39m
-Thu Oct 16 2025 0:38:15 [SERVER-NAME] info: [46m🚀 Database connected successfully[49m
-Thu Oct 16 2025 0:38:15 [SERVER-NAME] info: [33m♻️  Application & Socket listening on http://0.0.0.0:5001 or http://localhost:5001 in development mode[39m
-Thu Oct 16 2025 0:46:46 [SERVER-NAME] info: [32mMongoDB reconnected successfully[39m
-Thu Oct 16 2025 0:47:36 [SERVER-NAME] warn: [33mMongoDB disconnected. Attempting to reconnect...[39m
-Thu Oct 16 2025 0:47:38 [SERVER-NAME] info: [32mMongoDB reconnected successfully[39m
-Thu Oct 16 2025 0:51:2 [SERVER-NAME] warn: [33mMongoDB disconnected. Attempting to reconnect...[39m
-Thu Oct 16 2025 0:51:12 [SERVER-NAME] info: [32mMongoDB reconnected successfully[39m

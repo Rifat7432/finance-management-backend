@@ -1,2 +1,0 @@
-Sat Nov 01 2025 3:34:2 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/ad/undefined 400 - 68.026 ms
-Sat Nov 01 2025 3:35:6 [SERVER-NAME] error: 127.0.0.1 - PATCH /api/v1/ad/undefined 400 - 43.503 ms

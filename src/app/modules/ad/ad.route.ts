@@ -9,6 +9,7 @@ import moveImagesVideosToS3 from '../../middleware/moveImagesVideosToS3';
 
 const router = express.Router();
 
+// admin ad routes
 router.post(
      '/',
      auth(USER_ROLES.ADMIN),
@@ -43,8 +44,6 @@ router.post(
 
 router.get('/', auth(USER_ROLES.ADMIN), AdController.getAds);
 
-router.get('/random-ads', auth(USER_ROLES.USER), AdController.getSingleAd);
-
 router.patch(
      '/:id',
      auth(USER_ROLES.ADMIN),
@@ -78,5 +77,11 @@ router.patch(
 );
 
 router.delete('/:id', auth(USER_ROLES.ADMIN), AdController.deleteAd);
+
+
+
+// user ad routes
+router.get('/random-ads', auth(USER_ROLES.USER), AdController.getSingleAd);
+
 
 export const AdRouter = router;

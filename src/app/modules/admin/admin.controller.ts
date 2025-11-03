@@ -44,7 +44,7 @@ const getNotificationSettings = catchAsync(async (req: Request, res: Response) =
      });
 });
 const updateNotificationSettings = catchAsync(async (req: Request, res: Response) => {
-     const result = await AdminService.updateNotificationSettingsToDB(req.params.userId,req.body);
+     const result = await AdminService.updateNotificationSettingsToDB(req.params.userId, req.body);
 
      sendResponse(res, {
           statusCode: StatusCodes.OK,

@@ -10,9 +10,23 @@ import moveImagesVideosToS3 from '../../middleware/moveImagesVideosToS3';
 
 const router = express.Router();
 
+
+// user content routes
+router.get('/', auth(USER_ROLES.ADMIN, USER_ROLES.USER), ContentController.getContents);
+
+router.get('/:id', auth(USER_ROLES.ADMIN, USER_ROLES.USER), ContentController.getSingleContent);
+
+router.put(
+     '/:id',
+     auth(USER_ROLES.USER),
+     validateRequest(ContentValidation.updateContentZodSchema),
+     ContentController.updateContent,
+);
+// admin content routes
+
 router.post(
      '/',
-     // auth(USER_ROLES.ADMIN),
+     auth(USER_ROLES.ADMIN),
      fileUploadHandler(),
      async (req: Request, res: Response, next: NextFunction) => {
           try {
@@ -34,14 +48,9 @@ router.post(
      validateRequest(ContentValidation.createContentZodSchema),
      ContentController.createContent,
 );
-
-router.get('/', auth(USER_ROLES.ADMIN, USER_ROLES.USER), ContentController.getContents);
-
-router.get('/:id', auth(USER_ROLES.ADMIN), ContentController.getSingleContent);
-
 router.patch(
      '/:id',
-     // auth(USER_ROLES.ADMIN),
+     auth(USER_ROLES.ADMIN),
      fileUploadHandler(),
      async (req: Request, res: Response, next: NextFunction) => {
           try {
@@ -64,7 +73,7 @@ router.patch(
      ContentController.updateContent,
 );
 router.delete('/:id',
-     //  auth(USER_ROLES.ADMIN),
+      auth(USER_ROLES.ADMIN),
  ContentController.deleteContent);
 
 export const ContentRouter = router;

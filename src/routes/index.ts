@@ -14,6 +14,9 @@ import { AnalyticsRouter } from '../app/modules/analytics/analytics.route';
 import { ContentRouter } from '../app/modules/content/content.route';
 import { CalculatorRouter } from '../app/modules/calculator/calculator.route';
 import { DateNightRouter } from '../app/modules/dateNight/dateNight.route';
+import { NotificationRoutes } from '../app/modules/notification/notification.routes';
+import { NotificationSettingsRouter } from '../app/modules/notificationSettings/notificationSettings.route';
+import { PartnerRequestRouter } from '../app/modules/partnerRequest/partnerRequest.route';
 
 const router = Router();
 const routes: { path: string; route: Router }[] = [
@@ -76,6 +79,18 @@ const routes: { path: string; route: Router }[] = [
      {
           path: '/date-nights',
           route: DateNightRouter,
+     },
+     {
+          path: '/notifications',
+          route: NotificationRoutes,
+     },
+     {
+          path: '/notifications-settings',
+          route: NotificationSettingsRouter,
+     },
+     {
+          path: '/partner-requests',
+          route: PartnerRequestRouter,
      },
 ];
 

@@ -21,7 +21,7 @@ const loginUserFromDB = async (payload: ILoginData) => {
      if (!password) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Password is required!');
      }
-     const isExistUser = await User.findOne({ email }).select('+password');
+     const isExistUser = await User.findOne({ email, isDeleted: false }).select('+password');
      if (!isExistUser) {
           throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
      }
@@ -44,7 +44,10 @@ const loginUserFromDB = async (payload: ILoginData) => {
      if (isExistUser?.status === 'blocked') {
           throw new AppError(StatusCodes.BAD_REQUEST, 'You don’t have permission to access this content.It looks like your account has been blocked.');
      }
-
+     // Check if the user is blocked
+     if (isExistUser.authProvider !== 'local') {
+          throw new AppError(StatusCodes.FORBIDDEN, 'Wrong Login Method!');
+     }
      //check match password
      if (!(await User.isMatchPassword(password, isExistUser.password))) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Password is incorrect!');
@@ -117,7 +120,6 @@ const forgetPasswordByUrlToDB = async (email: string) => {
      if (isExistUser.status === 'blocked') {
           throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked!');
      }
-
      // Generate JWT token for password reset valid for 10 minutes
      const jwtPayload = { id: isExistUser._id, email: isExistUser.email, role: isExistUser.role };
      const resetToken = createToken(jwtPayload, config.jwt.jwt_secret as string, config.reset_pass_expire_time as string);
@@ -210,7 +212,6 @@ const resetPasswordToDB = async (token: string, payload: IAuthResetPassword) => 
 // reset password by url
 const resetPasswordByUrl = async (token: string, payload: IAuthResetPassword) => {
      const { newPassword, confirmPassword } = payload;
-     console.log(newPassword);
      let decodedToken;
      try {
           decodedToken = await verifyToken(token, config.jwt.jwt_secret as Secret);

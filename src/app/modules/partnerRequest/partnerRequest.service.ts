@@ -5,11 +5,13 @@ import { PartnerRequest } from './partnerRequest.model';
 import { User } from '../user/user.model';
 import { emailTemplate } from '../../../shared/emailTemplate';
 import { emailHelper } from '../../../helpers/emailHelper';
+import { USER_ROLES } from '../../../enums/user';
 
 const createPartnerRequestToDB = async (inviterId: string, partnerData: { name: string; email: string; relation: string }) => {
      const inviter = await User.findById(inviterId);
      if (!inviter) throw new AppError(StatusCodes.NOT_FOUND, 'Inviter not found');
-     if (!inviter.partnerId) {
+     console.log(inviter.partnerId)
+     if (inviter.partnerId) {
           throw new AppError(StatusCodes.CONFLICT, 'You are already partnered with someone');
      }
      // Check if partner user already exists
@@ -54,7 +56,7 @@ const createPartnerRequestToDB = async (inviterId: string, partnerData: { name: 
                name: partnerData.name,
                email: partnerData.email,
                password: defaultPassword,
-               role: 'user',
+               role: USER_ROLES.USER,
           });
           await PartnerRequest.create({
                fromUser: inviterId,

@@ -7,15 +7,15 @@ import { BudgetValidation } from './budget.validation';
 
 const router = express.Router();
 
-router.post('/', auth(USER_ROLES.USER, USER_ROLES.ADMIN), validateRequest(BudgetValidation.createBudgetZodSchema), BudgetController.createBudget);
+router.post('/', auth(USER_ROLES.USER), validateRequest(BudgetValidation.createBudgetZodSchema), BudgetController.createBudget);
 
-router.get('/', auth(USER_ROLES.USER, USER_ROLES.ADMIN), BudgetController.getUserBudgets);
+router.get('/', auth(USER_ROLES.USER), BudgetController.getUserBudgets);
 
-router.get('/type', auth(USER_ROLES.USER, USER_ROLES.ADMIN), BudgetController.getUserBudgetsByType);
-router.get('/analytics', auth(USER_ROLES.USER, USER_ROLES.ADMIN), BudgetController.getYearlyBudgetAnalytics);
+router.get('/type', auth(USER_ROLES.USER), BudgetController.getUserBudgetsByType);
+router.get('/analytics', auth(USER_ROLES.USER), BudgetController.getYearlyBudgetAnalytics);
 
-router.patch('/:id', auth(USER_ROLES.USER, USER_ROLES.ADMIN), validateRequest(BudgetValidation.updateBudgetZodSchema), BudgetController.updateBudget);
+router.patch('/:id', auth(USER_ROLES.USER), validateRequest(BudgetValidation.updateBudgetZodSchema), BudgetController.updateBudget);
 
-router.delete('/:id', auth(USER_ROLES.USER, USER_ROLES.ADMIN), BudgetController.deleteBudget);
+router.delete('/:id', auth(USER_ROLES.USER), BudgetController.deleteBudget);
 
 export const BudgetRouter = router;

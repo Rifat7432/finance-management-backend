@@ -6,7 +6,7 @@ const createAccount = (values: ICreateAccount) => {
           subject: 'Verify your account',
           html: `<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">
   <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
-    <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
+    <img src="https://rehoapp.lon1.digitaloceanspaces.com/image/a36a9f50-3237-4517-b7c9-5d6bbde894cb.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
     <h2 style="color: #636AE8; font-size: 24px; margin-bottom: 20px;">Hey! ${values.name}, Your Account Credentials</h2>
     <div style="text-align: center;">
       <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Your single use code is:</p>
@@ -27,7 +27,7 @@ const resetPassword = (values: IResetPassword) => {
           subject: 'Reset your password',
           html: `<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">
     <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-        <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
+        <img src="https://rehoapp.lon1.digitaloceanspaces.com/image/a36a9f50-3237-4517-b7c9-5d6bbde894cb.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
         <div style="text-align: center;">
             <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Your single use code is:</p>
             <div style="background-color: #636AE8; width: 120px; padding: 10px; text-align: center; border-radius: 8px; color: #fff; font-size: 25px; letter-spacing: 2px; margin: 20px auto;">${values.otp}</div>
@@ -45,7 +45,7 @@ const resetPasswordByUrl = (values: IResetPasswordByEmail) => {
           subject: 'Reset Your Password',
           html: `<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">
       <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-        <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
+        <img src="https://rehoapp.lon1.digitaloceanspaces.com/image/a36a9f50-3237-4517-b7c9-5d6bbde894cb.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
         <div style="text-align: center;">
           <h2 style="color: #333;">Reset Your Password</h2>
           <p style="color: #555; font-size: 16px; line-height: 1.5;">We received a request to reset your password. Click the button below to reset it:</p>
@@ -65,7 +65,7 @@ const partnerInvite = (values: IPartnerInvite) => {
           html: `
         <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">
             <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
-                <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
+                <img src="https://rehoapp.lon1.digitaloceanspaces.com/image/a36a9f50-3237-4517-b7c9-5d6bbde894cb.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
                 <h2 style="color: #636AE8; font-size: 24px; margin-bottom: 20px;">Hi ${values.name}, You've been invited by ${values.inviterName}!</h2>
                 <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">You’ve been invited to be ${values.inviterName}'s partner on OurApp. Here are your login credentials:</p>
                 <div style="background-color: #636AE8; width: 120px; padding: 10px; text-align: center; border-radius: 8px; color: #fff; font-size: 25px; letter-spacing: 2px; margin: 20px auto;">${values.password}</div>
@@ -83,7 +83,7 @@ const partnerRequest = (values: IPartnerRequest) => {
           html: `
         <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 50px; padding: 20px; color: #555;">
             <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
-                <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
+                <img src="https://rehoapp.lon1.digitaloceanspaces.com/image/a36a9f50-3237-4517-b7c9-5d6bbde894cb.png" alt="Logo" style="display: block; margin: 0 auto 20px; width:150px" />
                 <h2 style="color: #636AE8; font-size: 24px; margin-bottom: 20px;">Hi ${values.name},</h2>
                 <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">${values.inviterName} wants to make you their partner on OurApp as a ${values.relation}. Please review and respond to this request.</p>
                 <p style="color: #b9b4b4; font-size: 16px; text-align: center;">If you didn’t request this, you can ignore this email.</p>
@@ -100,7 +100,7 @@ const monthlySummary = (values: { email: string; name: string; month: string; in
       <body style="font-family: Arial, sans-serif; background-color:#f9f9f9; margin:40px; padding:20px; color:#555;">
         <div style="width:100%; max-width:600px; margin:0 auto; padding:20px; background:#fff;
           border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);">
-          <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo"
+          <img src="https://rehoapp.lon1.digitaloceanspaces.com/image/a36a9f50-3237-4517-b7c9-5d6bbde894cb.png" alt="Logo"
             style="display:block; margin:0 auto 20px; width:150px;" />
           <h2 style="color:#636AE8; font-size:24px; text-align:center; margin-bottom:20px;">
             ${values.month} Financial Summary for ${values.name}
@@ -131,7 +131,7 @@ const expensesExceedIncome = (values: { email: string; name: string; income: num
       <body style="font-family: Arial, sans-serif; background-color:#f9f9f9; margin:40px; padding:20px; color:#555;">
         <div style="width:100%; max-width:600px; margin:0 auto; padding:20px; background:#fff;
           border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); text-align:center;">
-          <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo"
+          <img src="https://rehoapp.lon1.digitaloceanspaces.com/image/a36a9f50-3237-4517-b7c9-5d6bbde894cb.png" alt="Logo"
             style="display:block; margin:0 auto 20px; width:150px;" />
           <h2 style="color:#636AE8; font-size:24px; margin-bottom:20px;">Hey ${values.name},</h2>
           <p style="font-size:16px; line-height:1.5;">We noticed your total monthly expenses (<strong>$${values.totalExpenses}</strong>) have exceeded your income (<strong>$${values.income}</strong>).</p>
@@ -150,7 +150,7 @@ const budgetExceedsIncome = (values: { email: string; name: string; income: numb
       <body style="font-family: Arial, sans-serif; background-color:#f9f9f9; margin:40px; padding:20px; color:#555;">
         <div style="width:100%; max-width:600px; margin:0 auto; padding:20px; background:#fff;
           border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); text-align:center;">
-          <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo"
+          <img src="https://rehoapp.lon1.digitaloceanspaces.com/image/a36a9f50-3237-4517-b7c9-5d6bbde894cb.png" alt="Logo"
             style="display:block; margin:0 auto 20px; width:150px;" />
           <h2 style="color:#636AE8; font-size:24px; margin-bottom:20px;">Hi ${values.name},</h2>
           <p style="font-size:16px; line-height:1.5;">Your total monthly budget (<strong>$${values.totalBudget}</strong>) is higher than your income (<strong>$${values.income}</strong>).</p>
@@ -177,7 +177,7 @@ const subscriptionEvent = (values: { email: string; name: string; status: 'activ
       <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 40px; padding: 20px; color: #555;">
         <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff;
           border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
-          <img src="https://i.postimg.cc/6pgNvKhD/logo.png" alt="Logo"
+          <img src="https://rehoapp.lon1.digitaloceanspaces.com/image/a36a9f50-3237-4517-b7c9-5d6bbde894cb.png" alt="Logo"
             style="display: block; margin: 0 auto 20px; width:150px" />
           <h2 style="color: #636AE8; font-size: 24px; margin-bottom: 20px;">Hi ${values.name},</h2>
           <p style="font-size: 16px; line-height: 1.5;">${eventMessages[values.status]}</p>

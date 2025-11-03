@@ -7,31 +7,14 @@ import { USER_ROLES } from '../../../enums/user';
 
 const router = express.Router();
 
-router.post(
-  '/',auth(USER_ROLES.USER),
-  validateRequest(DateNightValidation.createDateNightZodSchema),
-  DateNightController.createDateNight
-);
+router.post('/', auth(USER_ROLES.USER), validateRequest(DateNightValidation.createDateNightZodSchema), DateNightController.createDateNight);
 
-router.get(
-  '/',auth(USER_ROLES.USER),
-  DateNightController.getDateNights
-);
+router.get('/', auth(USER_ROLES.USER), DateNightController.getDateNights);
 
-router.get(
-  '/:id',
-  DateNightController.getSingleDateNight
-);
+router.get('/:id', auth(USER_ROLES.USER), DateNightController.getSingleDateNight);
 
-router.patch(
-  '/:id',
-  validateRequest(DateNightValidation.updateDateNightZodSchema),
-  DateNightController.updateDateNight
-);
+router.patch('/:id', auth(USER_ROLES.USER), validateRequest(DateNightValidation.updateDateNightZodSchema), DateNightController.updateDateNight);
 
-router.delete(
-  '/:id',
-  DateNightController.deleteDateNight
-);
+router.delete('/:id', auth(USER_ROLES.USER), DateNightController.deleteDateNight);
 
 export const DateNightRouter = router;

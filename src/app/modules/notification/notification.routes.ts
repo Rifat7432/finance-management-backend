@@ -18,24 +18,5 @@ router.patch(
   NotificationController.markUserNotificationsAsRead
 );
 
-// ✅ Admin notifications
-router.get(
-  '/admin',
-  auth(USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN),
-  NotificationController.getAdminNotifications
-);
-
-router.patch(
-  '/admin',
-  auth(USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN),
-  NotificationController.markAdminNotificationsAsRead
-);
-
-// ✅ Send admin push notification
-router.post(
-  '/admin/send',
-  auth(USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN),
-  NotificationController.sendAdminNotification
-);
 
 export const NotificationRoutes = router;

@@ -23,7 +23,7 @@ const createContentToDB = async (payload: any) => {
                     if (setting.deviceTokenList && setting.deviceTokenList.length > 0) {
                          // Send push notification
                          notificationPromises.push(
-                              firebaseHelper.sendNotification(
+                              await firebaseHelper.sendNotification(
                                    [{ id: String(setting.userId), deviceToken: setting.deviceTokenList[0] }],
                                    {
                                         title: 'New Content Available',

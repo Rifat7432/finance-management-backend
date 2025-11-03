@@ -6,11 +6,13 @@ import validateRequest from '../../middleware/validateRequest';
 import { NotificationSettingsValidation } from '../notificationSettings/notificationSettings.validation';
 const router = express.Router();
 
+
+//user admin routes
 router.get('/users/finance-track', auth(USER_ROLES.ADMIN), AdminController.getUserFinancialOverview);
 router.get('/user/expenses-details/:userId', auth(USER_ROLES.ADMIN), AdminController.getMonthlyExpenseAnalytics);
-
+//appointment admin routes
 router.patch('/appointments/:userId', auth(USER_ROLES.ADMIN), AdminController.updateAppointmentStatus);
-
+//notification settings admin routes
 router.get('/notification-settings/:userId', auth(USER_ROLES.ADMIN), AdminController.getNotificationSettings);
 
 router.patch('/notification-settings/:userId', auth(USER_ROLES.ADMIN), validateRequest(NotificationSettingsValidation.updateNotificationSettingsZodSchema), AdminController.updateNotificationSettings);

@@ -30,46 +30,9 @@ const markUserNotificationsAsRead = catchAsync(async (req: Request, res: Respons
   });
 });
 
-// ✅ Get admin notifications
-const getAdminNotifications = catchAsync(async (_req: Request, res: Response) => {
-  const result = await NotificationService.adminNotificationFromDB();
-
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
-    success: true,
-    message: 'Admin notifications retrieved successfully',
-    data: result,
-  });
-});
-
-// ✅ Mark admin notifications as read
-const markAdminNotificationsAsRead = catchAsync(async (_req: Request, res: Response) => {
-  const result = await NotificationService.adminReadNotificationToDB();
-
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
-    success: true,
-    message: 'Admin notifications marked as read',
-    data: result,
-  });
-});
-
-// ✅ Send admin push notification
-const sendAdminNotification = catchAsync(async (req: Request, res: Response) => {
-  const result = await NotificationService.adminSendNotificationFromDB(req.body);
-
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
-    success: true,
-    message: 'Admin notification sent successfully',
-    data: result,
-  });
-});
 
 export const NotificationController = {
   getUserNotifications,
   markUserNotificationsAsRead,
-  getAdminNotifications,
-  markAdminNotificationsAsRead,
-  sendAdminNotification,
+
 };

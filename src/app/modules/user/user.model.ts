@@ -50,7 +50,7 @@ const userSchema = new Schema<IUser, UserModel>(
                type: Boolean,
                default: false,
           },
-          customerId: {
+          subscriptionId: {
                type: String,
                default: '',
           },
@@ -60,7 +60,7 @@ const userSchema = new Schema<IUser, UserModel>(
           },
           authProvider: {
                type: String,
-               enum: ['google', 'apple',"local"],
+               enum: ['google', 'apple', 'local'],
                default: 'local', // Specifies whether the ID is from Google or Apple
           },
           partnerId: {
@@ -97,10 +97,10 @@ userSchema.statics.isExistUserById = async (id: string) => {
 // db.users.updateOne({email:"tihow91361@linxues.com"},{email:"rakibhassan305@gmail.com"})
 
 userSchema.statics.isExistUserByEmail = async (email: string) => {
-     return await User.findOne({ email });
+     return await User.findOne({ email, isDeleted: false });
 };
-userSchema.statics.isExistUserByPhone = async (contact: string) => {
-     return await User.findOne({ contact });
+userSchema.statics.isExistUserByPhone = async (phone: string) => {
+     return await User.findOne({ phone, isDeleted: false });
 };
 // Password Matching
 userSchema.statics.isMatchPassword = async (password: string, hashPassword: string): Promise<boolean> => {

@@ -19,8 +19,14 @@ const updateContentZodSchema = z.object({
           views: z.number().optional(),
      }),
 });
+const updateContentViewsZodSchema = z.object({
+     body: z.object({
+          view: z.number().optional(),
+     }),
+});
 
 export const ContentValidation = {
      createContentZodSchema,
      updateContentZodSchema,
+     updateContentViewsZodSchema,
 };

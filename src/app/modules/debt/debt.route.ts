@@ -9,38 +9,38 @@ const router = express.Router();
 
 router.post(
   '/',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   validateRequest(DebtValidation.createDebtZodSchema),
   DebtController.createDebt
 );
 
 router.get(
   '/',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   DebtController.getUserDebts
 );
 router.get(
   '/insights',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   DebtController.getDebtInsights
 );
 
 router.get(
   '/single/:id',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   DebtController.getSingleDebt
 );
 
 router.patch(
   '/:id',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   validateRequest(DebtValidation.updateDebtZodSchema),
   DebtController.updateDebt
 );
 
 router.delete(
   '/:id',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   DebtController.deleteDebt
 );
 

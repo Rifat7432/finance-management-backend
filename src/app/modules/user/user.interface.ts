@@ -8,7 +8,7 @@ export type IUser = {
      phone?: string;
      image?: string;
      isDeleted: boolean;
-     customerId: string;
+     subscriptionId: string;
      status: 'active' | 'blocked';
      verified: boolean;
      socialId?: string;

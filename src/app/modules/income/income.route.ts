@@ -11,7 +11,7 @@ const router = express.Router();
 // Create new income
 router.post(
   '/',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   validateRequest(IncomeValidation.createIncomeZodSchema), // Optional if using Zod
   IncomeController.createIncome
 );
@@ -19,27 +19,27 @@ router.post(
 // Get all incomes for logged-in user
 router.get(
   '/',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   IncomeController.getUserIncomes
 );
 // Get all incomes for logged-in user by frequency
 router.get(
   '/frequency',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   IncomeController.getUserIncomesByFrequency
 );
 
 // Get a single income
 router.get(
   '/income/:id',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   IncomeController.getSingleIncome
 );
 
 // Update income
 router.patch(
   '/:id',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   validateRequest(IncomeValidation.updateIncomeZodSchema), // Optional
   IncomeController.updateIncome
 );
@@ -47,7 +47,7 @@ router.patch(
 // Delete income
 router.delete(
   '/:id',
-  auth(USER_ROLES.USER, USER_ROLES.ADMIN),
+  auth(USER_ROLES.USER),
   IncomeController.deleteIncome
 );
 

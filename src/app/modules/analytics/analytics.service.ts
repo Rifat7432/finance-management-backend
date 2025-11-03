@@ -144,75 +144,51 @@ const getAnalyticsFromDB = async (userId: string) => {
           },
      ]);
 
-     const savingGoalCompletionRate = await SavingGoal.aggregate([
-          { $match: { userId: new mongoose.Types.ObjectId(userId), isDeleted: false } },
-
-          // Convert string dates to dates
+     const savingGoal = await SavingGoal.aggregate([
+          // 1️⃣ Filter user and remove deleted goals
           {
-               $addFields: {
-                    startDate: { $toDate: '$date' },
-                    completeDateConv: { $toDate: '$completeDate' },
-                    nowDate: now,
+               $match: {
+                    userId: new mongoose.Types.ObjectId(userId),
+                    isDeleted: false,
                },
           },
 
-          // Calculate effective end date (min of now and completeDate)
-          {
-               $addFields: {
-                    endDate: {
-                         $cond: [{ $lt: ['$nowDate', '$completeDateConv'] }, '$nowDate', '$completeDateConv'],
-                    },
-               },
-          },
-
-          // Calculate months elapsed between startDate and endDate
-          {
-               $addFields: {
-                    monthsElapsed: {
-                         $add: [{ $multiply: [{ $subtract: [{ $year: '$endDate' }, { $year: '$startDate' }] }, 12] }, { $subtract: [{ $month: '$endDate' }, { $month: '$startDate' }] }],
-                    },
-               },
-          },
-
-          // Prevent negative monthsElapsed
-          {
-               $addFields: {
-                    monthsElapsed: {
-                         $cond: [{ $lt: ['$monthsElapsed', 0] }, 0, '$monthsElapsed'],
-                    },
-               },
-          },
-
-          // Calculate savedSoFar = min(monthsElapsed * monthlyTarget, totalAmount)
-          {
-               $addFields: {
-                    savedSoFar: {
-                         $min: [{ $multiply: ['$monthsElapsed', '$monthlyTarget'] }, '$totalAmount'],
-                    },
-               },
-          },
-
-          // Group to sum total savedSoFar and totalAmount
+          // 2️⃣ Group totals
           {
                $group: {
                     _id: null,
-                    totalSavedSoFar: { $sum: '$savedSoFar' },
+                    totalSavedMoney: { $sum: '$savedMoney' },
                     totalGoalAmount: { $sum: '$totalAmount' },
+
+                    // Weighted sum of completion ratios
+                    weightedCompletionSum: {
+                         $sum: {
+                              $multiply: ['$completionRation', '$totalAmount'],
+                         },
+                    },
                },
           },
 
-          // Calculate percentage complete
+          // 3️⃣ Calculate overall completion rate (weighted average)
           {
                $project: {
                     _id: 0,
-                    percentComplete: {
-                         $cond: [{ $eq: ['$totalGoalAmount', 0] }, 0, { $multiply: [{ $divide: ['$totalSavedSoFar', '$totalGoalAmount'] }, 100] }],
+                    totalSavedMoney: 1,
+                    savingGoalCompletionRate: {
+                         $cond: [
+                              { $eq: ['$totalGoalAmount', 0] },
+                              0,
+                              {
+                                   $divide: ['$weightedCompletionSum', '$totalGoalAmount'],
+                              },
+                         ],
                     },
                },
           },
      ]);
 
-     return { user, analytics: result.length > 0 ? result[0] : {}, savingGoalCompletionRate: savingGoalCompletionRate.length > 0 ? savingGoalCompletionRate[0].percentComplete : 0 };
+     const { totalSavedMoney, savingGoalCompletionRate } = savingGoal[0];
+     return { user, analytics: result.length > 0 ? result[0] : {}, savingGoalCompletionRate, totalSavedMoney };
 };
 const getLatestUpdateFromDB = async (userId: string) => {
      const user = await User.isExistUserById(userId);

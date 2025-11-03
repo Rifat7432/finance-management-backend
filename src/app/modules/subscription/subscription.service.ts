@@ -32,7 +32,7 @@ const createSubscriptionToDB = async (userId: string, payload: Partial<ISubscrip
           status: payload.status || 'active',
           lastVerified: new Date(),
      });
-
+     await User.findByIdAndUpdate(userId, { subscriptionId: payload.subscriptionId });
      if (!subscription) throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create subscription');
      return subscription;
 };
@@ -109,7 +109,7 @@ const verifySubscriptionToDB = async (userId: string): Promise<ISubscription> =>
 /**
  * 🚫 Cancel a user's subscription in RevenueCat
  */
-const cancelSubscription = async (appUserId: string, reason?: string) => {
+const cancelSubscriptionIntoDB = async (appUserId: string) => {
      // 1️⃣ Find the user's active subscription in your DB
      const subscription = await Subscription.findOne({ subscriptionId: appUserId });
      if (!subscription) {
@@ -136,7 +136,7 @@ const cancelSubscription = async (appUserId: string, reason?: string) => {
      await subscription.save();
 
      // 4️⃣ Notify the user by email
-     const user = await User.findById(subscription.userId);
+     const user = await User.findByIdAndUpdate(subscription.userId, { subscriptionId: '' });
      if (user?.email) {
           const emailData = emailTemplate.subscriptionEvent({
                email: user.email,
@@ -159,4 +159,5 @@ export const SubscriptionService = {
      createSubscriptionToDB,
      handleWebhookEventToDB,
      verifySubscriptionToDB,
+     cancelSubscriptionIntoDB,
 };
