@@ -124,75 +124,54 @@ const getAnalyticsFromDB = async (userId: string) => {
           },
      ]);
 
-     const savingGoalCompletionRate = await SavingGoal.aggregate([
-          { $match: { userId: new mongoose.Types.ObjectId(userId), isDeleted: false } },
-          {
-               $addFields: {
-                    startDate: { $toDate: '$date' },
-                    completeDateConv: { $toDate: '$completeDate' },
-                    nowDate: new Date(),
-               },
-          },
-          {
-               $addFields: {
-                    endDate: {
-                         $cond: [{ $lt: ['$nowDate', '$completeDateConv'] }, '$nowDate', '$completeDateConv'],
-                    },
-               },
-          },
-          {
-               $addFields: {
-                    monthsElapsed: {
-                         $add: [
-                              {
-                                   $multiply: [{ $subtract: [{ $year: '$endDate' }, { $year: '$startDate' }] }, 12],
-                              },
-                              { $subtract: [{ $month: '$endDate' }, { $month: '$startDate' }] },
-                         ],
-                    },
-               },
-          },
-          {
-               $addFields: {
-                    monthsElapsed: {
-                         $cond: [{ $lt: ['$monthsElapsed', 0] }, 0, '$monthsElapsed'],
-                    },
-               },
-          },
-          {
-               $addFields: {
-                    savedSoFar: {
-                         $min: [{ $multiply: ['$monthsElapsed', '$monthlyTarget'] }, '$totalAmount'],
-                    },
-               },
-          },
-          {
-               $group: {
-                    _id: null,
-                    totalSavedSoFar: { $sum: '$savedSoFar' },
-                    totalGoalAmount: { $sum: '$totalAmount' },
-               },
-          },
-          {
-               $project: {
-                    _id: 0,
-                    percentComplete: {
-                         $cond: [
-                              { $eq: ['$totalGoalAmount', 0] },
-                              0,
-                              {
-                                   $multiply: [{ $divide: ['$totalSavedSoFar', '$totalGoalAmount'] }, 100],
-                              },
-                         ],
-                    },
-               },
-          },
-     ]);
+    const savingGoal = await SavingGoal.aggregate([
+             // 1️⃣ Filter user and remove deleted goals
+             {
+                  $match: {
+                       userId: new mongoose.Types.ObjectId(userId),
+                       isDeleted: false,
+                  },
+             },
+   
+             // 2️⃣ Group totals
+             {
+                  $group: {
+                       _id: null,
+                       totalSavedMoney: { $sum: '$savedMoney' },
+                       totalGoalAmount: { $sum: '$totalAmount' },
+   
+                       // Weighted sum of completion ratios
+                       weightedCompletionSum: {
+                            $sum: {
+                                 $multiply: ['$completionRation', '$totalAmount'],
+                            },
+                       },
+                  },
+             },
+   
+             // 3️⃣ Calculate overall completion rate (weighted average)
+             {
+                  $project: {
+                       _id: 0,
+                       totalSavedMoney: 1,
+                       savingGoalCompletionRate: {
+                            $cond: [
+                                 { $eq: ['$totalGoalAmount', 0] },
+                                 0,
+                                 {
+                                      $divide: ['$weightedCompletionSum', '$totalGoalAmount'],
+                                 },
+                            ],
+                       },
+                  },
+             },
+        ]);
+   
 
      return {
           user,
           analytics: result.length > 0 ? result[0] : {},
-          savingGoalCompletionRate: savingGoalCompletionRate.length > 0 ? savingGoalCompletionRate[0].percentComplete : 0,
+          savingGoalCompletionRate: savingGoal[0].savingGoalCompletionRate,
      };
 };
 
@@ -211,7 +190,7 @@ export const scheduleMonthlyAnalyticsJob = () => {
 
           console.log('🕒 Running monthly analytics job...');
 
-          const users = await User.find({ isDeleted: false });
+          const users = await User.find({ isDeleted: false,status: 'active' });
           const allResults: any[] = [];
 
           for (const user of users) {
