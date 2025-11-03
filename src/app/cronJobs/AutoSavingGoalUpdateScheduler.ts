@@ -124,49 +124,48 @@ const getAnalyticsFromDB = async (userId: string) => {
           },
      ]);
 
-    const savingGoal = await SavingGoal.aggregate([
-             // 1️⃣ Filter user and remove deleted goals
-             {
-                  $match: {
-                       userId: new mongoose.Types.ObjectId(userId),
-                       isDeleted: false,
-                  },
-             },
-   
-             // 2️⃣ Group totals
-             {
-                  $group: {
-                       _id: null,
-                       totalSavedMoney: { $sum: '$savedMoney' },
-                       totalGoalAmount: { $sum: '$totalAmount' },
-   
-                       // Weighted sum of completion ratios
-                       weightedCompletionSum: {
-                            $sum: {
-                                 $multiply: ['$completionRation', '$totalAmount'],
-                            },
-                       },
-                  },
-             },
-   
-             // 3️⃣ Calculate overall completion rate (weighted average)
-             {
-                  $project: {
-                       _id: 0,
-                       totalSavedMoney: 1,
-                       savingGoalCompletionRate: {
-                            $cond: [
-                                 { $eq: ['$totalGoalAmount', 0] },
-                                 0,
-                                 {
-                                      $divide: ['$weightedCompletionSum', '$totalGoalAmount'],
-                                 },
-                            ],
-                       },
-                  },
-             },
-        ]);
-   
+     const savingGoal = await SavingGoal.aggregate([
+          // 1️⃣ Filter user and remove deleted goals
+          {
+               $match: {
+                    userId: new mongoose.Types.ObjectId(userId),
+                    isDeleted: false,
+               },
+          },
+
+          // 2️⃣ Group totals
+          {
+               $group: {
+                    _id: null,
+                    totalSavedMoney: { $sum: '$savedMoney' },
+                    totalGoalAmount: { $sum: '$totalAmount' },
+
+                    // Weighted sum of completion ratios
+                    weightedCompletionSum: {
+                         $sum: {
+                              $multiply: ['$completionRation', '$totalAmount'],
+                         },
+                    },
+               },
+          },
+
+          // 3️⃣ Calculate overall completion rate (weighted average)
+          {
+               $project: {
+                    _id: 0,
+                    totalSavedMoney: 1,
+                    savingGoalCompletionRate: {
+                         $cond: [
+                              { $eq: ['$totalGoalAmount', 0] },
+                              0,
+                              {
+                                   $divide: ['$weightedCompletionSum', '$totalGoalAmount'],
+                              },
+                         ],
+                    },
+               },
+          },
+     ]);
 
      return {
           user,
@@ -179,57 +178,64 @@ const getAnalyticsFromDB = async (userId: string) => {
 // === Cron Job: Runs end of every month ==================
 // ========================================================
 
-export const scheduleMonthlyAnalyticsJob = () => {
-     // Run at 23:55 on 28–31 (the last day check prevents multiple runs)
-     cron.schedule('55 23 28-31 * *', async () => {
-          const now = new Date();
-          const end = endOfMonth(now);
+const scheduleMonthlyAnalyticsJob = async () => {
+     const now = new Date();
+     const end = endOfMonth(now);
 
-          // Run only if this is actually the last day of the month
-          if (now.getDate() !== end.getDate()) return;
+     // Run only if this is actually the last day of the month
+     if (now.getDate() !== end.getDate()) return;
 
-          console.log('🕒 Running monthly analytics job...');
+     console.log('🕒 Running monthly analytics job...');
 
-          const users = await User.find({ isDeleted: false,status: 'active' });
-          const allResults: any[] = [];
+     const users = await User.find({ isDeleted: false, status: 'active' });
+     const allResults: any[] = [];
 
-          for (const user of users) {
-               const data = await getAnalyticsFromDB(user._id.toString());
-               allResults.push(data);
+     for (const user of users) {
+          const data = await getAnalyticsFromDB(user._id.toString());
+          allResults.push(data);
 
-               const { disposal } = data.analytics;
+          const { disposal } = data.analytics;
 
-               // === Distribute disposal to saving goals ===
-               if (disposal && disposal > 0) {
-                    const savingGoals = await SavingGoal.find({
-                         userId: user._id,
-                         isCompleted: false,
-                    });
+          // === Distribute disposal to saving goals ===
+          if (disposal && disposal > 0) {
+               const savingGoals = await SavingGoal.find({
+                    userId: user._id,
+                    isCompleted: false,
+               });
 
-                    const totalTarget = savingGoals.reduce((acc, g) => acc + g.monthlyTarget, 0);
+               const totalTarget = savingGoals.reduce((acc, g) => acc + g.monthlyTarget, 0);
 
-                    for (const goal of savingGoals) {
-                         const share = totalTarget > 0 ? (goal.monthlyTarget / totalTarget) * disposal : 0;
+               for (const goal of savingGoals) {
+                    const share = totalTarget > 0 ? (goal.monthlyTarget / totalTarget) * disposal : 0;
 
-                         // Add this month's saved portion
-                         goal.savedMoney += share;
+                    // Add this month's saved portion
+                    goal.savedMoney += share;
 
-                         // Calculate incremental completion % for this month
-                         const monthlyPercent = (share / goal.totalAmount) * 100;
+                    // Calculate incremental completion % for this month
+                    const monthlyPercent = (share / goal.totalAmount) * 100;
 
-                         // Add this month's percent to existing completion
-                         goal.completionRation = Math.min(goal.completionRation + monthlyPercent, 100);
+                    // Add this month's percent to existing completion
+                    goal.completionRation = Math.min(goal.completionRation + monthlyPercent, 100);
 
-                         // Mark goal complete if it reaches 100%
-                         if (goal.completionRation >= 100) {
-                              goal.isCompleted = true;
-                         }
-
-                         await goal.save();
+                    // Mark goal complete if it reaches 100%
+                    if (goal.completionRation >= 100) {
+                         goal.isCompleted = true;
                     }
+
+                    await goal.save();
                }
           }
+     }
 
-          console.log('✅ Monthly Analytics Results:\n', JSON.stringify(allResults, null, 2));
-     });
+     console.log('✅ Monthly Analytics Results:\n', JSON.stringify(allResults, null, 2));
 };
+
+// Run at 23:55 on 28–31 (the last day check prevents multiple runs)
+
+cron.schedule('55 23 28-31 * *', async () => {
+     try {
+          await scheduleMonthlyAnalyticsJob();
+     } catch (err) {
+          console.error('❌ Monthly Analytics Scheduler error:', err);
+     }
+});
