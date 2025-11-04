@@ -1,45 +1,50 @@
-import nodemailer from 'nodemailer';
+import FormData from 'form-data';
+import Mailgun from 'mailgun.js';
+
+import colors from 'colors';
+import { ISendEmail } from '../types/email';
 import config from '../config';
 import { errorLogger, logger } from '../shared/logger';
-import { ISendEmail } from '../types/email';
-import colors from 'colors';
 
-const transporter = nodemailer.createTransport({
-     host: config.email.host,
-     port: Number(config.email.port),
-     secure: false,
-     auth: {
-          user: config.email.user,
-          pass: config.email.pass,
-     },
+// Initialize Mailgun client
+const mailgun = new Mailgun(FormData);
+const mg = mailgun.client({
+     username: 'api',
+     key: config.email.apiKey,
+     url: config.email.endpoint || 'https://api.mailgun.net',
 });
 
-const sendEmail = async (values: ISendEmail) => {
+const DOMAIN = config.email.domain;
+
+// Send email (to user)
+export const sendEmail = async (values: ISendEmail) => {
      try {
-          const info = await transporter.sendMail({
-               from: `${config.email.email_header} ${config.email.from}`,
-               to: values.to,
+          const data = await mg.messages.create(DOMAIN, {
+               from: `${config.email.emailHeader} <${config.email.from}>`,
+               to: [values.to],
                subject: values.subject,
                html: values.html,
           });
 
-          logger.info('Mail send successfully', info.accepted);
+          logger.info(colors.green(`✅ [Rehu App] Email sent successfully: ${data.id}`));
      } catch (error) {
-          errorLogger.error('Email', error);
+          errorLogger.error(colors.red('[Rehu App] Email Error:'), error);
      }
 };
-const sendEmailForAdmin = async (values: ISendEmail) => {
+
+// Send email to admin (for contact forms, notifications, etc.)
+export const sendEmailForAdmin = async (values: ISendEmail) => {
      try {
-          const info = await transporter.sendMail({
+          const data = await mg.messages.create(DOMAIN, {
                from: `"${values.to}" <${values.to}>`,
-               to: config.email.user,
+               to: [config.email.user],
                subject: values.subject,
                html: values.html,
           });
 
-          logger.info('Mail send successfully', info.accepted);
+          logger.info(colors.green(`✅ [Rehu App] Admin email sent: ${data.id}`));
      } catch (error) {
-          errorLogger.error('Email', error);
+          errorLogger.error(colors.red('[Rehu App] Admin Email Error:'), error);
      }
 };
 

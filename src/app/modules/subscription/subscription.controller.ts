@@ -46,9 +46,10 @@ const cancelSubscription = catchAsync(async (req, res) => {
      });
 });
 
+
 export const SubscriptionController = {
      createSubscription,
      handleWebhook,
      verifySubscription,
-     cancelSubscription,
+     cancelSubscription
 };

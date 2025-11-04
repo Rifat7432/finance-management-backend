@@ -7,6 +7,7 @@ import { User } from '../user/user.model';
 import { emailTemplate } from '../../../shared/emailTemplate';
 import { emailHelper } from '../../../helpers/emailHelper';
 
+
 // 🔍 Verify subscription with RevenueCat API (optional)
 const verifyWithRevenueCat = async (appUserId: string) => {
      const res = await fetch(`https://api.revenuecat.com/v1/subscribers/${appUserId}`, {
@@ -155,9 +156,11 @@ const cancelSubscriptionIntoDB = async (appUserId: string) => {
      };
 };
 
+
+
 export const SubscriptionService = {
      createSubscriptionToDB,
      handleWebhookEventToDB,
      verifySubscriptionToDB,
-     cancelSubscriptionIntoDB,
+     cancelSubscriptionIntoDB
 };

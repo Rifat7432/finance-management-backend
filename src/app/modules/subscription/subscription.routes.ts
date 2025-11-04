@@ -14,8 +14,10 @@ router.post('/', auth(USER_ROLES.USER), validateRequest(SubscriptionValidation.c
 router.post('/webhook', SubscriptionController.handleWebhook);
 
 // 🟠 Manual verify
-router.post('/verify', auth(USER_ROLES.USER), SubscriptionController.verifySubscription);
+router.get('/verify', auth(USER_ROLES.USER), SubscriptionController.verifySubscription);
 // 🟠 Manual verify
 router.post('/cancel/:subscriptionId', auth(USER_ROLES.USER), SubscriptionController.cancelSubscription);
+
+
 
 export const SubscriptionRoutes = router;

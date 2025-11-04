@@ -89,7 +89,6 @@ const inflationCalculatorFromAPI = async (payload: { fromYear: number; toYear: n
           const rate = inflationRates[year];
           inflationFactor *= 1 + rate / 100;
      }
-
      // Calculate adjusted value
      const valueInFromYear = amount / inflationFactor;
      const totalInflationPercent = (inflationFactor - 1) * 100;

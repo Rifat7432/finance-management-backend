@@ -53,10 +53,19 @@ const updateNotificationSettings = catchAsync(async (req: Request, res: Response
           data: result,
      });
 });
+const getAdminRevenue = catchAsync(async (req, res) => {
+     const result = await AdminService.getAdminDashboardStats(Number(req.query.year));
+     sendResponse(res, {
+          success: true,
+          statusCode: StatusCodes.OK,
+          message: 'Dashboard data get successfully',
+          data: result,
+     });
+});
 export const AdminController = {
      getUserFinancialOverview,
      getMonthlyExpenseAnalytics,
      updateAppointmentStatus,
      getNotificationSettings,
-     updateNotificationSettings,
+     updateNotificationSettings,getAdminRevenue
 };

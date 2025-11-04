@@ -16,5 +16,5 @@ router.patch('/appointments/:userId', auth(USER_ROLES.ADMIN), AdminController.up
 router.get('/notification-settings/:userId', auth(USER_ROLES.ADMIN), AdminController.getNotificationSettings);
 
 router.patch('/notification-settings/:userId', auth(USER_ROLES.ADMIN), validateRequest(NotificationSettingsValidation.updateNotificationSettingsZodSchema), AdminController.updateNotificationSettings);
-
+router.get('/stats/', auth(USER_ROLES.ADMIN), AdminController.getAdminRevenue);
 export const AdminRoutes = router;
